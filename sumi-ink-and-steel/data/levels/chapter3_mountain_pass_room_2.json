@@ -1,0 +1,140 @@
+{
+  "id": "chapter3_mountain_pass_room_2",
+  "name": "Pilgrim Cave",
+  "subtitle": "Teach vertical routes, rope bridges, ranged threats, and shrine switches.",
+  "is_room": true,
+  "parent_level": "chapter3_mountain_pass",
+  "room_kind": "side room",
+  "world": {
+    "w": 1280,
+    "h": 760,
+    "left": 70,
+    "right": 1210,
+    "top": 0,
+    "bottom": 720
+  },
+  "player_start": {
+    "x": 180,
+    "y": 517,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 258,
+    "middle": 456,
+    "near": 623
+  },
+  "backgrounds": [
+    "assets/backgrounds/redesigned_levels/chapter3_mountain_pass/room_2.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/redesigned_levels/chapter3_mountain_pass/room_2.png",
+      "start": 0,
+      "end": 1280,
+      "y": 0,
+      "h": 760,
+      "name": "chapter3_mountain_pass_room_2"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "chapter3_mountain_pass_room_2_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          410
+        ],
+        [
+          576,
+          380
+        ],
+        [
+          1210,
+          426
+        ],
+        [
+          1210,
+          638
+        ],
+        [
+          70,
+          638
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter3_mountain_pass_room_2_route_1",
+      "type": "side_room",
+      "x": 130,
+      "y": 517,
+      "label": "Return to start",
+      "requires_interact": "E",
+      "target_level": "chapter3_mountain_pass",
+      "target_x": 180,
+      "target_y": 610
+    },
+    {
+      "id": "chapter3_mountain_pass_room_2_route_2",
+      "type": "side_room",
+      "x": 1101,
+      "y": 502,
+      "label": "Secret shortcut",
+      "requires_interact": "E",
+      "target_level": "chapter3_mountain_pass_room_5",
+      "target_x": 180,
+      "target_y": 560
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter3_mountain_pass_room_2_reward_guard",
+      "trigger_x": 0,
+      "gate_x": 1160,
+      "banner": "Pilgrim Cave: optional hard reward",
+      "boss": false,
+      "enemies": [
+        {
+          "type": "ninja_shadow",
+          "x": 620,
+          "y": 560
+        },
+        {
+          "type": "evil_samurai",
+          "x": 860,
+          "y": 610
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter3_mountain_pass_room_2_health",
+      "kind": "health",
+      "x": 420,
+      "y": 650
+    },
+    {
+      "id": "chapter3_mountain_pass_room_2_cache",
+      "kind": "special",
+      "x": 980,
+      "y": 610,
+      "note": "Optional cache rewards exploration."
+    }
+  ],
+  "background_npcs": [],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Pilgrim Cave",
+      "start": 70,
+      "end": 1210,
+      "objective": "Teach vertical routes, rope bridges, ranged threats, and shrine switches."
+    }
+  ],
+  "completion_text": "Pilgrim Cave cleared \u2014 find the authored exit door."
+}

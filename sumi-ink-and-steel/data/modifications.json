@@ -1,0 +1,75 @@
+{
+  "branches": {
+    "elements": [
+      {
+        "id": "fire",
+        "name": "Hi / Fire",
+        "desc": "Vermillion flame imbue. Starts unlocked."
+      },
+      {
+        "id": "wind",
+        "name": "Kaze / Wind",
+        "desc": "Faster movement and launch pressure."
+      },
+      {
+        "id": "lightning",
+        "name": "Ikazuchi / Lightning",
+        "desc": "Higher strike bonus and cyber chain flavor."
+      },
+      {
+        "id": "shadow",
+        "name": "Kage / Shadow",
+        "desc": "A dangerous future-darkness power."
+      }
+    ],
+    "chrome": [
+      {
+        "id": "chrome_arm",
+        "name": "Chrome Arm",
+        "desc": "+6 attack damage. Heavy strikes hit harder. Costs humanity.",
+        "effect": {
+          "attack_bonus": 6,
+          "humanity": -8
+        }
+      },
+      {
+        "id": "neural_ward",
+        "name": "Neural Ward",
+        "desc": "+35 Spirit capacity and faster regeneration.",
+        "effect": {
+          "meter_max": 35,
+          "meter_regen": 1.8,
+          "humanity": -6
+        }
+      },
+      {
+        "id": "ghost_step",
+        "name": "Ghost Step Servos",
+        "desc": "+12% movement speed and shorter dodge recovery.",
+        "effect": {
+          "speed_mult": 1.12,
+          "dodge_cooldown_mult": 0.82,
+          "humanity": -10
+        }
+      }
+    ],
+    "humanity": [
+      {
+        "id": "humanity_vow",
+        "name": "Humanity Vow",
+        "desc": "Restores humanity and steadies all installed powers.",
+        "effect": {
+          "humanity": 18,
+          "hp_max": 20
+        }
+      }
+    ]
+  },
+  "installed": [
+    "fire"
+  ],
+  "unlocked": [
+    "fire"
+  ],
+  "humanity": 100
+}

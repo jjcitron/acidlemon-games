@@ -1,0 +1,318 @@
+3D HARRIER — IMAGE + MUSIC GENERATION PROMPTS (Levels 9-18)
+===========================================================
+
+Workflow:
+- IMAGE PROMPTS: paste into Gemini (or any AI image generator). Aspect ratio 16:9, vertical-tall framing if your splash is portrait. Save the result as `sound/<filename>.png`.
+- MUSIC PROMPTS: paste into Suno / Udio / Gemini's music generation. Target length ~70-90 seconds, loopable. Save as `sound/<filename>.mp3`.
+- After generating, update `src/game/content/stages.js` STAGE_MEDIA to point to the new files, or use the editor's SPLASH IMAGE upload button for custom levels.
+
+Style anchor across all levels:
+- "1985 Space Harrier-inspired retro arcade splash"
+- "saturated retro neon, dramatic horizon, low-poly silhouette aesthetic"
+- "cinematic widescreen composition, art direction by Yu Suzuki"
+- Music: "synth-driven retro arcade, FM-bass, fast BPM 140-160, looping, energetic, no vocals"
+
+
+────────────────────────────────────────────────────────────
+LEVEL 9 — ASH VECTOR
+────────────────────────────────────────────────────────────
+Theme: ash, volcanic, scorched
+Difficulty: 10/10
+Music slot: track_01.m4a replacement
+Filename suggestion: sound/ash_vector.png, sound/ash_vector.mp3
+
+IMAGE PROMPT:
+A 1985 Space Harrier-style splash screen titled "ASH VECTOR". Scorched volcanic wasteland under a blood-red sky. Jagged black basalt spires erupt from glowing magma rivers. Distant volcano belching ash into the sun. A lone winged jet silhouette streaks across the frame, vapor trail tinted crimson. Retro arcade neon palette — vermillion, charcoal, glowing orange embers. Saturated, cinematic, dramatic horizon. Pixel-art-inspired but high-detail render. 16:9 widescreen.
+
+MUSIC PROMPT:
+Driving 80s retro arcade synth track at 145 BPM titled "Ash Vector". Heavy FM bass, urgent arpeggios, dark minor key with chromatic tension. Distant volcanic rumble in the low end. Punctuated by sharp synth stabs that feel like enemy fire. Yu Suzuki / Sega arcade energy. No vocals. 75 seconds, loopable.
+
+
+────────────────────────────────────────────────────────────
+LEVEL 10 — FROST NEEDLE
+────────────────────────────────────────────────────────────
+Theme: frost, ice tunnel, frozen
+Difficulty: 10/10
+Filename suggestion: sound/frost_needle.png, sound/frost_needle.mp3
+
+IMAGE PROMPT:
+A retro 1985 arcade splash titled "FROST NEEDLE". A massive ice canyon tunnel with crystalline blue spires hanging from above and below. Frozen aurora rippling across a midnight indigo sky. Enemy fighter drones streak between needle-like ice formations, leaving icy contrails. Palette: cyan, white, deep indigo, with hot pink accent highlights. Cinematic widescreen, Yu Suzuki / Sega style, low-poly arcade silhouettes. Saturated retro neon. 16:9.
+
+MUSIC PROMPT:
+Cold, fast 80s arcade synth track at 150 BPM titled "Frost Needle". Crystalline FM bell tones over a pulsing analog bass arpeggio. Icy reverb tail on lead synth. Minor pentatonic melody with urgent triplet runs. Feels like racing through a glacier at high speed. No vocals. 80 seconds, loopable.
+
+
+────────────────────────────────────────────────────────────
+LEVEL 11 — BIOMECH MAW
+────────────────────────────────────────────────────────────
+Theme: biomech, organic-mechanical hybrid
+Filename suggestion: sound/biomech_maw.png, sound/biomech_maw.mp3
+
+IMAGE PROMPT:
+A 1985 Space Harrier-style splash titled "BIOMECH MAW". Pulsating biological-mechanical tunnel — fleshy ribbed walls fused with chromed steel pistons and exposed circuitry. Glowing veins of teal bio-light pulse through the structure. A skeletal mechanical leviathan opens its jagged maw at the end of the tunnel. Palette: deep teal, sickly green, chrome silver, hot magenta blood-glow accents. Retro arcade neon. Cinematic widescreen 16:9. Detailed, ominous, alien.
+
+MUSIC PROMPT:
+Pulsing, organic 80s synthwave at 138 BPM titled "Biomech Maw". Wet squelchy bass, glitching arpeggios, dissonant chord pads, ribbed breathing rhythm in the low end. Minor 9th harmonies. Feels like flying down the gullet of a living machine. Dark, alien, urgent. No vocals. 75 seconds, loopable.
+
+
+────────────────────────────────────────────────────────────
+LEVEL 12 — CRYSTAL BREAKWAY (BONUS STAGE)
+────────────────────────────────────────────────────────────
+Theme: bonus, crystalline, peaceful
+Filename suggestion: sound/crystal_breakway.png, sound/crystal_breakway.mp3
+
+IMAGE PROMPT:
+A 1985 arcade-style splash titled "CRYSTAL BREAKWAY", BONUS STAGE banner across the top. Bright cheerful crystal forest at sunset — geometric quartz outcrops, prismatic rainbow refractions, fluffy distant clouds. Golden ringed coins suspended in the air. A cute armored player figure leaps through with arms outstretched. Joyful, colorful, candy-bright palette: pink, mint green, lemon yellow, sky blue. Retro arcade silhouettes. Cinematic 16:9. Festive.
+
+MUSIC PROMPT:
+Upbeat playful 80s arcade bonus-round track at 155 BPM titled "Crystal Breakway". Bright major-key chiptune melody, bouncy plucked synth, cheerful detuned saw lead, hand-clap percussion, glittering arpeggios. Feels like collecting coins in a music box. Whimsical and joyous. No vocals. 50 seconds, loopable.
+
+
+────────────────────────────────────────────────────────────
+LEVEL 13 — TEMPLE RUN
+────────────────────────────────────────────────────────────
+Theme: temple, golden ruins, ancient
+Filename suggestion: sound/temple_run.png, sound/temple_run.mp3
+
+IMAGE PROMPT:
+A 1985 Space Harrier-style splash titled "TEMPLE RUN". A sun-baked golden desert temple with massive carved stone columns flanking a long colonnade. Sunlight cuts through cracked vaults. Ornate ida-head statues line the path. Distant pyramids and obelisks dot a hazy horizon. Palette: amber, gold, terracotta, deep cyan sky. Retro arcade silhouettes, cinematic 16:9. Mysterious, Indiana-Jones-inspired but with the saturated arcade-neon polish of a Sega game.
+
+MUSIC PROMPT:
+Driving 80s arcade adventure-synth track at 142 BPM titled "Temple Run". Brassy FM lead with Egyptian/Middle-Eastern modal flavor (Phrygian dominant scale). Punchy synth-drum loop, urgent low bass, hand-percussion overlay. Feels like Indiana Jones meets Sega Out Run. No vocals. 75 seconds, loopable.
+
+
+────────────────────────────────────────────────────────────
+LEVEL 14 — STALACTITE GATE
+────────────────────────────────────────────────────────────
+Theme: stalactite, cavern, claustrophobic
+Filename suggestion: sound/stalactite_gate.png, sound/stalactite_gate.mp3
+
+IMAGE PROMPT:
+A 1985 Space Harrier splash titled "STALACTITE GATE". A vast underground cavern tunnel, jagged stalactites and stalagmites jutting from above and below to form a natural tooth-like gate. Phosphorescent moss in glowing teal lines the floor. Bats silhouette against a distant flickering chasm. Palette: deep slate, teal-cyan glow, copper torchlight accents. Tunnel ceiling pressing in for tension. Retro arcade cinematic 16:9.
+
+MUSIC PROMPT:
+Tense 80s arcade synth at 140 BPM titled "Stalactite Gate". Dark cavern reverb, sub-bass drone, fast 16th-note arpeggios with dissonant intervals. Subtle dripping-water percussion sample. Builds toward a sense of being trapped underground. No vocals. 75 seconds, loopable.
+
+
+────────────────────────────────────────────────────────────
+LEVEL 15 — IDA CRUCIBLE
+────────────────────────────────────────────────────────────
+Theme: ida, stone faces, ritual
+Filename suggestion: sound/ida_crucible.png, sound/ida_crucible.mp3
+
+IMAGE PROMPT:
+A 1985 arcade splash titled "IDA CRUCIBLE". A ceremonial stone-head valley — colossal carved IDA heads (Space Harrier signature giant stone faces) line either side of a narrow rail running between them. The heads breathe glowing red eyes. Storm clouds gather above with crackling neon lightning. Palette: bone white, rust red, deep slate, angry magenta sky. Cinematic widescreen 16:9. Ritualistic, ominous, classic Sega arcade.
+
+MUSIC PROMPT:
+Ritualistic 80s arcade synth at 144 BPM titled "Ida Crucible". Tribal-style synth drum pattern with deep toms, choral pad whispers, brassy FM lead playing an ancient-sounding modal melody. Tension-building chord progression. Feels like running between idol-faces under a stormy sky. No vocals. 80 seconds, loopable.
+
+
+────────────────────────────────────────────────────────────
+LEVEL 16 — NEON DESERT
+────────────────────────────────────────────────────────────
+Theme: neonDesert, sunset, retro
+Filename suggestion: sound/neon_desert.png, sound/neon_desert.mp3
+
+IMAGE PROMPT:
+A 1985 Space Harrier-style splash titled "NEON DESERT". A vivid synthwave sunset over an endless desert. Silhouetted palm trees and twisted rock formations against a horizon of magenta-orange-cyan gradient. A glowing checkered grid stretches into the distance. The player jet silhouette glides above the sand. Palette: hot pink, electric orange, lime green, deep purple. Pure 1985 arcade-Vegas-vaporwave fusion. Cinematic widescreen 16:9.
+
+MUSIC PROMPT:
+Pure synthwave/outrun 80s arcade track at 148 BPM titled "Neon Desert". Bright saw-lead melody, gated reverb snare, big juicy analog bass, shimmering pad chords in major key. Feels like flying a jet over a synthwave sunset. Joyfully energetic. No vocals. 80 seconds, loopable.
+
+
+────────────────────────────────────────────────────────────
+LEVEL 17 — VOID PROCESSION
+────────────────────────────────────────────────────────────
+Theme: finalvoid, space, tunnel
+Filename suggestion: sound/void_procession.png, sound/void_procession.mp3
+
+IMAGE PROMPT:
+A 1985 arcade-style splash titled "VOID PROCESSION". A pitch-black starscape tunnel — long parade of geometric obelisks and floating gold rings stretching to a distant violet vanishing point. Cosmic dust swirls. A constellation of glowing enemy ships forms a tetra procession across the upper third. Palette: deep navy, black void, gold filigree, electric violet, distant white stars. Cinematic widescreen 16:9. Imposing, infinite, climactic.
+
+MUSIC PROMPT:
+Climactic 80s arcade synth track at 152 BPM titled "Void Procession". Sweeping orchestral-synth pads, urgent FM brass-lead melody, machine-gun percussion, dramatic minor-to-major chord progression. Builds tension toward a final boss feel. Epic, cinematic, urgent. No vocals. 90 seconds, loopable.
+
+
+────────────────────────────────────────────────────────────
+LEVEL 18 — CITADEL HORIZON (FINAL BOSS RUSH)
+────────────────────────────────────────────────────────────
+Theme: finalvoid, climactic, boss rush
+Filename suggestion: sound/citadel_horizon.png, sound/citadel_horizon.mp3
+
+IMAGE PROMPT:
+A 1985 Space Harrier-style splash titled "CITADEL HORIZON — FINAL STAGE". An apocalyptic citadel fortress hangs in deep space, ringed with massive cannons. A long causeway of obelisks and binzubin orbs leads toward the gate. The horizon CRACKS open with a blinding white singularity. Multiple boss silhouettes loom in the distance — dragon, mirror, swarm, jumbo. Palette: blacks, deep crimson, electric violet, gold-rimmed boss silhouettes, white singularity light. Cinematic widescreen 16:9. The most dramatic image of the entire campaign.
+
+MUSIC PROMPT:
+Final-boss-rush 80s arcade track at 155 BPM titled "Citadel Horizon". Maximum intensity — driving sub-bass, soaring synth-brass lead in heroic minor key, frantic 16th-note arpeggios, choral "ahhhhh" pad swells, gated snare hits, cymbal washes between phrases. Multiple sections to support back-to-back boss fights. Cinematic, epic, final-stage energy. No vocals. 120 seconds, loopable.
+
+
+────────────────────────────────────────────────────────────
+QUICK REFERENCE: FILE PLACEMENT
+────────────────────────────────────────────────────────────
+After generating:
+
+1. Place image files in:   sound/<filename>.png
+2. Place music files in:   sound/<filename>.mp3
+3. Update STAGE_MEDIA in src/game/content/stages.js, adding entries 9-18:
+
+   9:  media('Ash Vector', 'sound/ash_vector.mp3', 'sound/ash_vector.png'),
+   10: media('Frost Needle', 'sound/frost_needle.mp3', 'sound/frost_needle.png'),
+   11: media('Biomech Maw', 'sound/biomech_maw.mp3', 'sound/biomech_maw.png'),
+   12: media('Crystal Breakway', 'sound/crystal_breakway.mp3', 'sound/crystal_breakway.png'),
+   13: media('Temple Run', 'sound/temple_run.mp3', 'sound/temple_run.png'),
+   14: media('Stalactite Gate', 'sound/stalactite_gate.mp3', 'sound/stalactite_gate.png'),
+   15: media('Ida Crucible', 'sound/ida_crucible.mp3', 'sound/ida_crucible.png'),
+   16: media('Neon Desert', 'sound/neon_desert.mp3', 'sound/neon_desert.png'),
+   17: media('Void Procession', 'sound/void_procession.mp3', 'sound/void_procession.png'),
+   18: media('Citadel Horizon', 'sound/citadel_horizon.mp3', 'sound/citadel_horizon.png'),
+
+4. Update the STAGES entries so each stage uses its proper musicTrack
+   (currently track numbers loop 1-8; once new files exist, change them to 9-18).
+
+5. For custom levels in the editor, just hit the SPLASH IMAGE button to upload
+   any image — it'll be saved with the level and used as its splash.
+
+
+===========================================================
+URBAN VECTOR ACT - Levels 19-24 (new cityscape level set)
+===========================================================
+
+The Urban Vector Act introduces a new style of gameplay: flying through
+tunnels, under bridges, through neon ring gates, around skyscrapers,
+and through arched gateways. Turns are much more frequent in this act.
+
+LEVEL 19 - SKYLINE SPRINT (theme: cityscape)
+--------------------------------------------------
+Filename suggestion: sound/skyline_sprint.png, sound/skyline_sprint.mp3
+
+IMAGE PROMPT:
+A 1985 Space Harrier-style splash titled SKYLINE SPRINT. A futuristic
+cyberpunk metropolis at dusk - clusters of jagged skyscrapers silhouetted
+against a violet-magenta sunset. Neon billboards glow blue and pink on
+the towers. A long causeway winds between the buildings into the distance.
+A lone jet streaks toward the horizon, vapor trail tinted hot pink.
+Palette: violet, deep magenta, electric cyan, building-window amber.
+Cinematic widescreen 16:9. Retro arcade aesthetic.
+
+MUSIC PROMPT:
+Urgent 80s synthwave track at 148 BPM titled Skyline Sprint. Driving
+analog bass, urgent FM-lead arpeggios, distant choral pad with city-at-night
+mood. Gated snare. Cyberpunk arcade energy. No vocals. 80 seconds, loopable.
+
+
+LEVEL 20 - UNDERPASS RUN (theme: underdeep)
+--------------------------------------------------
+Filename suggestion: sound/underpass_run.png, sound/underpass_run.mp3
+
+IMAGE PROMPT:
+A 1985 arcade splash titled UNDERPASS RUN. A long underground freeway
+tunnel - concrete supports flanking the sides, overhead beams casting
+shadows, strobe-light hazard stripes marking the low clearance. Cool teal
+LED strip lighting along the floor. Pipes and ducts on the ceiling. A jet
+zips beneath a low overhead beam silhouette in dramatic foreshortening.
+Palette: deep teal, concrete grey, hazard yellow stripes, neon white LEDs.
+Cinematic widescreen 16:9. Claustrophobic and fast.
+
+MUSIC PROMPT:
+Tense underground 80s synth at 142 BPM titled Underpass Run. Dark sub-bass
+drone, fast 16th-note arpeggio, slap-back delay on lead. Industrial
+percussion with metallic clangs. Concrete-tunnel reverb. Feels like racing
+under a freeway at night. No vocals. 75 seconds, loopable.
+
+
+LEVEL 21 - CROSSTOWN BRIDGE (theme: duskbridge)
+--------------------------------------------------
+Filename suggestion: sound/crosstown_bridge.png, sound/crosstown_bridge.mp3
+
+IMAGE PROMPT:
+A 1985 Space Harrier-style splash titled CROSSTOWN BRIDGE. A massive
+suspension bridge stretching across a glowing orange sunset bay. Twin
+art-deco towers anchor the deck. Suspension cables form a glittering web.
+A jet swoops beneath the bridge deck, just clearing the water. Distant
+city skyline silhouetted against the sun. Palette: warm orange-amber sky,
+rust-red bridge towers, hot pink water reflections, cyan accent lights.
+Cinematic widescreen 16:9. Iconic, dramatic, golden-hour cinema.
+
+MUSIC PROMPT:
+Triumphant 80s arcade synthwave at 146 BPM titled Crosstown Bridge.
+Soaring synth-brass melody in major key, bouncy walking bass, glittering
+arpeggios that sparkle like sunlight on water. Joyfully cinematic.
+Outrun-style ride music. No vocals. 80 seconds, loopable.
+
+
+LEVEL 22 - NEON RING RUN (BONUS STAGE, theme: neoncity)
+--------------------------------------------------
+Filename suggestion: sound/neon_ring_run.png, sound/neon_ring_run.mp3
+
+IMAGE PROMPT:
+A 1985 arcade-style splash titled NEON RING RUN, BONUS STAGE banner.
+A wireframe corridor of glowing neon ring gates stretching to infinity
+through a cyan-and-magenta cyber grid. Each ring pulses in vibrant electric
+color. A cute armored jet flies through the center of the foremost ring
+with arms outstretched. Palette: electric cyan, hot pink, deep purple,
+glowing white grid lines. Cinematic widescreen 16:9. Joyful, festive,
+vaporwave energy.
+
+MUSIC PROMPT:
+Upbeat 80s arcade bonus track at 156 BPM titled Neon Ring Run. Bright
+chiptune-influenced major-key melody, plucked synth bass, hand-clap
+percussion, glittering arpeggios. Feels like flying through neon coins
+in a music box. Whimsical. No vocals. 55 seconds, loopable.
+
+
+LEVEL 23 - METROPOLIS VECTOR (theme: metropolis)
+--------------------------------------------------
+Filename suggestion: sound/metropolis_vector.png, sound/metropolis_vector.mp3
+
+IMAGE PROMPT:
+A 1985 Space Harrier-style splash titled METROPOLIS VECTOR. A canyon of
+towering crimson art-deco skyscrapers with reflective glass facades.
+Glowing red neon kanji billboards. Overhead walkways and skybridges cross
+between buildings. A jet streaks through the canyon at low altitude.
+Palette: deep crimson, charcoal black, hot orange neon, mirror-glass silver
+highlights. Cinematic widescreen 16:9. Blade Runner meets Sega arcade.
+Dense, ominous, vertical composition.
+
+MUSIC PROMPT:
+Dark cinematic 80s synth at 144 BPM titled Metropolis Vector. Brooding
+sub-bass, dramatic minor-key arpeggios, Vangelis-style ambient pad swells,
+sharp synth-brass stabs, industrial percussion. Blade Runner vibes meets
+Sega arcade urgency. No vocals. 85 seconds, loopable.
+
+
+LEVEL 24 - HIGHWAY TO ZERO (FINAL BOSS RUSH, theme: highway)
+--------------------------------------------------
+Filename suggestion: sound/highway_to_zero.png, sound/highway_to_zero.mp3
+
+IMAGE PROMPT:
+A 1985 Space Harrier-style splash titled HIGHWAY TO ZERO - FINAL STAGE.
+The ultimate sunset highway gauntlet - neon-lit elevated freeways winding
+between glowing skyscrapers under an apocalyptic magenta-red sky. Multiple
+ring gates, bridges, and tunnels line the path. Boss silhouettes loom in
+the distance - dragon, mirror, swarm, jumbo. Final showdown energy with
+white singularity light at the vanishing point. Palette: electric magenta
+sunset, deep crimson sky, neon cyan highway lights, gold-rimmed boss
+silhouettes. Cinematic widescreen 16:9.
+
+MUSIC PROMPT:
+Final-stage 80s arcade track at 158 BPM titled Highway to Zero.
+Maximum-intensity synthwave. Driving sub-bass, heroic minor-key synth-brass
+lead, frantic arpeggios, choral ahhhh pad swells, gated snare hits, cymbal
+washes between phrases. Multiple sections to support back-to-back boss
+fights. Cinematic, epic, final-stage. No vocals. 130 seconds, loopable.
+
+
+QUICK REFERENCE: PLACEMENT FOR LEVELS 19-24
+--------------------------------------------------
+Add to STAGE_MEDIA in src/game/content/stages.js after track 18:
+
+   19: media('Skyline Sprint',     'sound/skyline_sprint.mp3',     'sound/skyline_sprint.png'),
+   20: media('Underpass Run',      'sound/underpass_run.mp3',      'sound/underpass_run.png'),
+   21: media('Crosstown Bridge',   'sound/crosstown_bridge.mp3',   'sound/crosstown_bridge.png'),
+   22: media('Neon Ring Run',      'sound/neon_ring_run.mp3',      'sound/neon_ring_run.png'),
+   23: media('Metropolis Vector',  'sound/metropolis_vector.mp3',  'sound/metropolis_vector.png'),
+   24: media('Highway to Zero',    'sound/highway_to_zero.mp3',    'sound/highway_to_zero.png'),
+
+Stages 19-24 currently reuse music tracks 1-6. After generation, point each
+stage's musicTrack to its own slot (19-24).
+

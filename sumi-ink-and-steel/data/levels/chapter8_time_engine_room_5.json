@@ -1,0 +1,137 @@
+{
+  "id": "chapter8_time_engine_room_5",
+  "name": "First-Wound Core",
+  "subtitle": "Final exam: all route, key, switch, boss, and explicit final-exit lessons.",
+  "is_room": true,
+  "parent_level": "chapter8_time_engine",
+  "room_kind": "boss room",
+  "world": {
+    "w": 1900,
+    "h": 880,
+    "left": 70,
+    "right": 1830,
+    "top": 0,
+    "bottom": 840
+  },
+  "player_start": {
+    "x": 180,
+    "y": 598,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 299,
+    "middle": 528,
+    "near": 722
+  },
+  "backgrounds": [
+    "assets/backgrounds/redesigned_levels/chapter8_time_engine/room_5.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/redesigned_levels/chapter8_time_engine/room_5.png",
+      "start": 0,
+      "end": 1900,
+      "y": 0,
+      "h": 880,
+      "name": "chapter8_time_engine_room_5"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "chapter8_time_engine_room_5_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          475
+        ],
+        [
+          855,
+          440
+        ],
+        [
+          1830,
+          493
+        ],
+        [
+          1830,
+          739
+        ],
+        [
+          70,
+          739
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter8_time_engine_room_5_route_1",
+      "type": "side_room",
+      "x": 130,
+      "y": 598,
+      "label": "Retreat to previous room",
+      "requires_interact": "E",
+      "target_level": "chapter8_time_engine_room_4",
+      "target_x": 180,
+      "target_y": 570
+    },
+    {
+      "id": "chapter8_time_engine_room_5_route_2",
+      "type": "level_exit",
+      "x": 1634,
+      "y": 581,
+      "label": "FINAL EXIT: Seal the First Wound",
+      "requires_interact": "E",
+      "final_exit": true
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter8_time_engine_room_5_boss",
+      "trigger_x": 0,
+      "gate_x": 1780,
+      "banner": "First-Wound Core: climactic guardian",
+      "boss": true,
+      "enemies": [
+        {
+          "type": "time_engine_guardian",
+          "x": 1180,
+          "y": 610
+        },
+        {
+          "type": "cyber_yakuza",
+          "x": 760,
+          "y": 650
+        },
+        {
+          "type": "cyber_ninja",
+          "x": 1450,
+          "y": 590
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter8_time_engine_room_5_exit_marker",
+      "kind": "object",
+      "x": 1520,
+      "y": 720,
+      "note": "Visible authored level-exit threshold. Progression happens at the door, not merely after kills."
+    }
+  ],
+  "background_npcs": [],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "First-Wound Core",
+      "start": 70,
+      "end": 1830,
+      "objective": "Final exam: all route, key, switch, boss, and explicit final-exit lessons."
+    }
+  ],
+  "completion_text": "First-Wound Core cleared \u2014 find the authored exit door."
+}

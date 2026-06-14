@@ -1,0 +1,225 @@
+{
+  "image": "assets/sprites/yakuza_yellow/atlas.png",
+  "frame_w": 192,
+  "frame_h": 256,
+  "frame_width": 192,
+  "frame_height": 256,
+  "total_frames": 23,
+  "model": "phase3_section1_mirrorx1_yakuza_x_axis_mirror",
+  "source_generation": "Section 1 retry: yakuza walk rebuilt from three separately generated same-facing walk poses (front stride, passing step, opposite stride) to remove mirror-flip walking while preserving the 23-frame scope. Section 1 human review correction: atlas PNG cells mirrored horizontally on X axis because yakuza were still facing the wrong direction in live play.",
+  "animations": {
+    "idle": {
+      "frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fps": 6,
+      "loop": true
+    },
+    "walk": {
+      "frames": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "fps": 9,
+      "loop": true
+    },
+    "run": {
+      "frames": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "fps": 12,
+      "loop": true
+    },
+    "attack": {
+      "frames": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 11,
+      "loop": false,
+      "hit_frame": 3
+    },
+    "attack_windup": {
+      "frames": [
+        10,
+        11,
+        12
+      ],
+      "fps": 9,
+      "loop": false
+    },
+    "attack_strike": {
+      "frames": [
+        12,
+        13,
+        14
+      ],
+      "fps": 13,
+      "loop": false,
+      "hit_frame": 1
+    },
+    "light_attack_1": {
+      "frames": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 11,
+      "loop": false,
+      "hit_frame": 3
+    },
+    "light_attack_2": {
+      "frames": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 12,
+      "loop": false,
+      "hit_frame": 3
+    },
+    "heavy_attack": {
+      "frames": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 9,
+      "loop": false,
+      "hit_frame": 3
+    },
+    "heavy": {
+      "frames": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 9,
+      "loop": false,
+      "hit_frame": 3
+    },
+    "hit": {
+      "frames": [
+        15,
+        16,
+        17
+      ],
+      "fps": 10,
+      "loop": false
+    },
+    "death": {
+      "frames": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        22
+      ],
+      "fps": 7,
+      "loop": false
+    },
+    "block": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 6,
+      "loop": false
+    },
+    "block_idle": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 6,
+      "loop": false
+    },
+    "taunt": {
+      "frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fps": 5,
+      "loop": true
+    },
+    "victory": {
+      "frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fps": 5,
+      "loop": false
+    },
+    "special_1": {
+      "frames": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 10,
+      "loop": false
+    },
+    "special_2": {
+      "frames": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 12,
+      "loop": false
+    },
+    "parry_flash": {
+      "frames": [
+        10,
+        11,
+        12
+      ],
+      "fps": 12,
+      "loop": false
+    },
+    "element_imbue_fire": {
+      "frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fps": 7,
+      "loop": false
+    }
+  },
+  "palette_variant": "yakuza_yellow",
+  "cleanup": "Atlas image cells are horizontally mirrored for phase3s1_mirrorx1; runtime atlasFacingSign is -1 so AI facing remains correct after mirrored source art."
+}

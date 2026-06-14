@@ -1,0 +1,247 @@
+{
+  "id": "chapter1_dojo",
+  "name": "Chapter 1: The Burning Dojo",
+  "subtitle": "A single authored Burning Dojo arena: three yakuza waves, brazier, and right-side level exit.",
+  "is_room": false,
+  "parent_level": "chapter1_dojo",
+  "room_kind": "main",
+  "world": {
+    "w": 2200,
+    "h": 900,
+    "left": 70,
+    "right": 2130,
+    "top": 0,
+    "bottom": 860
+  },
+  "player_start": {
+    "x": 180,
+    "y": 612,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 306,
+    "middle": 540,
+    "near": 738
+  },
+  "backgrounds": [
+    "assets/backgrounds/redesigned_levels/chapter1_dojo/room_1.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/redesigned_levels/chapter1_dojo/room_1.png",
+      "start": 0,
+      "end": 2200,
+      "y": 0,
+      "h": 900,
+      "name": "chapter1_dojo_room_1"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "chapter1_dojo_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          486
+        ],
+        [
+          990,
+          450
+        ],
+        [
+          2130,
+          504
+        ],
+        [
+          2130,
+          756
+        ],
+        [
+          70,
+          756
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter1_dojo_level_exit",
+      "type": "level_exit",
+      "x": 2040,
+      "y": 610,
+      "label": "Chapter 1 — Burning Dojo — Complete",
+      "requires_interact": "E",
+      "final_exit": true
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter1_wave_1_grey_pair",
+      "trigger_x": 0,
+      "gate_x": 2030,
+      "banner": "Wave 1 — two grey yakuza enter the burning dojo",
+      "enemies": [
+        {
+          "type": "yakuza_brawler_grey",
+          "x": 720,
+          "y": 586
+        },
+        {
+          "type": "yakuza_brawler_grey",
+          "x": 1020,
+          "y": 646
+        }
+      ]
+    },
+    {
+      "id": "chapter1_wave_2_red_grey",
+      "trigger_x": 0,
+      "gate_x": 2030,
+      "banner": "Wave 2 — red mask and grey mask press forward",
+      "enemies": [
+        {
+          "type": "yakuza_brawler_red",
+          "x": 880,
+          "y": 586
+        },
+        {
+          "type": "yakuza_brawler_grey",
+          "x": 1190,
+          "y": 646
+        }
+      ]
+    },
+    {
+      "id": "chapter1_wave_3_yellow_miniboss",
+      "trigger_x": 0,
+      "gate_x": 2030,
+      "banner": "Final wave — yellow mask holds the exit",
+      "enemies": [
+        {
+          "type": "yakuza_brawler_heavy",
+          "x": 1210,
+          "y": 622,
+          "scale": 1.14,
+          "hp_mult": 1.25
+        }
+      ]
+    }
+  ],
+  "placed_items": [],
+  "background_npcs": [],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Dojo Courtyard",
+      "start": 70,
+      "end": 2130,
+      "objective": "Teach room exits, keys, lane-depth movement, and first level-exit door."
+    }
+  ],
+  "completion_text": "Chapter 1 — Burning Dojo — Complete",
+  "act": "Feudal Japan",
+  "design_lesson": "One authored arena: opening story, three deliberate yakuza waves, atmosphere beat, and a right-side exit.",
+  "reward": "fire",
+  "room_layout": [
+    {
+      "id": "chapter1_dojo",
+      "name": "Dojo Courtyard",
+      "x": 80,
+      "y": 180,
+      "w": 2200,
+      "h": 900,
+      "kind": "main",
+      "start": true
+    },
+    {
+      "id": "chapter1_dojo_room_2",
+      "name": "North Storehouse",
+      "x": 2760,
+      "y": 260,
+      "w": 1280,
+      "h": 760,
+      "kind": "side room",
+      "start": false
+    },
+    {
+      "id": "chapter1_dojo_room_3",
+      "name": "Garden Shrine Puzzle",
+      "x": 1320,
+      "y": -760,
+      "w": 1480,
+      "h": 760,
+      "kind": "puzzle room",
+      "start": false
+    },
+    {
+      "id": "chapter1_dojo_room_4",
+      "name": "Burning Village Lane",
+      "x": 1320,
+      "y": 1260,
+      "w": 1760,
+      "h": 840,
+      "kind": "foreground route",
+      "start": false
+    },
+    {
+      "id": "chapter1_dojo_room_5",
+      "name": "Forest Gate Duel",
+      "x": 4660,
+      "y": 180,
+      "w": 1900,
+      "h": 880,
+      "kind": "boss room",
+      "start": false
+    }
+  ],
+  "room_links": [
+    {
+      "from": "chapter1_dojo",
+      "to": "chapter1_dojo_room_2"
+    },
+    {
+      "from": "chapter1_dojo",
+      "to": "chapter1_dojo_room_3"
+    },
+    {
+      "from": "chapter1_dojo",
+      "to": "chapter1_dojo_room_4"
+    },
+    {
+      "from": "chapter1_dojo_room_2",
+      "to": "chapter1_dojo_room_5"
+    },
+    {
+      "from": "chapter1_dojo_room_3",
+      "to": "chapter1_dojo_room_4"
+    },
+    {
+      "from": "chapter1_dojo_room_4",
+      "to": "chapter1_dojo_room_5"
+    }
+  ],
+  "level_exit": {
+    "room": "chapter1_dojo",
+    "route_id": "chapter1_dojo_level_exit",
+    "target_level": null,
+    "final_exit": true,
+    "label": "Chapter 1 — Burning Dojo — Complete"
+  },
+  "environment_beats": [
+    {
+      "id": "burning_brazier",
+      "type": "brazier",
+      "x": 330,
+      "y": 662,
+      "palette": [
+        "#c41e3a",
+        "#7a1f18",
+        "#050403",
+        "#d7a43b"
+      ]
+    }
+  ]
+}

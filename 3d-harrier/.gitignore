@@ -1,0 +1,28 @@
+# Reference material — do not commit (copyrighted, large)
+*.mp4
+*.mkv
+*.avi
+*.mov
+reference/
+spaceharrier.mp4
+
+# Local node / build artifacts (future)
+node_modules/
+dist/
+build/
+.vite/
+.cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Logs / scratch
+*.log
+*.tmp
+.scratch/
+.codex-video-samples/
+.hermes-video-review/

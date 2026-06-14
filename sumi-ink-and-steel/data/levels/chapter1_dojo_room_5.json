@@ -1,0 +1,139 @@
+{
+  "id": "chapter1_dojo_room_5",
+  "name": "Forest Gate Duel",
+  "subtitle": "Teach room exits, keys, lane-depth movement, and first level-exit door.",
+  "is_room": true,
+  "parent_level": "chapter1_dojo",
+  "room_kind": "boss room",
+  "world": {
+    "w": 1900,
+    "h": 880,
+    "left": 70,
+    "right": 1830,
+    "top": 0,
+    "bottom": 840
+  },
+  "player_start": {
+    "x": 180,
+    "y": 598,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 299,
+    "middle": 528,
+    "near": 722
+  },
+  "backgrounds": [
+    "assets/backgrounds/redesigned_levels/chapter1_dojo/room_5.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/redesigned_levels/chapter1_dojo/room_5.png",
+      "start": 0,
+      "end": 1900,
+      "y": 0,
+      "h": 880,
+      "name": "chapter1_dojo_room_5"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "chapter1_dojo_room_5_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          475
+        ],
+        [
+          855,
+          440
+        ],
+        [
+          1830,
+          493
+        ],
+        [
+          1830,
+          739
+        ],
+        [
+          70,
+          739
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter1_dojo_room_5_route_1",
+      "type": "side_room",
+      "x": 130,
+      "y": 598,
+      "label": "Retreat to previous room",
+      "requires_interact": "E",
+      "target_level": "chapter1_dojo_room_4",
+      "target_x": 180,
+      "target_y": 570
+    },
+    {
+      "id": "chapter1_dojo_room_5_route_2",
+      "type": "level_exit",
+      "x": 1634,
+      "y": 581,
+      "label": "LEVEL EXIT: Chapter 2: Lanterns and Gunpowder",
+      "requires_interact": "E",
+      "target_level": "chapter2_market",
+      "target_x": 180,
+      "target_y": 610
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter1_dojo_room_5_boss",
+      "trigger_x": 0,
+      "gate_x": 1780,
+      "banner": "Forest Gate Duel: climactic guardian",
+      "boss": true,
+      "enemies": [
+        {
+          "type": "time_engine_guardian",
+          "x": 1180,
+          "y": 610
+        },
+        {
+          "type": "yakuza_brawler_red",
+          "x": 760,
+          "y": 650
+        },
+        {
+          "type": "yakuza_brawler_heavy",
+          "x": 1450,
+          "y": 590
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter1_dojo_room_5_exit_marker",
+      "kind": "object",
+      "x": 1520,
+      "y": 720,
+      "note": "Visible authored level-exit threshold. Progression happens at the door, not merely after kills."
+    }
+  ],
+  "background_npcs": [],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Forest Gate Duel",
+      "start": 70,
+      "end": 1830,
+      "objective": "Teach room exits, keys, lane-depth movement, and first level-exit door."
+    }
+  ],
+  "completion_text": "Forest Gate Duel cleared \u2014 find the authored exit door."
+}

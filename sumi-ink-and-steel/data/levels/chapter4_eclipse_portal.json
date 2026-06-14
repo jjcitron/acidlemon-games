@@ -1,0 +1,233 @@
+{
+  "id": "chapter4_eclipse_portal",
+  "name": "Chapter 4: Eclipse Gate",
+  "subtitle": "Teach portal instability, feudal/cyber overlap, and midpoint boss exit.",
+  "is_room": false,
+  "parent_level": "chapter4_eclipse_portal",
+  "room_kind": "main",
+  "world": {
+    "w": 2200,
+    "h": 900,
+    "left": 70,
+    "right": 2130,
+    "top": 0,
+    "bottom": 860
+  },
+  "player_start": {
+    "x": 180,
+    "y": 612,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 306,
+    "middle": 540,
+    "near": 738
+  },
+  "backgrounds": [
+    "assets/backgrounds/redesigned_levels/chapter4_eclipse_portal/room_1.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/redesigned_levels/chapter4_eclipse_portal/room_1.png",
+      "start": 0,
+      "end": 2200,
+      "y": 0,
+      "h": 900,
+      "name": "chapter4_eclipse_portal_room_1"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "chapter4_eclipse_portal_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          486
+        ],
+        [
+          990,
+          450
+        ],
+        [
+          2130,
+          504
+        ],
+        [
+          2130,
+          756
+        ],
+        [
+          70,
+          756
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter4_eclipse_portal_route_1",
+      "type": "side_room",
+      "x": 1892,
+      "y": 594,
+      "label": "Optional reward room",
+      "requires_interact": "E",
+      "target_level": "chapter4_eclipse_portal_room_2",
+      "target_x": 180,
+      "target_y": 520
+    },
+    {
+      "id": "chapter4_eclipse_portal_route_2",
+      "type": "top_exit",
+      "x": 990,
+      "y": 387,
+      "label": "Puzzle route",
+      "requires_interact": "E",
+      "target_level": "chapter4_eclipse_portal_room_3",
+      "target_x": 210,
+      "target_y": 500
+    },
+    {
+      "id": "chapter4_eclipse_portal_route_3",
+      "type": "bottom_exit",
+      "x": 1276,
+      "y": 702,
+      "label": "Main road forward",
+      "requires_interact": "E",
+      "target_level": "chapter4_eclipse_portal_room_4",
+      "target_x": 180,
+      "target_y": 570
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter4_eclipse_portal_warmup",
+      "trigger_x": 0,
+      "gate_x": 1900,
+      "banner": "Eclipse Courtyard: orientation fight",
+      "boss": false,
+      "enemies": [
+        {
+          "type": "yakuza_flintlock_enforcer",
+          "x": 620,
+          "y": 576
+        },
+        {
+          "type": "ninja_shadow",
+          "x": 980,
+          "y": 630
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter4_eclipse_portal_notice",
+      "kind": "object",
+      "x": 340,
+      "y": 740,
+      "note": "Environmental signpost: golden path points toward the lit exit threshold."
+    }
+  ],
+  "background_npcs": [],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Eclipse Courtyard",
+      "start": 70,
+      "end": 2130,
+      "objective": "Teach portal instability, feudal/cyber overlap, and midpoint boss exit."
+    }
+  ],
+  "completion_text": "Eclipse Courtyard cleared \u2014 find the authored exit door.",
+  "act": "Portal Midpoint",
+  "design_lesson": "Teach portal instability, feudal/cyber overlap, and midpoint boss exit.",
+  "reward": "shadow",
+  "room_layout": [
+    {
+      "id": "chapter4_eclipse_portal",
+      "name": "Eclipse Courtyard",
+      "x": 80,
+      "y": 180,
+      "w": 2200,
+      "h": 900,
+      "kind": "main",
+      "start": true
+    },
+    {
+      "id": "chapter4_eclipse_portal_room_2",
+      "name": "Moon Well Archive",
+      "x": 2760,
+      "y": 260,
+      "w": 1280,
+      "h": 760,
+      "kind": "side room",
+      "start": false
+    },
+    {
+      "id": "chapter4_eclipse_portal_room_3",
+      "name": "Broken Torii Puzzle",
+      "x": 1320,
+      "y": -760,
+      "w": 1480,
+      "h": 760,
+      "kind": "puzzle room",
+      "start": false
+    },
+    {
+      "id": "chapter4_eclipse_portal_room_4",
+      "name": "Future-Wound Arena",
+      "x": 1320,
+      "y": 1260,
+      "w": 1760,
+      "h": 840,
+      "kind": "foreground route",
+      "start": false
+    },
+    {
+      "id": "chapter4_eclipse_portal_room_5",
+      "name": "Portal Threshold",
+      "x": 4660,
+      "y": 180,
+      "w": 1900,
+      "h": 880,
+      "kind": "boss room",
+      "start": false
+    }
+  ],
+  "room_links": [
+    {
+      "from": "chapter4_eclipse_portal",
+      "to": "chapter4_eclipse_portal_room_2"
+    },
+    {
+      "from": "chapter4_eclipse_portal",
+      "to": "chapter4_eclipse_portal_room_3"
+    },
+    {
+      "from": "chapter4_eclipse_portal",
+      "to": "chapter4_eclipse_portal_room_4"
+    },
+    {
+      "from": "chapter4_eclipse_portal_room_2",
+      "to": "chapter4_eclipse_portal_room_5"
+    },
+    {
+      "from": "chapter4_eclipse_portal_room_3",
+      "to": "chapter4_eclipse_portal_room_4"
+    },
+    {
+      "from": "chapter4_eclipse_portal_room_4",
+      "to": "chapter4_eclipse_portal_room_5"
+    }
+  ],
+  "level_exit": {
+    "room": "chapter4_eclipse_portal_room_5",
+    "route_id": "chapter4_eclipse_portal_room_5_route_2",
+    "target_level": "chapter5_neon_arrival",
+    "final_exit": false,
+    "label": "LEVEL EXIT: Chapter 5: Neon Arrival"
+  }
+}

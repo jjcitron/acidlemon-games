@@ -1,0 +1,144 @@
+{
+  "id": "chapter4_eclipse_portal_room_3",
+  "name": "Broken Torii Puzzle",
+  "subtitle": "Teach portal instability, feudal/cyber overlap, and midpoint boss exit.",
+  "is_room": true,
+  "parent_level": "chapter4_eclipse_portal",
+  "room_kind": "puzzle room",
+  "world": {
+    "w": 1480,
+    "h": 760,
+    "left": 70,
+    "right": 1410,
+    "top": 0,
+    "bottom": 720
+  },
+  "player_start": {
+    "x": 180,
+    "y": 517,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 258,
+    "middle": 456,
+    "near": 623
+  },
+  "backgrounds": [
+    "assets/backgrounds/redesigned_levels/chapter4_eclipse_portal/room_3.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/redesigned_levels/chapter4_eclipse_portal/room_3.png",
+      "start": 0,
+      "end": 1480,
+      "y": 0,
+      "h": 760,
+      "name": "chapter4_eclipse_portal_room_3"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "chapter4_eclipse_portal_room_3_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          410
+        ],
+        [
+          666,
+          380
+        ],
+        [
+          1410,
+          426
+        ],
+        [
+          1410,
+          638
+        ],
+        [
+          70,
+          638
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter4_eclipse_portal_room_3_route_1",
+      "type": "side_room",
+      "x": 130,
+      "y": 517,
+      "label": "Return to main path",
+      "requires_interact": "E",
+      "target_level": "chapter4_eclipse_portal",
+      "target_x": 180,
+      "target_y": 610
+    },
+    {
+      "id": "chapter4_eclipse_portal_room_3_route_2",
+      "type": "side_room",
+      "x": 1273,
+      "y": 502,
+      "label": "Open puzzle gate",
+      "requires_interact": "E",
+      "target_level": "chapter4_eclipse_portal_room_4",
+      "target_x": 180,
+      "target_y": 570
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter4_eclipse_portal_room_3_puzzle_pressure",
+      "trigger_x": 0,
+      "gate_x": 1320,
+      "banner": "Broken Torii Puzzle: switch under pressure",
+      "boss": false,
+      "enemies": [
+        {
+          "type": "yakuza_brawler_grey",
+          "x": 930,
+          "y": 530
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter4_eclipse_portal_room_3_npc",
+      "kind": "npc",
+      "x": 390,
+      "y": 450,
+      "note": "NPC gives concise clue for the room puzzle."
+    },
+    {
+      "id": "chapter4_eclipse_portal_room_3_switch_a",
+      "kind": "switch",
+      "x": 760,
+      "y": 610,
+      "note": "Puzzle switch A visibly opens/marks the forward gate."
+    },
+    {
+      "id": "chapter4_eclipse_portal_room_3_key",
+      "kind": "key",
+      "key": "chapter4_eclipse_portal_exit_key",
+      "x": 1120,
+      "y": 600,
+      "note": "Optional key rewards puzzle solving."
+    }
+  ],
+  "background_npcs": [],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Broken Torii Puzzle",
+      "start": 70,
+      "end": 1410,
+      "objective": "Teach portal instability, feudal/cyber overlap, and midpoint boss exit."
+    }
+  ],
+  "completion_text": "Broken Torii Puzzle cleared \u2014 find the authored exit door."
+}

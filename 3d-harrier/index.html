@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+<title>3D Harrier</title>
+<link rel="stylesheet" href="src/style.css" />
+</head>
+<body>
+
+<canvas id="scene"></canvas>
+<video id="video" autoplay playsinline muted></video>
+
+<div id="menu">
+  <h1 id="title">3D HARRIER</h1>
+  <div id="menuTabs">
+    <button id="playTabBtn" class="on" type="button">PLAY</button>
+    <button id="editorTabBtn" type="button">EDITOR</button>
+  </div>
+
+  <div id="playPanel" class="menu-panel">
+    <div id="saveSummary"></div>
+    <label id="levelSetRow" for="levelSetSelect">
+      <span>LEVEL SET</span>
+      <select id="levelSetSelect">
+        <option value="campaign">Original Campaign (1-24)</option>
+        <option value="custom">Custom Levels</option>
+      </select>
+    </label>
+    <label id="stageSelectRow" for="stageSelect">
+      <span>START AT</span>
+      <select id="stageSelect"></select>
+    </label>
+    <div id="stageBriefing" aria-live="polite">
+      <img id="stageBriefingImage" alt="" />
+      <div id="stageBriefingCopy">
+        <div id="stageBriefingKicker"></div>
+        <div id="stageBriefingName"></div>
+        <div id="stageBriefingMeta"></div>
+        <div id="stageBriefingTags"></div>
+      </div>
+    </div>
+    <button id="startGameBtn">START GAME</button>
+    <button id="easyModeBtn">EASY MODE: OFF</button>
+    <button id="optionsBtn">OPTIONS</button>
+    
+    
+    
+    
+    
+    <button id="resetProgressBtn" type="button">RESET PROGRESS</button>
+    <div id="controls">
+      <div>WASD / arrows &mdash; move</div>
+      <div>mouse aim &mdash; click to fire (hold for auto)</div>
+      <div>gamepad &mdash; left stick move &middot; right stick aim &middot; RT fire</div>
+      <div>mobile dual sticks &mdash; left move &middot; right aim/autofire</div>
+      <div>gyro/head tracking/cinematic &mdash; optional 3D window controls</div>
+      <div>esc / pause button &mdash; pause &middot; r &mdash; recenter head</div>
+    </div>
+    <div id="camStatus"></div>
+  </div>
+
+  <div id="editorPanel" class="menu-panel hidden">
+    <div id="editorTopbar">
+      <input id="levelNameInput" aria-label="Level name" maxlength="42" />
+      <select id="levelLoadSelect" aria-label="Load saved level"></select>
+      <select id="levelMusicSelect" aria-label="Music track"></select>
+      <select id="levelThemeSelect" aria-label="World theme"></select>
+      <button id="newLevelBtn" type="button">NEW</button>
+      <button id="loadLevelBtn" type="button">LOAD</button>
+      <button id="saveLevelBtn" type="button">SAVE</button>
+      <button id="duplicateLevelBtn" type="button">DUPLICATE</button>
+      <button id="deleteLevelBtn" type="button">DELETE</button>
+      <button id="exportLevelBtn" type="button">EXPORT</button>
+      <button id="importLevelBtn" type="button">IMPORT</button>
+      <button id="playtestLevelBtn" type="button">PLAYTEST</button>
+      <input id="importLevelInput" type="file" accept="application/json,.json" hidden />
+      <button id="splashUploadBtn" type="button">SPLASH IMAGE</button>
+      <input id="splashUploadInput" type="file" accept="image/*" hidden />
+      <img id="splashPreview" alt="splash preview" style="height:38px;width:auto;border:1px solid #555;display:none;" />
+    </div>
+    <div id="editorWorkspace">
+      <section class="editor-drawer" data-drawer="objects">
+        <h2>OBJECTS</h2>
+        <div id="objectPalette" class="editor-palette"></div>
+      </section>
+      <section id="editorMapPanel">
+        <div id="editorMap"></div>
+      </section>
+      <section class="editor-drawer" data-drawer="items">
+        <h2>ITEMS</h2>
+        <div id="itemPalette" class="editor-palette"></div>
+        <div id="editorInspector"></div>
+      </section>
+      <section class="editor-drawer" data-drawer="enemies">
+        <h2>ENEMIES</h2>
+        <div id="enemyPalette" class="editor-palette"></div>
+      </section>
+      <section class="editor-drawer" data-drawer="turns">
+        <h2>TURNS</h2>
+        <div id="turnPalette" class="editor-palette"></div>
+        <div id="editorProcedural">
+          <label>ENEMIES <input id="enemyDensityInput" type="range" min="0.35" max="2.5" step="0.05" /></label>
+          <label>OBJECTS <input id="obstacleDensityInput" type="range" min="0.25" max="2.5" step="0.05" /></label>
+          <label>ITEMS <input id="pickupDensityInput" type="range" min="0.25" max="2.5" step="0.05" /></label>
+          <label>SPEED <input id="speedScaleInput" type="range" min="0.55" max="1.8" step="0.05" /></label>
+        </div>
+      </section>
+    </div>
+    <div id="editorStatus"></div>
+  </div>
+</div>
+
+<div id="touchControls" aria-hidden="true">
+  <div id="touchModeLabel">DUAL STICKS</div>
+  <div id="touchLeftPad" class="touch-pad"><div class="touch-ring"></div><div id="touchLeftKnob" class="touch-knob"></div><div class="touch-caption">MOVE</div></div>
+  <div id="touchRightPad" class="touch-pad"><div class="touch-ring"></div><div id="touchRightKnob" class="touch-knob"></div><div class="touch-caption">AIM / FIRE</div></div>
+  <button id="touchBombBtn" type="button">BOMB</button>
+
+  <button id="touchSprintBtn" type="button">SPRINT</button>
+  <button id="touchPauseBtn" type="button">PAUSE</button>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="src/main.js"></script>
+
+
+<style>
+.opt-btn { padding:14px 18px; font-size:17px; background:#111; border:2px solid #ff5566; color:#fff; cursor:pointer; }
+.opt-btn.on { background:#ff5566; color:#000; }
+</style>
+
+
+
+<div id="optionsModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.92);display:none;align-items:center;justify-content:center;z-index:300;">
+  <div style="background:#111;border:3px solid #ff5566;padding:32px 40px;min-width:340px;color:white;font-family:monospace;">
+    <h2 style="margin:0 0 24px 0;letter-spacing:4px;">OPTIONS</h2>
+    
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <button id="touchStickModeBtn"   style="padding:14px;font-size:16px;background:#222;border:2px solid #ff5566;color:white;">MOBILE: DUAL STICKS</button>
+      <button id="cameraFollowBtn"     style="padding:14px;font-size:16px;background:#222;border:2px solid #ff5566;color:white;">CAMERA FOLLOW: ON</button>
+      <button id="enableGyroBtn"       style="padding:14px;font-size:16px;background:#222;border:2px solid #ff5566;color:white;">GYRO VIEW TILT</button>
+      <button id="enableCamBtn"        style="padding:14px;font-size:16px;background:#222;border:2px solid #ff5566;color:white;">ENABLE HEAD TRACKING</button>
+      <button id="orbitBtn"            style="padding:14px;font-size:16px;background:#222;border:2px solid #ff5566;color:white;">CINEMATIC MODE</button>
+    </div>
+    
+    <button id="m-close" style="margin-top:24px;width:100%;padding:12px;background:#333;color:white;border:2px solid #666;">CLOSE</button>
+  </div>
+</div>
+</body>
+</html>

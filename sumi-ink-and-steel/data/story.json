@@ -1,0 +1,142 @@
+{
+  "title": "SUMI \u2014 INK AND STEEL",
+  "logline": "A blue-robed samurai fights a time-piercing syndicate from feudal Japan to cyberpunk 2090, then back to the first wound in time.",
+  "intro_cards": [
+    {
+      "title": "Masayoshi \u6b63\u7fa9",
+      "text": "Blue robes. Long ponytail. A vow cut into smoke."
+    },
+    {
+      "title": "The Black Pagoda",
+      "text": "Yakuza, ninja, and fallen samurai steal weapons from impossible tomorrows."
+    },
+    {
+      "title": "Ink and Steel",
+      "text": "Move through painted depth. Fight, inspect, converse, and survive."
+    },
+    {
+      "title": "The Future Wound",
+      "text": "Midway through the hunt, a portal opens and cyber samurai call the villains home."
+    }
+  ],
+  "chapters": {
+    "chapter1_dojo": {
+      "act": "Feudal Japan",
+      "interlude_title": "The Vow in Ash",
+      "interlude": "Master Hideo is gone. The first raiders fall, but their blades carry metal no forge in Edo has seen. Masayoshi follows smoke toward the market.",
+      "reward": "fire",
+      "level_design": "Room-box adventure-brawler: Teach room exits, keys, lane-depth movement, and first level-exit door.",
+      "rooms": [
+        "Dojo Courtyard",
+        "North Storehouse",
+        "Garden Shrine Puzzle",
+        "Burning Village Lane",
+        "Forest Gate Duel"
+      ]
+    },
+    "chapter2_market": {
+      "act": "Feudal Japan",
+      "interlude_title": "Lanterns and Gunpowder",
+      "interlude": "The lantern market whispers of a mountain shrine. Civilians speak in fragments: black masks, stolen thunder, and a gate that opens during eclipse.",
+      "reward": "wind",
+      "level_design": "Room-box adventure-brawler: Teach crowds, shortcuts, canal flanks, and civilian clues.",
+      "rooms": [
+        "Market Gate",
+        "Tea House Cellar",
+        "Canal Bridge Puzzle",
+        "Lantern Alley Ambush",
+        "Pagoda Road Exit"
+      ]
+    },
+    "chapter3_mountain_pass": {
+      "act": "Feudal Japan",
+      "interlude_title": "Snow on the Shrine Bell",
+      "interlude": "At the shrine, monks confess the syndicate buys prayers with rifles and future coin. The path now points to an eclipse courtyard.",
+      "reward": "lightning",
+      "level_design": "Room-box adventure-brawler: Teach vertical routes, rope bridges, ranged threats, and shrine switches.",
+      "rooms": [
+        "Mountain Trail",
+        "Pilgrim Cave",
+        "Bell Shrine Puzzle",
+        "Rope Bridge Siege",
+        "Black Pagoda Gate"
+      ]
+    },
+    "chapter4_eclipse_portal": {
+      "act": "Portal Midpoint",
+      "interlude_title": "The Sky Tears Open",
+      "interlude": "Just as Masayoshi reaches the boss, a violet future wound opens. Cyber samurai step through and call the Black Pagoda home. Masayoshi jumps after them.",
+      "portal": true,
+      "reward": "shadow",
+      "level_design": "Room-box adventure-brawler: Teach portal instability, feudal/cyber overlap, and midpoint boss exit.",
+      "rooms": [
+        "Eclipse Courtyard",
+        "Moon Well Archive",
+        "Broken Torii Puzzle",
+        "Future-Wound Arena",
+        "Portal Threshold"
+      ]
+    },
+    "chapter5_neon_arrival": {
+      "act": "Cyberpunk 2090",
+      "interlude_title": "A Century Corrupted",
+      "interlude": "The future is not saved. It is occupied. Masayoshi learns he must install enemy tech or die before reaching the time engine.",
+      "reward": "chrome_arm",
+      "level_design": "Room-box adventure-brawler: Teach future hazards, cyber NPCs, neon paths, and chrome upgrade rooms.",
+      "rooms": [
+        "Rain-Slick Alley",
+        "Ramen Den Safehouse",
+        "Hologram Shrine Puzzle",
+        "Black-Market Chrome",
+        "Slum Gate Exit"
+      ]
+    },
+    "chapter6_chrome_slums": {
+      "act": "Cyberpunk 2090",
+      "interlude_title": "Chrome Beneath Skin",
+      "interlude": "Every enhancement makes him stronger and less certain. The slums point upward: the syndicate descendants rule from the skyway.",
+      "reward": "neural_ward",
+      "level_design": "Room-box adventure-brawler: Teach tower ascent, security locks, server switches, and risk/reward branches.",
+      "rooms": [
+        "Spire Lobby",
+        "Slum Catwalk Detour",
+        "Server Farm Puzzle",
+        "Bio-Lab Ambush",
+        "Rooftop Elevator Exit"
+      ]
+    },
+    "chapter7_skyway_siege": {
+      "act": "Cyberpunk 2090",
+      "interlude_title": "Above the Ruined City",
+      "interlude": "The skyway burns. Masayoshi finds the coordinates of the first tear and the price of undoing it.",
+      "reward": "ghost_step",
+      "level_design": "Room-box adventure-brawler: Teach speed, exposed routes, drone pressure, and high/low road choices.",
+      "rooms": [
+        "Skyway Onramp",
+        "Drone Maintenance Bay",
+        "Collapsed Overpass Puzzle",
+        "Storm Bridge Siege",
+        "Time-Engine Causeway"
+      ]
+    },
+    "chapter8_time_engine": {
+      "act": "Finale",
+      "interlude_title": "Before the First Cut",
+      "interlude": "The time engine falls silent. Humanity remains scarred, but the path back is open. Masayoshi returns to stop the wound before it begins.",
+      "finale": true,
+      "reward": "humanity_vow",
+      "level_design": "Room-box adventure-brawler: Final exam: all route, key, switch, boss, and explicit final-exit lessons.",
+      "rooms": [
+        "Engine Vestibule",
+        "Memory Shrine",
+        "Chrono Gear Puzzle",
+        "Paradox Arena",
+        "First-Wound Core"
+      ]
+    }
+  },
+  "ending": {
+    "title": "THE FIRST WOUND SEALED",
+    "text": "Masayoshi returns before the first tear. He carries chrome scars under indigo robes, choosing humanity not because he remained pure, but because he kept choosing it."
+  }
+}

@@ -1,0 +1,233 @@
+{
+  "id": "chapter7_skyway_siege",
+  "name": "Chapter 7: Skyway Siege",
+  "subtitle": "Teach speed, exposed routes, drone pressure, and high/low road choices.",
+  "is_room": false,
+  "parent_level": "chapter7_skyway_siege",
+  "room_kind": "main",
+  "world": {
+    "w": 2200,
+    "h": 900,
+    "left": 70,
+    "right": 2130,
+    "top": 0,
+    "bottom": 860
+  },
+  "player_start": {
+    "x": 180,
+    "y": 612,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 306,
+    "middle": 540,
+    "near": 738
+  },
+  "backgrounds": [
+    "assets/backgrounds/redesigned_levels/chapter7_skyway_siege/room_1.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/redesigned_levels/chapter7_skyway_siege/room_1.png",
+      "start": 0,
+      "end": 2200,
+      "y": 0,
+      "h": 900,
+      "name": "chapter7_skyway_siege_room_1"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "chapter7_skyway_siege_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          486
+        ],
+        [
+          990,
+          450
+        ],
+        [
+          2130,
+          504
+        ],
+        [
+          2130,
+          756
+        ],
+        [
+          70,
+          756
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter7_skyway_siege_route_1",
+      "type": "side_room",
+      "x": 1892,
+      "y": 594,
+      "label": "Optional reward room",
+      "requires_interact": "E",
+      "target_level": "chapter7_skyway_siege_room_2",
+      "target_x": 180,
+      "target_y": 520
+    },
+    {
+      "id": "chapter7_skyway_siege_route_2",
+      "type": "top_exit",
+      "x": 990,
+      "y": 387,
+      "label": "Puzzle route",
+      "requires_interact": "E",
+      "target_level": "chapter7_skyway_siege_room_3",
+      "target_x": 210,
+      "target_y": 500
+    },
+    {
+      "id": "chapter7_skyway_siege_route_3",
+      "type": "bottom_exit",
+      "x": 1276,
+      "y": 702,
+      "label": "Main road forward",
+      "requires_interact": "E",
+      "target_level": "chapter7_skyway_siege_room_4",
+      "target_x": 180,
+      "target_y": 570
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter7_skyway_siege_warmup",
+      "trigger_x": 0,
+      "gate_x": 1900,
+      "banner": "Skyway Onramp: orientation fight",
+      "boss": false,
+      "enemies": [
+        {
+          "type": "chrome_samurai",
+          "x": 620,
+          "y": 576
+        },
+        {
+          "type": "time_engine_guardian",
+          "x": 980,
+          "y": 630
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter7_skyway_siege_notice",
+      "kind": "object",
+      "x": 340,
+      "y": 740,
+      "note": "Environmental signpost: golden path points toward the lit exit threshold."
+    }
+  ],
+  "background_npcs": [],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Skyway Onramp",
+      "start": 70,
+      "end": 2130,
+      "objective": "Teach speed, exposed routes, drone pressure, and high/low road choices."
+    }
+  ],
+  "completion_text": "Skyway Onramp cleared \u2014 find the authored exit door.",
+  "act": "Cyberpunk 2090",
+  "design_lesson": "Teach speed, exposed routes, drone pressure, and high/low road choices.",
+  "reward": "ghost_step",
+  "room_layout": [
+    {
+      "id": "chapter7_skyway_siege",
+      "name": "Skyway Onramp",
+      "x": 80,
+      "y": 180,
+      "w": 2200,
+      "h": 900,
+      "kind": "main",
+      "start": true
+    },
+    {
+      "id": "chapter7_skyway_siege_room_2",
+      "name": "Drone Maintenance Bay",
+      "x": 2760,
+      "y": 260,
+      "w": 1280,
+      "h": 760,
+      "kind": "side room",
+      "start": false
+    },
+    {
+      "id": "chapter7_skyway_siege_room_3",
+      "name": "Collapsed Overpass Puzzle",
+      "x": 1320,
+      "y": -760,
+      "w": 1480,
+      "h": 760,
+      "kind": "puzzle room",
+      "start": false
+    },
+    {
+      "id": "chapter7_skyway_siege_room_4",
+      "name": "Storm Bridge Siege",
+      "x": 1320,
+      "y": 1260,
+      "w": 1760,
+      "h": 840,
+      "kind": "foreground route",
+      "start": false
+    },
+    {
+      "id": "chapter7_skyway_siege_room_5",
+      "name": "Time-Engine Causeway",
+      "x": 4660,
+      "y": 180,
+      "w": 1900,
+      "h": 880,
+      "kind": "boss room",
+      "start": false
+    }
+  ],
+  "room_links": [
+    {
+      "from": "chapter7_skyway_siege",
+      "to": "chapter7_skyway_siege_room_2"
+    },
+    {
+      "from": "chapter7_skyway_siege",
+      "to": "chapter7_skyway_siege_room_3"
+    },
+    {
+      "from": "chapter7_skyway_siege",
+      "to": "chapter7_skyway_siege_room_4"
+    },
+    {
+      "from": "chapter7_skyway_siege_room_2",
+      "to": "chapter7_skyway_siege_room_5"
+    },
+    {
+      "from": "chapter7_skyway_siege_room_3",
+      "to": "chapter7_skyway_siege_room_4"
+    },
+    {
+      "from": "chapter7_skyway_siege_room_4",
+      "to": "chapter7_skyway_siege_room_5"
+    }
+  ],
+  "level_exit": {
+    "room": "chapter7_skyway_siege_room_5",
+    "route_id": "chapter7_skyway_siege_room_5_route_2",
+    "target_level": "chapter8_time_engine",
+    "final_exit": false,
+    "label": "LEVEL EXIT: Chapter 8: The Time Engine"
+  }
+}

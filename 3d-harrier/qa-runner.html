@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3D Harrier QA Runner</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070912;
+      --panel: #111827;
+      --line: #334155;
+      --text: #e5edf7;
+      --muted: #9fb0c7;
+      --good: #51d88a;
+      --bad: #ff667a;
+      --warn: #ffd166;
+      --accent: #69d4ff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      display: grid;
+      grid-template-columns: minmax(320px, 430px) 1fr;
+    }
+
+    aside {
+      border-right: 1px solid var(--line);
+      background: #0b1020;
+      padding: 18px;
+      overflow: auto;
+    }
+
+    main {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-width: 0;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      letter-spacing: .04em;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.45;
+      margin: 0 0 16px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+
+    button {
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--text);
+      padding: 10px 12px;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    button:hover { background: rgba(105, 212, 255, .14); }
+    button:disabled { opacity: .48; cursor: wait; }
+
+    .status {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 12px;
+      margin: 14px 0;
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      min-height: 90px;
+    }
+
+    .pass { color: var(--good); }
+    .fail { color: var(--bad); }
+    .warn { color: var(--warn); }
+
+    dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px 12px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+
+    dt { color: var(--muted); }
+    dd { margin: 0; font-family: "Courier New", monospace; }
+
+    pre {
+      margin: 14px 0 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      background: #050814;
+      overflow: auto;
+      max-height: 42vh;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .framebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #0b1020;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: black;
+    }
+
+    @media (max-width: 900px) {
+      body { grid-template-columns: 1fr; grid-template-rows: auto minmax(420px, 1fr); }
+      aside { border-right: 0; border-bottom: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h1>3D Harrier QA Runner</h1>
+    <p>Loads the game in dev mode, captures browser runtime errors, runs campaign, boss matrix, bonus, flow, persistence, editor, input, performance, visual-probe, and endurance smoke helpers, and reports whether the 18-stage campaign reaches the ending state.</p>
+
+    <div class="actions">
+      <button id="run" type="button">Run QA Smoke</button>
+      <button id="reload" type="button">Reload Game</button>
+      <button id="export" type="button">Export Report</button>
+    </div>
+
+    <div id="status" class="status">Idle.</div>
+
+    <dl>
+      <dt>Visited</dt><dd id="visited">-</dd>
+      <dt>Boss Stages</dt><dd id="bossStages">-</dd>
+      <dt>Boss Matrix</dt><dd id="bossMatrix">-</dd>
+      <dt>Bonus Stages</dt><dd id="bonusStages">-</dd>
+      <dt>Bonus Smoke</dt><dd id="bonusSmoke">-</dd>
+      <dt>Boss Rush</dt><dd id="bossRush">-</dd>
+      <dt>Flow Smoke</dt><dd id="flowSmoke">-</dd>
+      <dt>Persistence</dt><dd id="persistenceSmoke">-</dd>
+      <dt>Editor Smoke</dt><dd id="editorSmoke">-</dd>
+      <dt>Input Smoke</dt><dd id="inputSmoke">-</dd>
+      <dt>FPS Avg / Min</dt><dd id="fps">-</dd>
+      <dt>Endurance</dt><dd id="enduranceSmoke">-</dd>
+      <dt>Visual Probe</dt><dd id="visualProbe">-</dd>
+      <dt>Acceptance</dt><dd id="acceptanceSummary">-</dd>
+      <dt>Actor Peaks</dt><dd id="actorPeaks">-</dd>
+      <dt>Renderer</dt><dd id="rendererStats">-</dd>
+      <dt>Runtime Errors</dt><dd id="runtimeErrors">0</dd>
+    </dl>
+
+    <pre id="report">{}</pre>
+  </aside>
+
+  <main>
+    <div class="framebar">
+      <span id="frameUrl">about:blank</span>
+      <span>Open this page from the local dev server.</span>
+    </div>
+    <iframe id="game" title="3D Harrier game under test"></iframe>
+  </main>
+
+  <script>
+    const frame = document.getElementById('game');
+    const status = document.getElementById('status');
+    const report = document.getElementById('report');
+    const runButton = document.getElementById('run');
+    const reloadButton = document.getElementById('reload');
+    const exportButton = document.getElementById('export');
+    const frameUrl = document.getElementById('frameUrl');
+    const runtimeErrors = [];
+    const QA_REPORT_KEY = 'harrierQaLastReport';
+    const QA_PROFILES = {
+      quick: {
+        name: 'quick',
+        stepMs: 30,
+        performance: { stageId: 18, seconds: 8 },
+        endurance: { stageId: 18, cycles: 3, seconds: 3, stepMs: 30 }
+      },
+      signoff: {
+        name: 'signoff',
+        stepMs: 30,
+        performance: { stageId: 18, seconds: 60 },
+        endurance: { stageId: 18, cycles: 15, seconds: 60, stepMs: 30 }
+      }
+    };
+    const qaProfile = QA_PROFILES[new URLSearchParams(window.location.search).get('profile')] || QA_PROFILES.quick;
+    let lastReport = null;
+
+    function setStatus(text, cls = '') {
+      status.className = `status ${cls}`;
+      status.textContent = text;
+    }
+
+    function updateField(id, value) {
+      document.getElementById(id).textContent = value;
+    }
+
+    function recordError(kind, value) {
+      runtimeErrors.push({
+        kind,
+        message: value?.message || String(value),
+        stack: value?.error?.stack || value?.reason?.stack || ''
+      });
+      updateField('runtimeErrors', String(runtimeErrors.length));
+    }
+
+    function loadGame() {
+      runtimeErrors.length = 0;
+      updateField('runtimeErrors', '0');
+      updateField('visited', '-');
+      updateField('bossStages', '-');
+      updateField('bossMatrix', '-');
+      updateField('bonusStages', '-');
+      updateField('bonusSmoke', '-');
+      updateField('bossRush', '-');
+      updateField('flowSmoke', '-');
+      updateField('persistenceSmoke', '-');
+      updateField('editorSmoke', '-');
+      updateField('inputSmoke', '-');
+      updateField('fps', '-');
+      updateField('enduranceSmoke', '-');
+      updateField('visualProbe', '-');
+      updateField('acceptanceSummary', '-');
+      updateField('actorPeaks', '-');
+      updateField('rendererStats', '-');
+      report.textContent = '{}';
+      lastReport = null;
+      setStatus(`Loading game in dev mode (${qaProfile.name} profile)...`);
+
+      const url = new URL('./', window.location.href);
+      url.searchParams.set('dev', '1');
+      url.searchParams.set('invulnerable', '1');
+      frameUrl.textContent = url.href;
+      frame.removeAttribute('src');
+      frame.src = url.href;
+    }
+
+    function attachFrameErrorHandlers() {
+      try {
+        const win = frame.contentWindow;
+        win.addEventListener('error', event => recordError('error', event));
+        win.addEventListener('unhandledrejection', event => recordError('unhandledrejection', event));
+      } catch (error) {
+        recordError('harness', error);
+      }
+    }
+
+    function waitForDebug(timeoutMs = 10000) {
+      const started = performance.now();
+      return new Promise((resolve, reject) => {
+        const tick = () => {
+          const debug = frame.contentWindow?.__gameDebug;
+          if (debug?.runCampaignSmoke && debug?.runBossMatrixSmoke && debug?.runBonusSmoke && debug?.runPerformanceSmoke && debug?.runEnduranceSmoke && debug?.runFlowSmoke && debug?.runPersistenceSmoke && debug?.runEditorSmoke && debug?.runInputSmoke) return resolve(debug);
+          if (performance.now() - started > timeoutMs) return reject(new Error('Timed out waiting for __gameDebug smoke helpers'));
+          setTimeout(tick, 100);
+        };
+        tick();
+      });
+    }
+
+    function setReport(value) {
+      lastReport = value;
+      report.textContent = JSON.stringify(value, null, 2);
+      try { window.localStorage.setItem(QA_REPORT_KEY, JSON.stringify(value)); } catch {}
+    }
+
+    function exportReport() {
+      const payload = lastReport || JSON.parse(window.localStorage.getItem(QA_REPORT_KEY) || 'null') || {};
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `harrier-qa-${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+
+    function buildAcceptanceSummary(sections) {
+      const checks = [
+        {
+          id: 'campaign_18_stage_ending',
+          label: '18-stage campaign reaches ending',
+          ok: !!sections.campaign?.ok && sections.campaign?.visited?.length === 18 && sections.campaign?.snapshot?.gameState === 'ending'
+        },
+        {
+          id: 'boss_routes',
+          label: 'Boss routes, weak points, and boss rush pass',
+          ok: !!sections.bossMatrix?.ok && (sections.campaign?.bossRushBosses || 0) >= 5
+        },
+        {
+          id: 'bonus_stages',
+          label: 'Bonus stages score and remain non-lethal',
+          ok: !!sections.bonus?.ok && (sections.bonus?.checked?.length || 0) >= 2
+        },
+        {
+          id: 'flow_and_persistence',
+          label: 'Game flow, high scores, settings, and save data persist',
+          ok: !!sections.flow?.ok && !!sections.persistence?.ok
+        },
+        {
+          id: 'level_editor',
+          label: 'Level editor save/load/import/export/playtest conversion passes',
+          ok: !!sections.editor?.ok
+        },
+        {
+          id: 'input_modes',
+          label: 'Keyboard/mobile/gamepad/head-tracking guardrails pass',
+          ok: !!sections.input?.ok
+        },
+        {
+          id: 'performance',
+          label: 'Actor caps, renderer stats, and endurance deltas pass',
+          ok: !!sections.performance?.ok && !!sections.endurance?.ok
+        },
+        {
+          id: 'visual_runtime',
+          label: 'WebGL canvas renders nonblank varied pixels',
+          ok: !!sections.visual?.ok
+        },
+        {
+          id: 'runtime_errors',
+          label: 'No captured runtime errors',
+          ok: (sections.runtimeErrors || []).length === 0
+        }
+      ];
+      const failed = checks.filter(check => !check.ok);
+      return {
+        ok: failed.length === 0,
+        passed: checks.length - failed.length,
+        total: checks.length,
+        checks,
+        failed: failed.map(check => check.id)
+      };
+    }
+
+    async function captureVisualProbe() {
+      const result = {
+        ok: false,
+        canvasPresent: false,
+        webglContext: false,
+        width: 0,
+        height: 0,
+        nonBlackSamples: 0,
+        variedSamples: 0,
+        samples: [],
+        errors: []
+      };
+      try {
+        const win = frame.contentWindow;
+        const doc = frame.contentDocument;
+        const canvas = doc?.getElementById('scene');
+        result.canvasPresent = !!canvas;
+        if (!canvas) throw new Error('scene canvas missing');
+
+        await new Promise(resolve => win.requestAnimationFrame(() => win.requestAnimationFrame(resolve)));
+
+        result.width = canvas.width || 0;
+        result.height = canvas.height || 0;
+        const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        result.webglContext = !!gl;
+        if (!gl) throw new Error('WebGL context unavailable for visual probe');
+
+        const pixel = new Uint8Array(4);
+        const colors = new Set();
+        const xs = [0.18, 0.34, 0.5, 0.66, 0.82];
+        const ys = [0.18, 0.34, 0.5, 0.66, 0.82];
+        for (const xNorm of xs) {
+          for (const yNorm of ys) {
+            const x = Math.max(0, Math.min(result.width - 1, Math.floor(result.width * xNorm)));
+            const y = Math.max(0, Math.min(result.height - 1, Math.floor(result.height * yNorm)));
+            gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
+            const color = [pixel[0], pixel[1], pixel[2], pixel[3]];
+            const luminance = color[0] + color[1] + color[2];
+            if (color[3] > 0 && luminance > 24) result.nonBlackSamples++;
+            colors.add(`${color[0] >> 4},${color[1] >> 4},${color[2] >> 4},${color[3] >> 4}`);
+            result.samples.push({ x, y, color });
+          }
+        }
+        result.variedSamples = colors.size;
+        result.ok = result.canvasPresent
+          && result.webglContext
+          && result.width > 0
+          && result.height > 0
+          && result.nonBlackSamples >= 8
+          && result.variedSamples >= 4;
+        if (!result.ok) result.errors.push('canvas pixel sample was blank or too uniform');
+      } catch (error) {
+        result.errors.push(error?.message || String(error));
+      }
+      return result;
+    }
+
+    async function runQaSmoke() {
+      runButton.disabled = true;
+      setStatus('Running campaign smoke...');
+      try {
+        attachFrameErrorHandlers();
+        const debug = await waitForDebug();
+        const campaign = await debug.runCampaignSmoke({ stepMs: qaProfile.stepMs });
+        setStatus('Running boss matrix smoke...');
+        const bossMatrix = await debug.runBossMatrixSmoke({ stepMs: qaProfile.stepMs });
+        setStatus('Running bonus stage smoke...');
+        const bonus = await debug.runBonusSmoke({ stepMs: qaProfile.stepMs });
+        setStatus('Running game flow smoke...');
+        const flow = await debug.runFlowSmoke({ stepMs: qaProfile.stepMs });
+        setStatus('Running persistence smoke...');
+        const persistence = await debug.runPersistenceSmoke({ stepMs: qaProfile.stepMs });
+        setStatus('Running editor smoke...');
+        const editor = await debug.runEditorSmoke({ stepMs: qaProfile.stepMs });
+        setStatus('Running input smoke...');
+        const input = await debug.runInputSmoke({ stepMs: qaProfile.stepMs });
+        setStatus(`Running performance smoke (${qaProfile.performance.seconds}s)...`);
+        const performanceResult = await debug.runPerformanceSmoke(qaProfile.performance);
+        setStatus('Capturing WebGL visual probe...');
+        const visual = await captureVisualProbe();
+        setStatus(`Running endurance smoke (${qaProfile.endurance.cycles} x ${qaProfile.endurance.seconds}s)...`);
+        const endurance = await debug.runEnduranceSmoke(qaProfile.endurance);
+        const ok = !!campaign.ok && !!bossMatrix.ok && !!bonus.ok && !!flow.ok && !!persistence.ok && !!editor.ok && !!input.ok && !!performanceResult.ok && !!visual.ok && !!endurance.ok && runtimeErrors.length === 0;
+        updateField('visited', `${campaign.visited?.length || 0}/18`);
+        updateField('bossStages', String(campaign.bossStages?.length || 0));
+        updateField('bossMatrix', bossMatrix.ok ? `PASS (${bossMatrix.checked?.length || 0} checks)` : 'FAIL');
+        updateField('bonusStages', (campaign.bonusStages || []).join(', ') || '-');
+        updateField('bonusSmoke', bonus.ok ? `PASS (${bonus.checked?.length || 0} checks)` : 'FAIL');
+        updateField('bossRush', String(campaign.bossRushBosses || 0));
+        updateField('flowSmoke', flow.ok ? 'PASS' : 'FAIL');
+        updateField('persistenceSmoke', persistence.ok ? 'PASS' : 'FAIL');
+        updateField('editorSmoke', editor.ok ? `PASS (${editor.summary?.mapAnchors ?? 0} anchors)` : 'FAIL');
+        updateField('inputSmoke', input.ok ? `PASS (${input.gamepads || 0} pads)` : 'FAIL');
+        updateField('fps', `${performanceResult.stats?.avgFps ?? '-'} / ${performanceResult.stats?.minFps ?? '-'}`);
+        updateField('enduranceSmoke', endurance.ok ? `PASS (${endurance.memoryDelta?.geometries ?? 0} geo / ${endurance.memoryDelta?.textures ?? 0} tex)` : 'FAIL');
+        updateField('visualProbe', visual.ok ? `PASS (${visual.nonBlackSamples}/${visual.samples?.length || 0} lit, ${visual.variedSamples} colors)` : 'FAIL');
+        updateField('actorPeaks', JSON.stringify(performanceResult.stats?.actorPeaks || {}));
+        const rendererStats = performanceResult.stats?.renderer || performanceResult.renderer || {};
+        updateField('rendererStats', rendererStats.render ? `calls ${rendererStats.render.calls} / geo ${rendererStats.memory?.geometries ?? '-'} / tex ${rendererStats.memory?.textures ?? '-'}` : '-');
+        const acceptance = buildAcceptanceSummary({ runtimeErrors, campaign, bossMatrix, bonus, flow, persistence, editor, input, performance: performanceResult, endurance, visual });
+        updateField('acceptanceSummary', acceptance.ok ? `PASS (${acceptance.passed}/${acceptance.total})` : `FAIL (${acceptance.passed}/${acceptance.total})`);
+        setReport({ ok, profile: qaProfile.name, profileConfig: qaProfile, acceptance, runtimeErrors, campaign, bossMatrix, bonus, flow, persistence, editor, input, performance: performanceResult, visual, endurance, capturedAt: new Date().toISOString() });
+        setStatus(ok ? 'PASS: campaign and performance smoke completed with no captured runtime errors.' : 'FAIL: inspect report for campaign, performance, or runtime errors.', ok ? 'pass' : 'fail');
+      } catch (error) {
+        recordError('harness', error);
+        setReport({ ok: false, runtimeErrors, capturedAt: new Date().toISOString() });
+        setStatus(`FAIL: ${error.message}`, 'fail');
+      } finally {
+        runButton.disabled = false;
+      }
+    }
+
+    frame.addEventListener('load', () => {
+      setStatus('Game loaded. Ready to run campaign smoke.', 'warn');
+      attachFrameErrorHandlers();
+      if (new URLSearchParams(window.location.search).get('autorun') === '1') {
+        setTimeout(runQaSmoke, 100);
+      }
+    });
+
+    runButton.addEventListener('click', runQaSmoke);
+    reloadButton.addEventListener('click', loadGame);
+    exportButton.addEventListener('click', exportReport);
+
+    loadGame();
+  </script>
+</body>
+</html>

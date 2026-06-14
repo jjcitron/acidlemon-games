@@ -1,0 +1,242 @@
+3D HARRIER - SUNO MUSIC QUEUE (Levels 9-24)
+============================================
+
+Paste each block into Suno's "Custom Mode" prompt. Set:
+- Mode: Instrumental (no vocals)
+- Style: matches the genre/BPM cues in each block
+- Length: tracks loop, so generate ~80-130 sec depending on level
+
+After generation, download as MP3 and save to:
+  C:\Dev\Personal\3d screen\sound\<filename>.mp3
+
+Then update STAGE_MEDIA in src/game/content/stages.js to point each
+stage at its new file.
+
+
+-----------------------------------------------------------
+LEVEL 9 - ASH VECTOR  →  sound/ash_vector.mp3
+-----------------------------------------------------------
+STYLE: 80s arcade synth, retro Sega, FM-bass, no vocals
+TEMPO: 145 BPM
+
+Driving 80s retro arcade synth track in dark minor key. Heavy FM
+bass, urgent arpeggios, chromatic tension, distant volcanic rumble
+in the low end. Sharp synth stabs that feel like enemy fire.
+Yu Suzuki / Sega arcade energy. 75 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 10 - FROST NEEDLE  →  sound/frost_needle.mp3
+-----------------------------------------------------------
+STYLE: cold 80s arcade synth, crystalline FM bells, no vocals
+TEMPO: 150 BPM
+
+Cold, fast 80s arcade synth. Crystalline FM bell tones over pulsing
+analog bass arpeggio. Icy reverb tail on lead synth. Minor pentatonic
+melody with urgent triplet runs. Feels like racing through a glacier
+at high speed. 80 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 11 - BIOMECH MAW  →  sound/biomech_maw.mp3
+-----------------------------------------------------------
+STYLE: dark organic synthwave, alien biomech, no vocals
+TEMPO: 138 BPM
+
+Pulsing, organic 80s synthwave. Wet squelchy bass, glitching
+arpeggios, dissonant chord pads, ribbed breathing rhythm in the
+low end. Minor 9th harmonies. Feels like flying down the gullet
+of a living machine. Dark, alien, urgent. 75 seconds, loopable.
+
+
+-----------------------------------------------------------
+LEVEL 12 - CRYSTAL BREAKWAY (BONUS)  →  sound/crystal_breakway.mp3
+-----------------------------------------------------------
+STYLE: cheerful chiptune bonus round, major key, no vocals
+TEMPO: 155 BPM
+
+Upbeat playful 80s arcade bonus-round track. Bright major-key
+chiptune melody, bouncy plucked synth, cheerful detuned saw lead,
+hand-clap percussion, glittering arpeggios. Feels like collecting
+coins in a music box. Whimsical and joyous. 50 seconds, loopable.
+
+
+-----------------------------------------------------------
+LEVEL 13 - TEMPLE RUN  →  sound/temple_run.mp3
+-----------------------------------------------------------
+STYLE: Egyptian-modal arcade synth, brassy FM lead, no vocals
+TEMPO: 142 BPM
+
+Driving 80s arcade adventure-synth track. Brassy FM lead with
+Egyptian/Middle-Eastern modal flavor (Phrygian dominant scale).
+Punchy synth-drum loop, urgent low bass, hand-percussion overlay.
+Indiana Jones meets Sega Out Run. 75 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 14 - STALACTITE GATE  →  sound/stalactite_gate.mp3
+-----------------------------------------------------------
+STYLE: tense underground synth, cavern reverb, no vocals
+TEMPO: 140 BPM
+
+Tense 80s arcade synth. Dark cavern reverb, sub-bass drone, fast
+16th-note arpeggios with dissonant intervals. Subtle dripping-water
+percussion sample. Builds toward a sense of being trapped underground.
+75 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 15 - IDA CRUCIBLE  →  sound/ida_crucible.mp3
+-----------------------------------------------------------
+STYLE: ritualistic tribal synth, choral pads, no vocals
+TEMPO: 144 BPM
+
+Ritualistic 80s arcade synth. Tribal-style synth drum pattern with
+deep toms, choral pad whispers, brassy FM lead playing an
+ancient-sounding modal melody. Tension-building chord progression.
+Feels like running between idol-faces under a stormy sky.
+80 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 16 - NEON DESERT  →  sound/neon_desert.mp3
+-----------------------------------------------------------
+STYLE: pure synthwave / outrun, major key, no vocals
+TEMPO: 148 BPM
+
+Pure synthwave/outrun 80s arcade track. Bright saw-lead melody,
+gated reverb snare, big juicy analog bass, shimmering pad chords
+in major key. Feels like flying a jet over a synthwave sunset.
+Joyfully energetic. 80 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 17 - VOID PROCESSION  →  sound/void_procession.mp3
+-----------------------------------------------------------
+STYLE: climactic orchestral-synth, dramatic minor, no vocals
+TEMPO: 152 BPM
+
+Climactic 80s arcade synth track. Sweeping orchestral-synth pads,
+urgent FM brass-lead melody, machine-gun percussion, dramatic
+minor-to-major chord progression. Builds tension toward a final
+boss feel. Epic, cinematic, urgent. 90 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 18 - CITADEL HORIZON (FINAL BOSS RUSH)  →  sound/citadel_horizon.mp3
+-----------------------------------------------------------
+STYLE: maximum-intensity arcade synth, heroic minor, no vocals
+TEMPO: 155 BPM
+
+Final-boss-rush 80s arcade track. Maximum intensity - driving
+sub-bass, soaring synth-brass lead in heroic minor key, frantic
+16th-note arpeggios, choral ahhhh pad swells, gated snare hits,
+cymbal washes between phrases. Multiple sections to support
+back-to-back boss fights. Cinematic, epic, final-stage energy.
+120 seconds, loopable, instrumental.
+
+
+===========================================================
+URBAN VECTOR ACT (Levels 19-24)
+===========================================================
+
+
+-----------------------------------------------------------
+LEVEL 19 - SKYLINE SPRINT  →  sound/skyline_sprint.mp3
+-----------------------------------------------------------
+STYLE: urgent cyberpunk synthwave, gated snare, no vocals
+TEMPO: 148 BPM
+
+Urgent 80s synthwave track. Driving analog bass, urgent FM-lead
+arpeggios, distant choral pad with city-at-night mood. Gated snare.
+Cyberpunk arcade energy. 80 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 20 - UNDERPASS RUN  →  sound/underpass_run.mp3
+-----------------------------------------------------------
+STYLE: tense industrial synth, concrete reverb, no vocals
+TEMPO: 142 BPM
+
+Tense underground 80s synth. Dark sub-bass drone, fast 16th-note
+arpeggio, slap-back delay on lead. Industrial percussion with
+metallic clangs. Concrete-tunnel reverb. Feels like racing under
+a freeway at night. 75 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 21 - CROSSTOWN BRIDGE  →  sound/crosstown_bridge.mp3
+-----------------------------------------------------------
+STYLE: triumphant outrun synthwave, major key, no vocals
+TEMPO: 146 BPM
+
+Triumphant 80s arcade synthwave. Soaring synth-brass melody in
+major key, bouncy walking bass, glittering arpeggios that sparkle
+like sunlight on water. Joyfully cinematic. Outrun-style ride
+music. 80 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 22 - NEON RING RUN (BONUS)  →  sound/neon_ring_run.mp3
+-----------------------------------------------------------
+STYLE: upbeat chiptune bonus, vaporwave plucks, no vocals
+TEMPO: 156 BPM
+
+Upbeat 80s arcade bonus track. Bright chiptune-influenced major-key
+melody, plucked synth bass, hand-clap percussion, glittering arpeggios.
+Feels like flying through neon coins in a music box. Whimsical.
+55 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 23 - METROPOLIS VECTOR  →  sound/metropolis_vector.mp3
+-----------------------------------------------------------
+STYLE: dark cinematic synth, Blade Runner, no vocals
+TEMPO: 144 BPM
+
+Dark cinematic 80s synth. Brooding sub-bass, dramatic minor-key
+arpeggios, Vangelis-style ambient pad swells, sharp synth-brass
+stabs, industrial percussion. Blade Runner vibes meets Sega arcade
+urgency. 85 seconds, loopable, instrumental.
+
+
+-----------------------------------------------------------
+LEVEL 24 - HIGHWAY TO ZERO (FINAL BOSS RUSH)  →  sound/highway_to_zero.mp3
+-----------------------------------------------------------
+STYLE: maximum-intensity synthwave finale, heroic minor, no vocals
+TEMPO: 158 BPM
+
+Final-stage 80s arcade track. Maximum-intensity synthwave. Driving
+sub-bass, heroic minor-key synth-brass lead, frantic arpeggios,
+choral ahhhh pad swells, gated snare hits, cymbal washes between
+phrases. Multiple sections to support back-to-back boss fights.
+Cinematic, epic, final-stage. 130 seconds, loopable, instrumental.
+
+
+===========================================================
+AFTER GENERATING - WIRE THE FILES IN
+===========================================================
+
+Once all 16 MP3s are in sound/, update src/game/content/stages.js
+STAGE_MEDIA to add entries 9-24 (each pointing at its new .mp3 and
+the matching .png splash):
+
+   9:  media('Ash Vector',         'sound/ash_vector.mp3',         'sound/ash_vector.png'),
+   10: media('Frost Needle',       'sound/frost_needle.mp3',       'sound/frost_needle.png'),
+   11: media('Biomech Maw',        'sound/biomech_maw.mp3',        'sound/biomech_maw.png'),
+   12: media('Crystal Breakway',   'sound/crystal_breakway.mp3',   'sound/crystal_breakway.png'),
+   13: media('Temple Run',         'sound/temple_run.mp3',         'sound/temple_run.png'),
+   14: media('Stalactite Gate',    'sound/stalactite_gate.mp3',    'sound/stalactite_gate.png'),
+   15: media('Ida Crucible',       'sound/ida_crucible.mp3',       'sound/ida_crucible.png'),
+   16: media('Neon Desert',        'sound/neon_desert.mp3',        'sound/neon_desert.png'),
+   17: media('Void Procession',    'sound/void_procession.mp3',    'sound/void_procession.png'),
+   18: media('Citadel Horizon',    'sound/citadel_horizon.mp3',    'sound/citadel_horizon.png'),
+   19: media('Skyline Sprint',     'sound/skyline_sprint.mp3',     'sound/skyline_sprint.png'),
+   20: media('Underpass Run',      'sound/underpass_run.mp3',      'sound/underpass_run.png'),
+   21: media('Crosstown Bridge',   'sound/crosstown_bridge.mp3',   'sound/crosstown_bridge.png'),
+   22: media('Neon Ring Run',      'sound/neon_ring_run.mp3',      'sound/neon_ring_run.png'),
+   23: media('Metropolis Vector',  'sound/metropolis_vector.mp3',  'sound/metropolis_vector.png'),
+   24: media('Highway to Zero',    'sound/highway_to_zero.mp3',    'sound/highway_to_zero.png'),
+
+Then change each STAGES entry's musicTrack number from the current
+loop (1-8) to its own slot (9-24).

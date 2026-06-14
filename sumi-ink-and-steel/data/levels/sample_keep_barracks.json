@@ -1,0 +1,128 @@
+{
+  "id": "sample_keep_barracks",
+  "name": "Foreground Barracks",
+  "subtitle": "Foreground Barracks inside the sample keep level",
+  "is_room": true,
+  "parent_level": "sample_keep",
+  "room_kind": "foreground route",
+  "world": {
+    "w": 1600,
+    "h": 780,
+    "left": 70,
+    "right": 1530,
+    "top": 0,
+    "bottom": 740
+  },
+  "player_start": {
+    "x": 180,
+    "y": 560,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 281,
+    "middle": 484,
+    "near": 655
+  },
+  "backgrounds": [
+    "assets/backgrounds/chapter2_market_gpt_v2/lantern_market.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/chapter2_market_gpt_v2/lantern_market.png",
+      "start": 0,
+      "end": 1600,
+      "y": 0,
+      "h": 780,
+      "name": "lantern_market"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "sample_keep_barracks_main_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          452
+        ],
+        [
+          1530,
+          462
+        ],
+        [
+          1530,
+          655
+        ],
+        [
+          70,
+          647
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "barracks_return",
+      "type": "top_exit",
+      "x": 150,
+      "y": 560,
+      "label": "Return to courtyard gate",
+      "requires_interact": "E",
+      "target_level": "sample_keep",
+      "target_x": 1840,
+      "target_y": 640
+    }
+  ],
+  "waves": [
+    {
+      "id": "barracks_wave",
+      "trigger_x": 220,
+      "gate_x": 1480,
+      "banner": "Barracks brawl",
+      "enemies": [
+        {
+          "type": "yakuza_brawler_red",
+          "x": 620,
+          "y": 610
+        },
+        {
+          "type": "yakuza_brawler_grey",
+          "x": 900,
+          "y": 560
+        },
+        {
+          "type": "yakuza_brawler_heavy",
+          "x": 1180,
+          "y": 630
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "barracks_health",
+      "kind": "health",
+      "x": 420,
+      "y": 660
+    },
+    {
+      "id": "barracks_crate",
+      "kind": "object",
+      "x": 1040,
+      "y": 670,
+      "note": "breakable crate / puzzle cover"
+    }
+  ],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Foreground Barracks",
+      "start": 70,
+      "end": 1530,
+      "objective": "Explore the room, fight enemies, collect objects/keys, solve puzzles, and use E-marked exits."
+    }
+  ],
+  "completion_text": "Foreground Barracks clear."
+}

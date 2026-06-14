@@ -1,0 +1,24 @@
+# Runtime/dev logs
+*.log
+__pycache__/
+.pytest_cache/
+.DS_Store
+Thumbs.db
+
+# Local-only heavyweight toolchains and generated experiments should not be added here.
+tools/
+prototype/
+inspiration/
+
+# Local analysis artifacts, backups, and one-off build scripts (not part of the deployed game)
+_analysis_*.png
+**/_backup_*/
+data/backups/
+prototype_artifacts/
+tools_phase3_*.py
+dev_server.py
+
+# Heavyweight intermediate background generation output. Only generated_fullgame_v2/rooms/ ships.
+assets/backgrounds/generated_fullgame_v2/chapter*/
+assets/backgrounds/generated_fullgame_v2/campaign_contact_sheet.png
+assets/backgrounds/uploads/pxl_*.jpg

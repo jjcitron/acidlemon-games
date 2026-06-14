@@ -1,0 +1,86 @@
+{
+  "source_folder": "C:\\Dev\\Personal\\samurai action game\\inspiration",
+  "version": "sfx2",
+  "notes": "Short browser-ready MP3 clips trimmed/normalized from the user-provided zipped SFX packs.",
+  "files": {
+    "slash": [
+      {
+        "src": "assets/audio/sfx/slash_fast_whoosh.mp3?v=sfx2",
+        "volume": 0.96
+      },
+      {
+        "src": "assets/audio/sfx/slash_air_cut.mp3?v=sfx2",
+        "volume": 0.88
+      }
+    ],
+    "heavy": {
+      "src": "assets/audio/sfx/heavy_dramatic_cut.mp3?v=sfx2",
+      "volume": 0.98,
+      "cooldown": 0.09
+    },
+    "dodge": {
+      "src": "assets/audio/sfx/dodge_cloth_whoosh.mp3?v=sfx2",
+      "volume": 0.72
+    },
+    "enemyWindup": {
+      "src": "assets/audio/sfx/enemy_windup_static.mp3?v=sfx2",
+      "volume": 0.62,
+      "cooldown": 0.14
+    },
+    "enemySwing": {
+      "src": "assets/audio/sfx/enemy_swing_whoosh.mp3?v=sfx2",
+      "volume": 0.86,
+      "cooldown": 0.07
+    },
+    "enemyHit": {
+      "src": "assets/audio/sfx/enemy_hit_bone.mp3?v=sfx2",
+      "volume": 0.82,
+      "cooldown": 0.07
+    },
+    "enemyDeath": {
+      "src": "assets/audio/sfx/enemy_death_braam.mp3?v=sfx2",
+      "volume": 0.86,
+      "cooldown": 0.18
+    },
+    "playerHit": {
+      "src": "assets/audio/sfx/player_hit_impact.mp3?v=sfx2",
+      "volume": 0.76,
+      "cooldown": 0.12
+    },
+    "pickup": {
+      "src": "assets/audio/sfx/pickup_heart_chime.mp3?v=sfx2",
+      "volume": 0.44,
+      "cooldown": 0.05
+    },
+    "key": {
+      "src": "assets/audio/sfx/key_heartbeat_reveal.mp3?v=sfx2",
+      "volume": 0.56,
+      "cooldown": 0.08
+    },
+    "gateOpen": {
+      "src": "assets/audio/sfx/gate_open_whoosh.mp3?v=sfx2",
+      "volume": 0.78,
+      "cooldown": 0.2
+    },
+    "gateLocked": {
+      "src": "assets/audio/sfx/gate_locked_clang.mp3?v=sfx2",
+      "volume": 0.68,
+      "cooldown": 0.16
+    },
+    "talk": {
+      "src": "assets/audio/sfx/talk_omen_voice.mp3?v=sfx2",
+      "volume": 0.3,
+      "cooldown": 0.12
+    },
+    "boss": {
+      "src": "assets/audio/sfx/boss_braam.mp3?v=sfx2",
+      "volume": 0.92,
+      "cooldown": 0.35
+    },
+    "ui": {
+      "src": "assets/audio/sfx/ui_soft_tick.mp3?v=sfx2",
+      "volume": 0.34,
+      "cooldown": 0.04
+    }
+  }
+}

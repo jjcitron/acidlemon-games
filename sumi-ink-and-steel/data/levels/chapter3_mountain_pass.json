@@ -1,0 +1,233 @@
+{
+  "id": "chapter3_mountain_pass",
+  "name": "Chapter 3: Snow on the Black Pagoda",
+  "subtitle": "Teach vertical routes, rope bridges, ranged threats, and shrine switches.",
+  "is_room": false,
+  "parent_level": "chapter3_mountain_pass",
+  "room_kind": "main",
+  "world": {
+    "w": 2200,
+    "h": 900,
+    "left": 70,
+    "right": 2130,
+    "top": 0,
+    "bottom": 860
+  },
+  "player_start": {
+    "x": 180,
+    "y": 612,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 306,
+    "middle": 540,
+    "near": 738
+  },
+  "backgrounds": [
+    "assets/backgrounds/redesigned_levels/chapter3_mountain_pass/room_1.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/redesigned_levels/chapter3_mountain_pass/room_1.png",
+      "start": 0,
+      "end": 2200,
+      "y": 0,
+      "h": 900,
+      "name": "chapter3_mountain_pass_room_1"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "chapter3_mountain_pass_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          486
+        ],
+        [
+          990,
+          450
+        ],
+        [
+          2130,
+          504
+        ],
+        [
+          2130,
+          756
+        ],
+        [
+          70,
+          756
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter3_mountain_pass_route_1",
+      "type": "side_room",
+      "x": 1892,
+      "y": 594,
+      "label": "Optional reward room",
+      "requires_interact": "E",
+      "target_level": "chapter3_mountain_pass_room_2",
+      "target_x": 180,
+      "target_y": 520
+    },
+    {
+      "id": "chapter3_mountain_pass_route_2",
+      "type": "top_exit",
+      "x": 990,
+      "y": 387,
+      "label": "Puzzle route",
+      "requires_interact": "E",
+      "target_level": "chapter3_mountain_pass_room_3",
+      "target_x": 210,
+      "target_y": 500
+    },
+    {
+      "id": "chapter3_mountain_pass_route_3",
+      "type": "bottom_exit",
+      "x": 1276,
+      "y": 702,
+      "label": "Main road forward",
+      "requires_interact": "E",
+      "target_level": "chapter3_mountain_pass_room_4",
+      "target_x": 180,
+      "target_y": 570
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter3_mountain_pass_warmup",
+      "trigger_x": 0,
+      "gate_x": 1900,
+      "banner": "Mountain Trail: orientation fight",
+      "boss": false,
+      "enemies": [
+        {
+          "type": "yakuza_brawler_heavy",
+          "x": 620,
+          "y": 576
+        },
+        {
+          "type": "yakuza_flintlock_enforcer",
+          "x": 980,
+          "y": 630
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter3_mountain_pass_notice",
+      "kind": "object",
+      "x": 340,
+      "y": 740,
+      "note": "Environmental signpost: golden path points toward the lit exit threshold."
+    }
+  ],
+  "background_npcs": [],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Mountain Trail",
+      "start": 70,
+      "end": 2130,
+      "objective": "Teach vertical routes, rope bridges, ranged threats, and shrine switches."
+    }
+  ],
+  "completion_text": "Mountain Trail cleared \u2014 find the authored exit door.",
+  "act": "Feudal Japan",
+  "design_lesson": "Teach vertical routes, rope bridges, ranged threats, and shrine switches.",
+  "reward": "lightning",
+  "room_layout": [
+    {
+      "id": "chapter3_mountain_pass",
+      "name": "Mountain Trail",
+      "x": 80,
+      "y": 180,
+      "w": 2200,
+      "h": 900,
+      "kind": "main",
+      "start": true
+    },
+    {
+      "id": "chapter3_mountain_pass_room_2",
+      "name": "Pilgrim Cave",
+      "x": 2760,
+      "y": 260,
+      "w": 1280,
+      "h": 760,
+      "kind": "side room",
+      "start": false
+    },
+    {
+      "id": "chapter3_mountain_pass_room_3",
+      "name": "Bell Shrine Puzzle",
+      "x": 1320,
+      "y": -760,
+      "w": 1480,
+      "h": 760,
+      "kind": "puzzle room",
+      "start": false
+    },
+    {
+      "id": "chapter3_mountain_pass_room_4",
+      "name": "Rope Bridge Siege",
+      "x": 1320,
+      "y": 1260,
+      "w": 1760,
+      "h": 840,
+      "kind": "foreground route",
+      "start": false
+    },
+    {
+      "id": "chapter3_mountain_pass_room_5",
+      "name": "Black Pagoda Gate",
+      "x": 4660,
+      "y": 180,
+      "w": 1900,
+      "h": 880,
+      "kind": "boss room",
+      "start": false
+    }
+  ],
+  "room_links": [
+    {
+      "from": "chapter3_mountain_pass",
+      "to": "chapter3_mountain_pass_room_2"
+    },
+    {
+      "from": "chapter3_mountain_pass",
+      "to": "chapter3_mountain_pass_room_3"
+    },
+    {
+      "from": "chapter3_mountain_pass",
+      "to": "chapter3_mountain_pass_room_4"
+    },
+    {
+      "from": "chapter3_mountain_pass_room_2",
+      "to": "chapter3_mountain_pass_room_5"
+    },
+    {
+      "from": "chapter3_mountain_pass_room_3",
+      "to": "chapter3_mountain_pass_room_4"
+    },
+    {
+      "from": "chapter3_mountain_pass_room_4",
+      "to": "chapter3_mountain_pass_room_5"
+    }
+  ],
+  "level_exit": {
+    "room": "chapter3_mountain_pass_room_5",
+    "route_id": "chapter3_mountain_pass_room_5_route_2",
+    "target_level": "chapter4_eclipse_portal",
+    "final_exit": false,
+    "label": "LEVEL EXIT: Chapter 4: Eclipse Gate"
+  }
+}

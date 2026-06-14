@@ -1,0 +1,233 @@
+{
+  "id": "chapter8_time_engine",
+  "name": "Chapter 8: The Time Engine",
+  "subtitle": "Final exam: all route, key, switch, boss, and explicit final-exit lessons.",
+  "is_room": false,
+  "parent_level": "chapter8_time_engine",
+  "room_kind": "main",
+  "world": {
+    "w": 2200,
+    "h": 900,
+    "left": 70,
+    "right": 2130,
+    "top": 0,
+    "bottom": 860
+  },
+  "player_start": {
+    "x": 180,
+    "y": 612,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 306,
+    "middle": 540,
+    "near": 738
+  },
+  "backgrounds": [
+    "assets/backgrounds/redesigned_levels/chapter8_time_engine/room_1.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/redesigned_levels/chapter8_time_engine/room_1.png",
+      "start": 0,
+      "end": 2200,
+      "y": 0,
+      "h": 900,
+      "name": "chapter8_time_engine_room_1"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "chapter8_time_engine_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          486
+        ],
+        [
+          990,
+          450
+        ],
+        [
+          2130,
+          504
+        ],
+        [
+          2130,
+          756
+        ],
+        [
+          70,
+          756
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter8_time_engine_route_1",
+      "type": "side_room",
+      "x": 1892,
+      "y": 594,
+      "label": "Optional reward room",
+      "requires_interact": "E",
+      "target_level": "chapter8_time_engine_room_2",
+      "target_x": 180,
+      "target_y": 520
+    },
+    {
+      "id": "chapter8_time_engine_route_2",
+      "type": "top_exit",
+      "x": 990,
+      "y": 387,
+      "label": "Puzzle route",
+      "requires_interact": "E",
+      "target_level": "chapter8_time_engine_room_3",
+      "target_x": 210,
+      "target_y": 500
+    },
+    {
+      "id": "chapter8_time_engine_route_3",
+      "type": "bottom_exit",
+      "x": 1276,
+      "y": 702,
+      "label": "Main road forward",
+      "requires_interact": "E",
+      "target_level": "chapter8_time_engine_room_4",
+      "target_x": 180,
+      "target_y": 570
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter8_time_engine_warmup",
+      "trigger_x": 0,
+      "gate_x": 1900,
+      "banner": "Engine Vestibule: orientation fight",
+      "boss": false,
+      "enemies": [
+        {
+          "type": "time_engine_guardian",
+          "x": 620,
+          "y": 576
+        },
+        {
+          "type": "cyber_yakuza",
+          "x": 980,
+          "y": 630
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter8_time_engine_notice",
+      "kind": "object",
+      "x": 340,
+      "y": 740,
+      "note": "Environmental signpost: golden path points toward the lit exit threshold."
+    }
+  ],
+  "background_npcs": [],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Engine Vestibule",
+      "start": 70,
+      "end": 2130,
+      "objective": "Final exam: all route, key, switch, boss, and explicit final-exit lessons."
+    }
+  ],
+  "completion_text": "Engine Vestibule cleared \u2014 find the authored exit door.",
+  "act": "Finale",
+  "design_lesson": "Final exam: all route, key, switch, boss, and explicit final-exit lessons.",
+  "reward": "humanity_vow",
+  "room_layout": [
+    {
+      "id": "chapter8_time_engine",
+      "name": "Engine Vestibule",
+      "x": 80,
+      "y": 180,
+      "w": 2200,
+      "h": 900,
+      "kind": "main",
+      "start": true
+    },
+    {
+      "id": "chapter8_time_engine_room_2",
+      "name": "Memory Shrine",
+      "x": 2760,
+      "y": 260,
+      "w": 1280,
+      "h": 760,
+      "kind": "side room",
+      "start": false
+    },
+    {
+      "id": "chapter8_time_engine_room_3",
+      "name": "Chrono Gear Puzzle",
+      "x": 1320,
+      "y": -760,
+      "w": 1480,
+      "h": 760,
+      "kind": "puzzle room",
+      "start": false
+    },
+    {
+      "id": "chapter8_time_engine_room_4",
+      "name": "Paradox Arena",
+      "x": 1320,
+      "y": 1260,
+      "w": 1760,
+      "h": 840,
+      "kind": "foreground route",
+      "start": false
+    },
+    {
+      "id": "chapter8_time_engine_room_5",
+      "name": "First-Wound Core",
+      "x": 4660,
+      "y": 180,
+      "w": 1900,
+      "h": 880,
+      "kind": "boss room",
+      "start": false
+    }
+  ],
+  "room_links": [
+    {
+      "from": "chapter8_time_engine",
+      "to": "chapter8_time_engine_room_2"
+    },
+    {
+      "from": "chapter8_time_engine",
+      "to": "chapter8_time_engine_room_3"
+    },
+    {
+      "from": "chapter8_time_engine",
+      "to": "chapter8_time_engine_room_4"
+    },
+    {
+      "from": "chapter8_time_engine_room_2",
+      "to": "chapter8_time_engine_room_5"
+    },
+    {
+      "from": "chapter8_time_engine_room_3",
+      "to": "chapter8_time_engine_room_4"
+    },
+    {
+      "from": "chapter8_time_engine_room_4",
+      "to": "chapter8_time_engine_room_5"
+    }
+  ],
+  "level_exit": {
+    "room": "chapter8_time_engine_room_5",
+    "route_id": "chapter8_time_engine_room_5_route_2",
+    "target_level": null,
+    "final_exit": true,
+    "label": "FINAL EXIT: Seal the First Wound"
+  }
+}

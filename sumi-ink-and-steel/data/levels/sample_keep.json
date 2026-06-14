@@ -1,0 +1,232 @@
+{
+  "id": "sample_keep",
+  "name": "Sample Level: Interconnected Keep",
+  "subtitle": "Designer sample: one level containing many interconnected room boxes.",
+  "is_room": false,
+  "parent_level": "sample_keep",
+  "room_kind": "main",
+  "world": {
+    "w": 2560,
+    "h": 900,
+    "left": 70,
+    "right": 2490,
+    "top": 0,
+    "bottom": 860
+  },
+  "player_start": {
+    "x": 180,
+    "y": 560,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 324,
+    "middle": 558,
+    "near": 756
+  },
+  "backgrounds": [
+    "assets/backgrounds/chapter1_print_v2/dojo_yard.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/chapter1_print_v2/dojo_yard.png",
+      "start": 0,
+      "end": 2560,
+      "y": 0,
+      "h": 900,
+      "name": "dojo_yard"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "sample_keep_main_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          522
+        ],
+        [
+          2490,
+          532
+        ],
+        [
+          2490,
+          756
+        ],
+        [
+          70,
+          748
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "sample_keep_to_armory",
+      "type": "side_room",
+      "x": 1350,
+      "y": 560,
+      "label": "Armory door",
+      "requires_interact": "E",
+      "target_level": "sample_keep_armory",
+      "target_x": 180,
+      "target_y": 520
+    },
+    {
+      "id": "sample_keep_to_shrine",
+      "type": "top_exit",
+      "x": 800,
+      "y": 430,
+      "label": "Stairs to shrine",
+      "requires_interact": "E",
+      "target_level": "sample_keep_shrine",
+      "target_x": 210,
+      "target_y": 470
+    },
+    {
+      "id": "sample_keep_to_barracks",
+      "type": "bottom_exit",
+      "x": 1860,
+      "y": 650,
+      "label": "Barracks gate",
+      "requires_interact": "E",
+      "target_level": "sample_keep_barracks",
+      "target_x": 180,
+      "target_y": 560
+    },
+    {
+      "id": "sample_keep_to_boss",
+      "type": "side_room",
+      "x": 2360,
+      "y": 560,
+      "label": "Inner keep gate",
+      "requires_interact": "E",
+      "target_level": "sample_keep_inner_keep",
+      "target_x": 180,
+      "target_y": 520
+    }
+  ],
+  "waves": [
+    {
+      "id": "sample_keep_courtyard_wave",
+      "trigger_x": 300,
+      "gate_x": 2350,
+      "banner": "Courtyard ambush: yakuza patrol",
+      "enemies": [
+        {
+          "type": "yakuza_brawler_grey",
+          "x": 620,
+          "y": 560
+        },
+        {
+          "type": "yakuza_brawler_red",
+          "x": 980,
+          "y": 620
+        },
+        {
+          "type": "yakuza_brawler_heavy",
+          "x": 1440,
+          "y": 610
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "sample_keep_notice",
+      "kind": "object",
+      "x": 360,
+      "y": 720,
+      "note": "notice board: opens tutorial text"
+    },
+    {
+      "id": "sample_keep_key_hint",
+      "kind": "key",
+      "key": "sample_keep_boss_key",
+      "x": 2060,
+      "y": 700
+    }
+  ],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Sample Level: Interconnected Keep",
+      "start": 70,
+      "end": 2490,
+      "objective": "Explore the room, fight enemies, collect objects/keys, solve puzzles, and use E-marked exits."
+    }
+  ],
+  "completion_text": "Sample Level: Interconnected Keep clear.",
+  "room_layout": [
+    {
+      "id": "sample_keep",
+      "name": "Sample Level: Interconnected Keep",
+      "x": 80,
+      "y": 180,
+      "w": 2560,
+      "h": 900,
+      "kind": "main",
+      "start": true
+    },
+    {
+      "id": "sample_keep_armory",
+      "name": "Side Armory",
+      "x": 2920,
+      "y": 260,
+      "w": 1280,
+      "h": 760,
+      "kind": "side room"
+    },
+    {
+      "id": "sample_keep_shrine",
+      "name": "Upper Shrine Puzzle",
+      "x": 1320,
+      "y": -780,
+      "w": 1480,
+      "h": 720,
+      "kind": "puzzle room"
+    },
+    {
+      "id": "sample_keep_barracks",
+      "name": "Foreground Barracks",
+      "x": 1320,
+      "y": 1280,
+      "w": 1600,
+      "h": 780,
+      "kind": "foreground route"
+    },
+    {
+      "id": "sample_keep_inner_keep",
+      "name": "Inner Keep Boss Room",
+      "x": 4540,
+      "y": 180,
+      "w": 1800,
+      "h": 840,
+      "kind": "boss room"
+    }
+  ],
+  "room_links": [
+    {
+      "from": "sample_keep",
+      "to": "sample_keep_armory"
+    },
+    {
+      "from": "sample_keep",
+      "to": "sample_keep_shrine"
+    },
+    {
+      "from": "sample_keep",
+      "to": "sample_keep_barracks"
+    },
+    {
+      "from": "sample_keep",
+      "to": "sample_keep_inner_keep"
+    },
+    {
+      "from": "sample_keep_armory",
+      "to": "sample_keep_inner_keep"
+    }
+  ]
+}

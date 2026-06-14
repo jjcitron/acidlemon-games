@@ -1,0 +1,135 @@
+{
+  "id": "sample_keep_armory",
+  "name": "Side Armory",
+  "subtitle": "Side Armory inside the sample keep level",
+  "is_room": true,
+  "parent_level": "sample_keep",
+  "room_kind": "side room",
+  "world": {
+    "w": 1280,
+    "h": 760,
+    "left": 70,
+    "right": 1210,
+    "top": 0,
+    "bottom": 720
+  },
+  "player_start": {
+    "x": 180,
+    "y": 520,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 274,
+    "middle": 471,
+    "near": 638
+  },
+  "backgrounds": [
+    "assets/backgrounds/chapter1_print_v2/burning_village.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/chapter1_print_v2/burning_village.png",
+      "start": 0,
+      "end": 1280,
+      "y": 0,
+      "h": 760,
+      "name": "burning_village"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "sample_keep_armory_main_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          441
+        ],
+        [
+          1210,
+          451
+        ],
+        [
+          1210,
+          638
+        ],
+        [
+          70,
+          630
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "armory_return",
+      "type": "side_room",
+      "x": 120,
+      "y": 520,
+      "label": "Return to courtyard",
+      "requires_interact": "E",
+      "target_level": "sample_keep",
+      "target_x": 1260,
+      "target_y": 560
+    },
+    {
+      "id": "armory_secret_boss",
+      "type": "side_room",
+      "x": 1120,
+      "y": 520,
+      "label": "Secret weapon passage",
+      "requires_interact": "E",
+      "target_level": "sample_keep_inner_keep",
+      "target_x": 210,
+      "target_y": 520
+    }
+  ],
+  "waves": [
+    {
+      "id": "armory_wave",
+      "trigger_x": 120,
+      "gate_x": 1180,
+      "banner": "Armory guards",
+      "enemies": [
+        {
+          "type": "yakuza_brawler_heavy",
+          "x": 620,
+          "y": 560
+        },
+        {
+          "type": "yakuza_brawler_grey",
+          "x": 820,
+          "y": 600
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "armory_swordrack",
+      "kind": "object",
+      "x": 460,
+      "y": 640,
+      "note": "weapon rack puzzle object"
+    },
+    {
+      "id": "armory_switch",
+      "kind": "switch",
+      "x": 930,
+      "y": 610,
+      "note": "opens secret weapon passage"
+    }
+  ],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Side Armory",
+      "start": 70,
+      "end": 1210,
+      "objective": "Explore the room, fight enemies, collect objects/keys, solve puzzles, and use E-marked exits."
+    }
+  ],
+  "completion_text": "Side Armory clear."
+}

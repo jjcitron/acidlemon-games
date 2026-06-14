@@ -1,0 +1,458 @@
+{
+  "viewport": {
+    "w": 1280,
+    "h": 720
+  },
+  "world": {
+    "w": 6720,
+    "h": 720,
+    "left": 70,
+    "right": 6600,
+    "top": 320,
+    "bottom": 710
+  },
+  "player": {
+    "max_hp": 120,
+    "move_speed": 245,
+    "depth_y_speed_ratio": 0.78,
+    "meter_max": 100,
+    "meter_start": 35,
+    "meter_regen_per_sec": 2.5,
+    "dodge_speed": 620,
+    "dodge_y_speed": 390,
+    "dodge_iframes_sec": 0.34,
+    "dodge_cooldown_sec": 0.72,
+    "hitstop_light_sec": 0.045,
+    "hitstop_heavy_sec": 0.08,
+    "combo_window_sec": 0.75,
+    "jump_velocity": 720,
+    "jump_gravity": 1850,
+    "jump_forward_speed": 260,
+    "jump_depth_speed": 190,
+    "jump_air_control": 178,
+    "jump_iframes_sec": 0.12
+  },
+  "combat": {
+    "light_reach": 96,
+    "heavy_reach": 125,
+    "light_height": 58,
+    "heavy_height": 78,
+    "lane_tolerance": 58,
+    "enemy_attack_lane_tolerance": 50
+  },
+  "colors": {
+    "ink": "#050403",
+    "paper": "#ead8ac",
+    "cream": "#f7edcf",
+    "indigo": "#1B2A4E",
+    "shadow": "#0E1730",
+    "vermillion": "#C41E3A",
+    "gold": "#d8a742",
+    "jade": "#5a8f72",
+    "fire": "#ff7a22"
+  },
+  "assets": {
+    "player_atlas": "assets/sprites/masayoshi/atlas.png?v=masayoshi_phase3_overhaul1",
+    "player_atlas_json": "assets/sprites/masayoshi/atlas.json?v=masayoshi_phase3_overhaul1",
+    "source_panel": "assets/sprites/masayoshi/atlas.png?v=masayoshi_phase3_overhaul1",
+    "chapter1_backgrounds": [
+      "assets/backgrounds/chapter1_start_dojo_approach.png?v=bgpass2",
+      "assets/backgrounds/chapter1_print_v2/dojo_yard.png?v=bgpass2",
+      "assets/backgrounds/chapter1_print_v2/ash_garden.png?v=bgpass2",
+      "assets/backgrounds/chapter1_print_v2/burning_village.png?v=bgpass2",
+      "assets/backgrounds/chapter1_print_v2/forest_road.png?v=bgpass2"
+    ],
+    "item_sprites": {
+      "health": "assets/items/medicine_gourd.png?v=gptitem2",
+      "spirit": "assets/items/spirit_charm.png?v=gptitem2",
+      "special": "assets/items/fire_talisman.png?v=gptitem2",
+      "key": "assets/items/gate_key.png?v=gptitem2",
+      "object": "assets/items/notice_post.png?v=gptitem2",
+      "switch": "assets/items/puzzle_switch.png?v=gptitem2",
+      "npc": "assets/items/clue_bundle.png?v=gptitem2"
+    },
+    "background_library": [
+      {
+        "id": "chapter1_start_dojo_approach",
+        "src": "assets/backgrounds/chapter1_start_dojo_approach.png",
+        "label": "Chapter1 Start Dojo Approach"
+      },
+      {
+        "id": "dojo_yard",
+        "src": "assets/backgrounds/chapter1_print_v2/dojo_yard.png",
+        "label": "Dojo Yard"
+      },
+      {
+        "id": "ash_garden",
+        "src": "assets/backgrounds/chapter1_print_v2/ash_garden.png",
+        "label": "Ash Garden"
+      },
+      {
+        "id": "burning_village",
+        "src": "assets/backgrounds/chapter1_print_v2/burning_village.png",
+        "label": "Burning Village"
+      },
+      {
+        "id": "forest_road",
+        "src": "assets/backgrounds/chapter1_print_v2/forest_road.png",
+        "label": "Forest Road"
+      },
+      {
+        "id": "canal_bridge",
+        "src": "assets/backgrounds/chapter2_market/canal_bridge.png",
+        "label": "Chapter 2 Canal Bridge"
+      },
+      {
+        "id": "lantern_market",
+        "src": "assets/backgrounds/chapter2_market/lantern_market.png",
+        "label": "Chapter 2 Lantern Market"
+      },
+      {
+        "id": "market_gate",
+        "src": "assets/backgrounds/chapter2_market/market_gate.png",
+        "label": "Chapter 2 Market Gate"
+      },
+      {
+        "id": "pagoda_alley",
+        "src": "assets/backgrounds/chapter2_market/pagoda_alley.png",
+        "label": "Chapter 2 Pagoda Alley"
+      },
+      {
+        "id": "test_upload_20260521_165005",
+        "src": "assets/backgrounds/uploads/test_upload_20260521_165005.png",
+        "label": "Uploaded test_upload"
+      },
+      {
+        "id": "chapter2_gpt_v2_market_gate",
+        "src": "assets/backgrounds/chapter2_market_gpt_v2/market_gate.png",
+        "label": "GPT v2 Market Gate"
+      },
+      {
+        "id": "chapter2_gpt_v2_lantern_market",
+        "src": "assets/backgrounds/chapter2_market_gpt_v2/lantern_market.png",
+        "label": "GPT v2 Lantern Market"
+      },
+      {
+        "id": "chapter2_gpt_v2_canal_bridge",
+        "src": "assets/backgrounds/chapter2_market_gpt_v2/canal_bridge.png",
+        "label": "GPT v2 Canal Bridge"
+      },
+      {
+        "id": "chapter2_gpt_v2_pagoda_alley",
+        "src": "assets/backgrounds/chapter2_market_gpt_v2/pagoda_alley.png",
+        "label": "GPT v2 Pagoda Alley"
+      },
+      {
+        "id": "chapter1_dojo_redesign_room_1",
+        "src": "assets/backgrounds/redesigned_levels/chapter1_dojo/room_1.png",
+        "label": "chapter1_dojo redesigned room 1"
+      },
+      {
+        "id": "chapter1_dojo_redesign_room_2",
+        "src": "assets/backgrounds/redesigned_levels/chapter1_dojo/room_2.png",
+        "label": "chapter1_dojo redesigned room 2"
+      },
+      {
+        "id": "chapter1_dojo_redesign_room_3",
+        "src": "assets/backgrounds/redesigned_levels/chapter1_dojo/room_3.png",
+        "label": "chapter1_dojo redesigned room 3"
+      },
+      {
+        "id": "chapter1_dojo_redesign_room_4",
+        "src": "assets/backgrounds/redesigned_levels/chapter1_dojo/room_4.png",
+        "label": "chapter1_dojo redesigned room 4"
+      },
+      {
+        "id": "chapter1_dojo_redesign_room_5",
+        "src": "assets/backgrounds/redesigned_levels/chapter1_dojo/room_5.png",
+        "label": "chapter1_dojo redesigned room 5"
+      },
+      {
+        "id": "chapter2_market_redesign_room_1",
+        "src": "assets/backgrounds/redesigned_levels/chapter2_market/room_1.png",
+        "label": "chapter2_market redesigned room 1"
+      },
+      {
+        "id": "chapter2_market_redesign_room_2",
+        "src": "assets/backgrounds/redesigned_levels/chapter2_market/room_2.png",
+        "label": "chapter2_market redesigned room 2"
+      },
+      {
+        "id": "chapter2_market_redesign_room_3",
+        "src": "assets/backgrounds/redesigned_levels/chapter2_market/room_3.png",
+        "label": "chapter2_market redesigned room 3"
+      },
+      {
+        "id": "chapter2_market_redesign_room_4",
+        "src": "assets/backgrounds/redesigned_levels/chapter2_market/room_4.png",
+        "label": "chapter2_market redesigned room 4"
+      },
+      {
+        "id": "chapter2_market_redesign_room_5",
+        "src": "assets/backgrounds/redesigned_levels/chapter2_market/room_5.png",
+        "label": "chapter2_market redesigned room 5"
+      },
+      {
+        "id": "chapter3_mountain_pass_redesign_room_1",
+        "src": "assets/backgrounds/redesigned_levels/chapter3_mountain_pass/room_1.png",
+        "label": "chapter3_mountain_pass redesigned room 1"
+      },
+      {
+        "id": "chapter3_mountain_pass_redesign_room_2",
+        "src": "assets/backgrounds/redesigned_levels/chapter3_mountain_pass/room_2.png",
+        "label": "chapter3_mountain_pass redesigned room 2"
+      },
+      {
+        "id": "chapter3_mountain_pass_redesign_room_3",
+        "src": "assets/backgrounds/redesigned_levels/chapter3_mountain_pass/room_3.png",
+        "label": "chapter3_mountain_pass redesigned room 3"
+      },
+      {
+        "id": "chapter3_mountain_pass_redesign_room_4",
+        "src": "assets/backgrounds/redesigned_levels/chapter3_mountain_pass/room_4.png",
+        "label": "chapter3_mountain_pass redesigned room 4"
+      },
+      {
+        "id": "chapter3_mountain_pass_redesign_room_5",
+        "src": "assets/backgrounds/redesigned_levels/chapter3_mountain_pass/room_5.png",
+        "label": "chapter3_mountain_pass redesigned room 5"
+      },
+      {
+        "id": "chapter4_eclipse_portal_redesign_room_1",
+        "src": "assets/backgrounds/redesigned_levels/chapter4_eclipse_portal/room_1.png",
+        "label": "chapter4_eclipse_portal redesigned room 1"
+      },
+      {
+        "id": "chapter4_eclipse_portal_redesign_room_2",
+        "src": "assets/backgrounds/redesigned_levels/chapter4_eclipse_portal/room_2.png",
+        "label": "chapter4_eclipse_portal redesigned room 2"
+      },
+      {
+        "id": "chapter4_eclipse_portal_redesign_room_3",
+        "src": "assets/backgrounds/redesigned_levels/chapter4_eclipse_portal/room_3.png",
+        "label": "chapter4_eclipse_portal redesigned room 3"
+      },
+      {
+        "id": "chapter4_eclipse_portal_redesign_room_4",
+        "src": "assets/backgrounds/redesigned_levels/chapter4_eclipse_portal/room_4.png",
+        "label": "chapter4_eclipse_portal redesigned room 4"
+      },
+      {
+        "id": "chapter4_eclipse_portal_redesign_room_5",
+        "src": "assets/backgrounds/redesigned_levels/chapter4_eclipse_portal/room_5.png",
+        "label": "chapter4_eclipse_portal redesigned room 5"
+      },
+      {
+        "id": "chapter5_neon_arrival_redesign_room_1",
+        "src": "assets/backgrounds/redesigned_levels/chapter5_neon_arrival/room_1.png",
+        "label": "chapter5_neon_arrival redesigned room 1"
+      },
+      {
+        "id": "chapter5_neon_arrival_redesign_room_2",
+        "src": "assets/backgrounds/redesigned_levels/chapter5_neon_arrival/room_2.png",
+        "label": "chapter5_neon_arrival redesigned room 2"
+      },
+      {
+        "id": "chapter5_neon_arrival_redesign_room_3",
+        "src": "assets/backgrounds/redesigned_levels/chapter5_neon_arrival/room_3.png",
+        "label": "chapter5_neon_arrival redesigned room 3"
+      },
+      {
+        "id": "chapter5_neon_arrival_redesign_room_4",
+        "src": "assets/backgrounds/redesigned_levels/chapter5_neon_arrival/room_4.png",
+        "label": "chapter5_neon_arrival redesigned room 4"
+      },
+      {
+        "id": "chapter5_neon_arrival_redesign_room_5",
+        "src": "assets/backgrounds/redesigned_levels/chapter5_neon_arrival/room_5.png",
+        "label": "chapter5_neon_arrival redesigned room 5"
+      },
+      {
+        "id": "chapter6_chrome_slums_redesign_room_1",
+        "src": "assets/backgrounds/redesigned_levels/chapter6_chrome_slums/room_1.png",
+        "label": "chapter6_chrome_slums redesigned room 1"
+      },
+      {
+        "id": "chapter6_chrome_slums_redesign_room_2",
+        "src": "assets/backgrounds/redesigned_levels/chapter6_chrome_slums/room_2.png",
+        "label": "chapter6_chrome_slums redesigned room 2"
+      },
+      {
+        "id": "chapter6_chrome_slums_redesign_room_3",
+        "src": "assets/backgrounds/redesigned_levels/chapter6_chrome_slums/room_3.png",
+        "label": "chapter6_chrome_slums redesigned room 3"
+      },
+      {
+        "id": "chapter6_chrome_slums_redesign_room_4",
+        "src": "assets/backgrounds/redesigned_levels/chapter6_chrome_slums/room_4.png",
+        "label": "chapter6_chrome_slums redesigned room 4"
+      },
+      {
+        "id": "chapter6_chrome_slums_redesign_room_5",
+        "src": "assets/backgrounds/redesigned_levels/chapter6_chrome_slums/room_5.png",
+        "label": "chapter6_chrome_slums redesigned room 5"
+      },
+      {
+        "id": "chapter7_skyway_siege_redesign_room_1",
+        "src": "assets/backgrounds/redesigned_levels/chapter7_skyway_siege/room_1.png",
+        "label": "chapter7_skyway_siege redesigned room 1"
+      },
+      {
+        "id": "chapter7_skyway_siege_redesign_room_2",
+        "src": "assets/backgrounds/redesigned_levels/chapter7_skyway_siege/room_2.png",
+        "label": "chapter7_skyway_siege redesigned room 2"
+      },
+      {
+        "id": "chapter7_skyway_siege_redesign_room_3",
+        "src": "assets/backgrounds/redesigned_levels/chapter7_skyway_siege/room_3.png",
+        "label": "chapter7_skyway_siege redesigned room 3"
+      },
+      {
+        "id": "chapter7_skyway_siege_redesign_room_4",
+        "src": "assets/backgrounds/redesigned_levels/chapter7_skyway_siege/room_4.png",
+        "label": "chapter7_skyway_siege redesigned room 4"
+      },
+      {
+        "id": "chapter7_skyway_siege_redesign_room_5",
+        "src": "assets/backgrounds/redesigned_levels/chapter7_skyway_siege/room_5.png",
+        "label": "chapter7_skyway_siege redesigned room 5"
+      },
+      {
+        "id": "chapter8_time_engine_redesign_room_1",
+        "src": "assets/backgrounds/redesigned_levels/chapter8_time_engine/room_1.png",
+        "label": "chapter8_time_engine redesigned room 1"
+      },
+      {
+        "id": "chapter8_time_engine_redesign_room_2",
+        "src": "assets/backgrounds/redesigned_levels/chapter8_time_engine/room_2.png",
+        "label": "chapter8_time_engine redesigned room 2"
+      },
+      {
+        "id": "chapter8_time_engine_redesign_room_3",
+        "src": "assets/backgrounds/redesigned_levels/chapter8_time_engine/room_3.png",
+        "label": "chapter8_time_engine redesigned room 3"
+      },
+      {
+        "id": "chapter8_time_engine_redesign_room_4",
+        "src": "assets/backgrounds/redesigned_levels/chapter8_time_engine/room_4.png",
+        "label": "chapter8_time_engine redesigned room 4"
+      },
+      {
+        "id": "chapter8_time_engine_redesign_room_5",
+        "src": "assets/backgrounds/redesigned_levels/chapter8_time_engine/room_5.png",
+        "label": "chapter8_time_engine redesigned room 5"
+      }
+    ],
+    "chapter2_backgrounds": [
+      "assets/backgrounds/chapter2_market_gpt_v2/market_gate.png?v=bgpass2",
+      "assets/backgrounds/chapter2_market_gpt_v2/lantern_market.png?v=bgpass2",
+      "assets/backgrounds/chapter2_market_gpt_v2/canal_bridge.png?v=bgpass2",
+      "assets/backgrounds/chapter2_market_gpt_v2/pagoda_alley.png?v=bgpass2"
+    ],
+    "npc_sheet": "assets/sprites/npcs/edo_townsfolk_sheet_transparent.png?v=npcscale2",
+    "npc_sheet_feudal": "assets/sprites/npcs/feudal_story_npcs_gpt.png?v=gptnpc1",
+    "npc_sheet_cyber": "assets/sprites/npcs/cyber_story_npcs_gpt.png?v=gptnpc1",
+    "enemy_roster_contact": "assets/sprites/enemy_concepts/enemy_roster_contact_gpt.png?v=gptenemy1",
+    "transition_panel": "assets/backgrounds/transition/japanese_landscape_swipe.png?v=routeflow1",
+    "music_tracks": [
+      "assets/audio/inspiration_track_1.mp3?v=music1",
+      "assets/audio/inspiration_track_2.mp3?v=music1"
+    ],
+    "item_sprite_sheets": {
+      "health": "assets/items/medicine_gourd_sheet.png?v=gptitem2",
+      "spirit": "assets/items/spirit_charm_sheet.png?v=gptitem2",
+      "special": "assets/items/fire_talisman_sheet.png?v=gptitem2",
+      "key": "assets/items/gate_key_sheet.png?v=gptitem2",
+      "object": "assets/items/notice_post_sheet.png?v=gptitem2",
+      "switch": "assets/items/puzzle_switch_sheet.png?v=gptitem2",
+      "npc": "assets/items/clue_bundle_sheet.png?v=gptitem2"
+    },
+    "item_sprite_meta": {
+      "frame_w": 192,
+      "frame_h": 192,
+      "frames": 6,
+      "fps": 8
+    },
+    "sfx": {
+      "slash": [
+        {
+          "src": "assets/audio/sfx/slash_fast_whoosh.mp3?v=sfx2",
+          "volume": 0.96
+        },
+        {
+          "src": "assets/audio/sfx/slash_air_cut.mp3?v=sfx2",
+          "volume": 0.88
+        }
+      ],
+      "heavy": {
+        "src": "assets/audio/sfx/heavy_dramatic_cut.mp3?v=sfx2",
+        "volume": 0.98,
+        "cooldown": 0.09
+      },
+      "dodge": {
+        "src": "assets/audio/sfx/dodge_cloth_whoosh.mp3?v=sfx2",
+        "volume": 0.72
+      },
+      "enemyWindup": {
+        "src": "assets/audio/sfx/enemy_windup_static.mp3?v=sfx2",
+        "volume": 0.62,
+        "cooldown": 0.14
+      },
+      "enemySwing": {
+        "src": "assets/audio/sfx/enemy_swing_whoosh.mp3?v=sfx2",
+        "volume": 0.86,
+        "cooldown": 0.07
+      },
+      "enemyHit": {
+        "src": "assets/audio/sfx/enemy_hit_bone.mp3?v=sfx2",
+        "volume": 0.82,
+        "cooldown": 0.07
+      },
+      "enemyDeath": {
+        "src": "assets/audio/sfx/enemy_death_braam.mp3?v=sfx2",
+        "volume": 0.86,
+        "cooldown": 0.18
+      },
+      "playerHit": {
+        "src": "assets/audio/sfx/player_hit_impact.mp3?v=sfx2",
+        "volume": 0.76,
+        "cooldown": 0.12
+      },
+      "pickup": {
+        "src": "assets/audio/sfx/pickup_heart_chime.mp3?v=sfx2",
+        "volume": 0.44,
+        "cooldown": 0.05
+      },
+      "key": {
+        "src": "assets/audio/sfx/key_heartbeat_reveal.mp3?v=sfx2",
+        "volume": 0.56,
+        "cooldown": 0.08
+      },
+      "gateOpen": {
+        "src": "assets/audio/sfx/gate_open_whoosh.mp3?v=sfx2",
+        "volume": 0.78,
+        "cooldown": 0.2
+      },
+      "gateLocked": {
+        "src": "assets/audio/sfx/gate_locked_clang.mp3?v=sfx2",
+        "volume": 0.68,
+        "cooldown": 0.16
+      },
+      "talk": {
+        "src": "assets/audio/sfx/talk_omen_voice.mp3?v=sfx2",
+        "volume": 0.3,
+        "cooldown": 0.12
+      },
+      "boss": {
+        "src": "assets/audio/sfx/boss_braam.mp3?v=sfx2",
+        "volume": 0.92,
+        "cooldown": 0.35
+      },
+      "ui": {
+        "src": "assets/audio/sfx/ui_soft_tick.mp3?v=sfx2",
+        "volume": 0.34,
+        "cooldown": 0.04
+      }
+    }
+  }
+}

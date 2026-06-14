@@ -1,0 +1,128 @@
+{
+  "id": "chapter2_market_side_room",
+  "name": "Chapter 2: Hidden Gambling Room",
+  "subtitle": "Hidden gambling room",
+  "is_room": true,
+  "parent_level": "chapter2_market",
+  "world": {
+    "w": 1280,
+    "h": 720,
+    "left": 60,
+    "right": 1210,
+    "top": 270,
+    "bottom": 700
+  },
+  "player_start": {
+    "x": 220,
+    "y": 604
+  },
+  "subareas": [
+    {
+      "id": "room",
+      "name": "Hidden gambling room",
+      "start": 0,
+      "end": 1280,
+      "objective": "Search this separate generated room, then return to the main level."
+    }
+  ],
+  "story": [
+    {
+      "x": 0,
+      "title": "HIDDEN GAMBLING ROOM",
+      "text": "A separate generated room background attached to the campaign level."
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "room_floor",
+      "kind": "room",
+      "points": [
+        [
+          70,
+          555
+        ],
+        [
+          330,
+          520
+        ],
+        [
+          820,
+          505
+        ],
+        [
+          1215,
+          535
+        ],
+        [
+          1215,
+          690
+        ],
+        [
+          60,
+          690
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter2_market_side_room_return",
+      "type": "side_room",
+      "x": 150,
+      "y": 620,
+      "label": "Return to main level \u2014 press E",
+      "target_level": "chapter2_market",
+      "target_x": 502,
+      "target_y": 760
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter2_market_side_room_ambush",
+      "subarea": "room",
+      "trigger_x": 890,
+      "gate_x": 1220,
+      "banner": "Hidden gambling room ambush",
+      "enemies": [
+        {
+          "type": "yakuza_grey_grunt",
+          "x": 920,
+          "y": 602
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter2_market_side_room_item",
+      "kind": "health",
+      "x": 650,
+      "y": 618
+    }
+  ],
+  "gates": [],
+  "background_npcs": [],
+  "backgrounds": [
+    "assets/backgrounds/generated_fullgame_v2/rooms/chapter2_market_side_room.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "start": 0,
+      "end": 1280,
+      "name": "chapter2_market_side_room_generated_room"
+    }
+  ],
+  "giant_background": {
+    "src": "assets/backgrounds/generated_fullgame_v2/rooms/chapter2_market_side_room.png",
+    "w": 1280,
+    "h": 720,
+    "generated_with": "imagegen",
+    "slice_strategy": "single room plate"
+  },
+  "depth_lanes": {
+    "far": 274,
+    "middle": 446,
+    "near": 590
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "id": "chapter2_market_room_4",
+  "name": "Lantern Alley Ambush",
+  "subtitle": "Teach crowds, shortcuts, canal flanks, and civilian clues.",
+  "is_room": true,
+  "parent_level": "chapter2_market",
+  "room_kind": "foreground route",
+  "world": {
+    "w": 1760,
+    "h": 840,
+    "left": 70,
+    "right": 1690,
+    "top": 0,
+    "bottom": 800
+  },
+  "player_start": {
+    "x": 180,
+    "y": 571,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 286,
+    "middle": 504,
+    "near": 689
+  },
+  "backgrounds": [
+    "assets/backgrounds/redesigned_levels/chapter2_market/room_4.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/redesigned_levels/chapter2_market/room_4.png",
+      "start": 0,
+      "end": 1760,
+      "y": 0,
+      "h": 840,
+      "name": "chapter2_market_room_4"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "chapter2_market_room_4_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          538
+        ],
+        [
+          1690,
+          529
+        ],
+        [
+          1690,
+          739
+        ],
+        [
+          70,
+          722
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter2_market_room_4_route_1",
+      "type": "side_room",
+      "x": 130,
+      "y": 571,
+      "label": "Backtrack to start",
+      "requires_interact": "E",
+      "target_level": "chapter2_market",
+      "target_x": 180,
+      "target_y": 610
+    },
+    {
+      "id": "chapter2_market_room_4_route_2",
+      "type": "side_room",
+      "x": 1514,
+      "y": 554,
+      "label": "Boss / exit approach",
+      "requires_interact": "E",
+      "target_level": "chapter2_market_room_5",
+      "target_x": 180,
+      "target_y": 560
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter2_market_room_4_setpiece",
+      "trigger_x": 0,
+      "gate_x": 1620,
+      "banner": "Lantern Alley Ambush: main set-piece brawl",
+      "boss": false,
+      "enemies": [
+        {
+          "type": "yakuza_brawler_red",
+          "x": 620,
+          "y": 600
+        },
+        {
+          "type": "yakuza_brawler_heavy",
+          "x": 900,
+          "y": 660
+        },
+        {
+          "type": "yakuza_flintlock_enforcer",
+          "x": 1220,
+          "y": 610
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter2_market_room_4_spirit",
+      "kind": "spirit",
+      "x": 500,
+      "y": 690
+    },
+    {
+      "id": "chapter2_market_room_4_cover",
+      "kind": "object",
+      "x": 1120,
+      "y": 700,
+      "note": "Foreground prop/cover, makes near lane meaningful."
+    }
+  ],
+  "background_npcs": [],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Lantern Alley Ambush",
+      "start": 70,
+      "end": 1690,
+      "objective": "Teach crowds, shortcuts, canal flanks, and civilian clues."
+    }
+  ],
+  "completion_text": "Lantern Alley Ambush cleared \u2014 find the authored exit door."
+}

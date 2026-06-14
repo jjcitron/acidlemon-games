@@ -1,0 +1,126 @@
+{
+  "id": "sample_keep_shrine",
+  "name": "Upper Shrine Puzzle",
+  "subtitle": "Upper Shrine Puzzle inside the sample keep level",
+  "is_room": true,
+  "parent_level": "sample_keep",
+  "room_kind": "puzzle room",
+  "world": {
+    "w": 1480,
+    "h": 720,
+    "left": 70,
+    "right": 1410,
+    "top": 0,
+    "bottom": 680
+  },
+  "player_start": {
+    "x": 210,
+    "y": 470,
+    "hp": 120,
+    "meter": 35
+  },
+  "depth_lanes": {
+    "far": 259,
+    "middle": 446,
+    "near": 605
+  },
+  "backgrounds": [
+    "assets/backgrounds/chapter1_print_v2/ash_garden.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "src": "assets/backgrounds/chapter1_print_v2/ash_garden.png",
+      "start": 0,
+      "end": 1480,
+      "y": 0,
+      "h": 720,
+      "name": "ash_garden"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "sample_keep_shrine_main_path",
+      "kind": "main_room",
+      "points": [
+        [
+          70,
+          418
+        ],
+        [
+          1410,
+          428
+        ],
+        [
+          1410,
+          605
+        ],
+        [
+          70,
+          597
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "shrine_return",
+      "type": "bottom_exit",
+      "x": 160,
+      "y": 500,
+      "label": "Return down shrine stairs",
+      "requires_interact": "E",
+      "target_level": "sample_keep",
+      "target_x": 790,
+      "target_y": 440
+    }
+  ],
+  "waves": [
+    {
+      "id": "shrine_wave",
+      "trigger_x": 200,
+      "gate_x": 1360,
+      "banner": "Shrine masked attackers",
+      "enemies": [
+        {
+          "type": "yakuza_flintlock_enforcer",
+          "x": 780,
+          "y": 500
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "shrine_npc",
+      "kind": "npc",
+      "x": 430,
+      "y": 430,
+      "note": "old monk gives clue: light the two lanterns"
+    },
+    {
+      "id": "shrine_lantern_a",
+      "kind": "switch",
+      "x": 670,
+      "y": 590,
+      "note": "puzzle lantern A"
+    },
+    {
+      "id": "shrine_lantern_b",
+      "kind": "switch",
+      "x": 1080,
+      "y": 580,
+      "note": "puzzle lantern B"
+    }
+  ],
+  "subareas": [
+    {
+      "id": "main",
+      "name": "Upper Shrine Puzzle",
+      "start": 70,
+      "end": 1410,
+      "objective": "Explore the room, fight enemies, collect objects/keys, solve puzzles, and use E-marked exits."
+    }
+  ],
+  "completion_text": "Upper Shrine Puzzle clear."
+}

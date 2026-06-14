@@ -1,0 +1,133 @@
+{
+  "id": "chapter1_dojo_north_storehouse",
+  "name": "Chapter 1: North Storehouse",
+  "subtitle": "External linked room \u2014 supplies and upper route ambush",
+  "is_room": true,
+  "parent_level": "chapter1_dojo",
+  "world": {
+    "w": 1280,
+    "h": 720,
+    "left": 60,
+    "right": 1210,
+    "top": 270,
+    "bottom": 700
+  },
+  "player_start": {
+    "x": 250,
+    "y": 604
+  },
+  "subareas": [
+    {
+      "id": "room",
+      "name": "Storehouse rafters",
+      "start": 0,
+      "end": 1280,
+      "objective": "Search this external room, collect supplies, then use the return marker to link back to the main dojo level."
+    }
+  ],
+  "story": [
+    {
+      "x": 0,
+      "title": "STOREHOUSE RAFTERS",
+      "text": "This is a real linked room, not just an exit marker."
+    }
+  ],
+  "backgrounds": [
+    "assets/backgrounds/generated_fullgame_v2/rooms/chapter1_dojo_north_storehouse.png"
+  ],
+  "background_segments": [
+    {
+      "key_index": 0,
+      "start": 0,
+      "end": 1280,
+      "name": "chapter1_dojo_north_storehouse_generated_room"
+    }
+  ],
+  "walkable_zones": [
+    {
+      "id": "room_floor",
+      "kind": "room",
+      "points": [
+        [
+          70,
+          555
+        ],
+        [
+          330,
+          520
+        ],
+        [
+          820,
+          505
+        ],
+        [
+          1215,
+          535
+        ],
+        [
+          1215,
+          690
+        ],
+        [
+          60,
+          690
+        ]
+      ]
+    }
+  ],
+  "route_nodes": [
+    {
+      "id": "chapter1_dojo_north_storehouse_return_to_dojo",
+      "type": "side_room",
+      "x": 150,
+      "y": 620,
+      "label": "Return to main dojo road \u2014 press E",
+      "target_level": "chapter1_dojo",
+      "target_x": 866,
+      "target_y": 760
+    }
+  ],
+  "waves": [
+    {
+      "id": "chapter1_dojo_north_storehouse_ambush",
+      "subarea": "room",
+      "trigger_x": 880,
+      "gate_x": 1220,
+      "banner": "Storehouse rafters ambush",
+      "enemies": [
+        {
+          "type": "yakuza_yellow_guard",
+          "x": 930,
+          "y": 602
+        },
+        {
+          "type": "yakuza_grey_grunt",
+          "x": 1080,
+          "y": 628
+        }
+      ]
+    }
+  ],
+  "placed_items": [
+    {
+      "id": "chapter1_dojo_north_storehouse_item",
+      "kind": "spirit",
+      "x": 650,
+      "y": 618
+    }
+  ],
+  "gates": [],
+  "background_npcs": [],
+  "giant_background": {
+    "src": "assets/backgrounds/generated_fullgame_v2/rooms/chapter1_dojo_north_storehouse.png",
+    "w": 1280,
+    "h": 720,
+    "generated_with": "imagegen",
+    "slice_strategy": "single room plate"
+  },
+  "depth_lanes": {
+    "far": 274,
+    "middle": 446,
+    "near": 590
+  }
+}

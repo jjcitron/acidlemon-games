@@ -1,0 +1,100 @@
+{
+  "fire": {
+    "name": "Hi",
+    "display": "Fire",
+    "key": "1",
+    "unlocked": true,
+    "meter_cost": 25,
+    "duration": 6.0,
+    "color": "#ff7a22",
+    "imbue_damage_bonus": 8,
+    "imbue_aoe": {
+      "width": 210,
+      "height": 125,
+      "damage": 5
+    },
+    "special_move_id": "phoenix_slash",
+    "special_placeholder": "Wide flame burst around Masayoshi.",
+    "special_cost": 45
+  },
+  "ice": {
+    "name": "Kori",
+    "display": "Ice",
+    "key": "2",
+    "unlocked": true,
+    "meter_cost": 25,
+    "duration": 5.5,
+    "color": "#92e8ff",
+    "imbue_damage_bonus": 4,
+    "slow_mult": 0.5,
+    "special_move_id": "frost_prison",
+    "special_cost": 45
+  },
+  "wind": {
+    "name": "Kaze",
+    "display": "Wind",
+    "key": "3",
+    "unlocked": true,
+    "meter_cost": 20,
+    "duration": 5.0,
+    "color": "#b8ffd8",
+    "imbue_damage_bonus": 3,
+    "knockup_bonus": 80,
+    "special_move_id": "gale_launcher",
+    "special_cost": 45
+  },
+  "lightning": {
+    "name": "Ikazuchi",
+    "display": "Lightning",
+    "key": "4",
+    "unlocked": true,
+    "meter_cost": 30,
+    "duration": 4.5,
+    "color": "#f7ec54",
+    "imbue_damage_bonus": 6,
+    "chain_damage": 4,
+    "special_move_id": "thunder_step",
+    "special_cost": 45
+  },
+  "earth": {
+    "name": "Tsuchi",
+    "display": "Earth",
+    "key": "5",
+    "unlocked": true,
+    "meter_cost": 25,
+    "duration": 6.0,
+    "color": "#c6a260",
+    "imbue_damage_bonus": 5,
+    "armor_break": true,
+    "special_move_id": "stone_guard",
+    "special_cost": 45
+  },
+  "water": {
+    "name": "Mizu",
+    "display": "Water",
+    "key": "6",
+    "unlocked": true,
+    "meter_cost": 25,
+    "duration": 5.5,
+    "color": "#4fb8ff",
+    "imbue_damage_bonus": 2,
+    "heal_on_hit": 1,
+    "special_move_id": "flowing_cut",
+    "special_cost": 45
+  },
+  "shadow": {
+    "name": "Kage",
+    "display": "Shadow",
+    "key": "7",
+    "unlocked": true,
+    "locked_until_flag": "shadow_accepted",
+    "meter_cost": 35,
+    "duration": 4.0,
+    "color": "#8d4dff",
+    "imbue_damage_bonus": 10,
+    "meter_cap_cost": 10,
+    "special_move_id": "void_sunder",
+    "special_cost": 45,
+    "cyber_tradeoff": "Each use lowers meter cap for this chapter."
+  }
+}
