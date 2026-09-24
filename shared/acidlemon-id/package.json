@@ -1,0 +1,14 @@
+{
+  "name": "acidlemon-id",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared Acidlemon magic-link identity + saves for all four titles.",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "check": "node scripts/selftest.mjs"
+  },
+  "dependencies": {
+    "@vercel/blob": "^0.27.0"
+  }
+}

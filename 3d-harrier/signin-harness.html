@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Space Runner 3D — shared sign-in harness</title>
+<style>
+  body { font-family: system-ui, sans-serif; background:#0b1220; color:#dde6f5;
+         max-width:760px; margin:0 auto; padding:28px 20px 60px; line-height:1.5; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  p.sub { color:#8aa0c0; margin:0 0 22px; font-size:14px; }
+  fieldset { border:1px solid #24314a; border-radius:8px; margin:0 0 16px; padding:14px 16px; }
+  legend { color:#7fb0ff; font-size:13px; padding:0 6px; }
+  input { background:#111c30; border:1px solid #2b3a56; color:#dde6f5; border-radius:6px;
+          padding:8px 10px; font:inherit; min-width:260px; }
+  button { background:#1f4d7a; color:#eaf2ff; border:0; border-radius:6px; padding:8px 14px;
+           font:inherit; cursor:pointer; margin:2px 4px 2px 0; }
+  button:hover { background:#2a5f93; }
+  pre { background:#08101c; border:1px solid #1c2942; border-radius:6px; padding:10px;
+        white-space:pre-wrap; word-break:break-word; font-size:12.5px; max-height:300px;
+        overflow:auto; }
+  .note { color:#8aa0c0; font-size:13px; }
+  code { background:#111c30; padding:1px 5px; border-radius:4px; }
+</style>
+</head>
+<body>
+<h1>Space Runner 3D — shared sign-in harness</h1>
+<p class="sub">Exercises the shared Acidlemon identity service as a consumer. Not part of the game
+build; no existing game file imports anything here.</p>
+
+<fieldset>
+  <legend>service</legend>
+  <p class="note">Point at the deployed service, or a local <code>vercel dev</code> of
+  <code>shared/acidlemon-id</code>. This page cannot work until that service is deployed with
+  Mailgun + Blob env set.</p>
+  <input id="origin" value="https://id.acidlemon.com">
+  <button id="boot">boot()</button>
+  <span class="note">app id: <code>space-runner-3d</code></span>
+</fieldset>
+
+<fieldset>
+  <legend>1 &middot; build as a guest</legend>
+  <p class="note">No account. Writes to <code>localStorage</code> only.</p>
+  <input id="stageName" value="my-first-stage" >
+  <button id="build">build a stage</button>
+  <button id="listGuest">list guest stages</button>
+</fieldset>
+
+<fieldset>
+  <legend>2 &middot; Save prompts sign-in</legend>
+  <p class="note">Save calls the service. A guest gets <code>401</code> &rarr;
+  <code>needsSignIn</code>, and the stage stays safe on disk.</p>
+  <button id="save">Save stage</button>
+</fieldset>
+
+<fieldset>
+  <legend>3 &middot; magic link</legend>
+  <input id="email" type="email" placeholder="you@example.com">
+  <button id="link">email me a link</button>
+  <p class="note">Clicking the emailed link sets the <code>.acidlemon.com</code> cookie and returns
+  here. Re-run <code>boot()</code> — it folds the guest stage into the account automatically.</p>
+</fieldset>
+
+<fieldset>
+  <legend>4 &middot; signed in</legend>
+  <button id="me">who am I</button>
+  <button id="listSaved">list saved stages</button>
+  <button id="logout">sign out</button>
+</fieldset>
+
+<fieldset>
+  <legend>log</legend>
+  <pre id="log">ready.</pre>
+</fieldset>
+
+<script type="module">
+import { Identity } from './src/net/identity.js';
+
+const logEl = document.getElementById('log');
+const lines = [];
+const log = (label, value) => {
+  lines.unshift(`${new Date().toISOString().slice(11, 19)}  ${label}\n${
+    value === undefined ? '' : JSON.stringify(value, null, 2)}`);
+  logEl.textContent = lines.slice(0, 20).join('\n\n');
+};
+
+let identity = new Identity({ origin: document.getElementById('origin').value });
+const on = (id, fn) => document.getElementById(id).addEventListener('click', async () => {
+  try { await fn(); } catch (err) { log(`error: ${err.message}`); }
+});
+
+const stagePayload = () => ({
+  name: document.getElementById('stageName').value || 'untitled',
+  waves: [{ at: 0, enemy: 'drone', count: 4 }],
+  built_at: new Date().toISOString(),
+});
+
+on('boot', async () => {
+  identity = new Identity({ origin: document.getElementById('origin').value });
+  const user = await identity.boot();
+  log(user ? 'boot(): signed in' : 'boot(): guest', user);
+  if (identity.unreachable) log('service unreachable — staying a guest (game still playable)');
+});
+
+// Guest build: stash locally without touching the network at all.
+on('build', async () => {
+  const p = stagePayload();
+  const localId = await identity.stashStage(p, p.name);
+  log(`built guest stage "${localId}" (local only, no request sent)`, p);
+});
+
+on('listGuest', async () => log('guest stages', await identity.guestStages()));
+on('save', async () => log('Save stage', await identity.saveStage(stagePayload(),
+  document.getElementById('stageName').value)));
+on('link', async () => log('requestLink',
+  await identity.requestLink(document.getElementById('email').value, '/signin-harness.html')));
+on('me', async () => log('me', { signedIn: identity.signedIn, email: identity.email,
+  apps: identity.apps }));
+on('listSaved', async () => log('saved stages', await identity.listStages()));
+on('logout', async () => { await identity.logout(); log('signed out'); });
+</script>
+</body>
+</html>
