@@ -61,3 +61,20 @@ export async function removeByPath(pathname) {
   const url = await urlFor(pathname);
   if (url) await del(url, { token: token() }).catch(() => {});
 }
+
+// Strict deletes for account removal. Unlike removeByPath these throw on failure, so a half-failed
+// delete surfaces to the caller instead of being reported as done. Return how many blobs went.
+export async function removePrefix(prefix) {
+  const urls = (await listPrefix(prefix)).map((b) => b.url);
+  for (let i = 0; i < urls.length; i += 100) {
+    await del(urls.slice(i, i + 100), { token: token() });
+  }
+  return urls.length;
+}
+
+export async function removeExact(pathname) {
+  const hit = (await listPrefix(pathname)).find((b) => b.pathname === pathname);
+  if (!hit) return 0;
+  await del(hit.url, { token: token() });
+  return 1;
+}

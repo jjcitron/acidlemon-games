@@ -5,6 +5,7 @@
 //   await id.refresh();                                  // who am I? (null = guest)
 //   const r = await id.save('level', payload, 'stage-3'); // { ok } | { needsSignIn: true }
 //   if (r.needsSignIn) await id.requestLink(email);       // then they click the email
+//   await id.deleteAccount();                             // { ok } | { error } — in-app deletion
 //
 // Guest work is never lost: save() writes it to local storage first, so a failed or unauthenticated
 // save still leaves the player's build on disk. After the magic link lands, flushGuest() folds it in.
@@ -58,6 +59,20 @@ export class AcidlemonId {
   async logout() {
     await this.#call('/api/auth/logout', { method: 'POST' });
     this.user = null;
+  }
+
+  // Permanently deletes the signed-in account (user, memberships, saves in every title) and sends
+  // a receipt email. The server clears the shared cookie; here we drop local state and this
+  // title's guest stash so nothing of the deleted account lingers on the device.
+  async deleteAccount() {
+    const { ok, data } = await this.#call('/api/auth/delete-account', {
+      method: 'POST',
+      body: { confirm: true, app: this.app },
+    });
+    if (!ok) return { error: data.error || 'Could not delete the account.' };
+    this.user = null;
+    for (const kind of ['level', 'fighter', 'pack']) this.clearGuest(kind);
+    return { ok: true, receipt: !!data.receipt };
   }
 
   // ---- guest storage -------------------------------------------------------
