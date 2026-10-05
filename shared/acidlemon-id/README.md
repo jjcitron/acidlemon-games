@@ -25,6 +25,7 @@ lib/store.js    Vercel Blob helpers (from Sumi)
 lib/mailgun.js  magic-link email, branded per title (from Sumi)
 lib/schema.js   record shapes, blob paths, validation, fighter-kit slots
 lib/users.js    users + user_apps upserts
+lib/account.js  account-deletion plan + sweep (store injected, so it is selftested offline)
 lib/saves.js    save read/write, guest attach
 lib/http.js     json/method helpers (from Sumi) + credentialed CORS
 
@@ -32,6 +33,7 @@ api/auth/request.js   POST { email, app, next? }  -> emails a link
 api/auth/verify.js    GET  ?token=...             -> cookie + redirect back into the title
 api/auth/me.js        GET                         -> { id, email, username, apps[] } | 401
 api/auth/logout.js    POST                        -> clears the shared cookie
+api/auth/delete-account.js POST { confirm:true, app? } -> hard-deletes the account + receipt email
 api/saves/index.js    GET ?app=&kind= | PUT       -> list / upsert  (401 = sign in to save)
 api/saves/attach.js   POST { app, items[] }       -> fold guest work into the account
 
@@ -57,14 +59,25 @@ if (r.needsSignIn) {
 `save()` stashes to `localStorage` *before* it calls the server, so an unauthenticated or failed
 save never costs the player their build.
 
+## Account deletion (Apple 5.1.1(v))
+
+`POST /api/auth/delete-account { confirm: true, app? }` needs a session (401 otherwise). It
+**hard-deletes** the users row, every `user_apps` row, the saves in every registered title and the
+login cooldown, clears the shared cookie, then emails a receipt from the title's own sender
+(`from` in `lib/apps.js`, e.g. CyberKart). Hard delete is correct today because saves are private
+and there is no shared/public content. If a title ever publishes user content, that content is
+**anonymized** (strip `user_id`/`username`, keep the content) rather than deleted. Client:
+`id.deleteAccount()` -> `{ ok, receipt } | { error }`.
+
 ## Checks
 
 ```
 node scripts/selftest.mjs
 ```
 
-63 assertions over the schema rules, fighter-kit slots, blob paths, cookie attributes, session
-tamper-resistance, and id stability. Runs with no dependencies installed and no network, so it
+93 assertions over the schema rules, fighter-kit slots, blob paths, cookie attributes, session
+tamper-resistance, id stability, the cyberkart registration, the Mailgun sender/receipt copy and
+the account-deletion sweep (against an in-memory store). Runs with no dependencies installed and no network, so it
 works on a box copy. It does **not** cover Mailgun delivery or Blob I/O — those need the real
 deploy and env, and are unverified here (see `INTEGRATION.md`).
 

@@ -27,7 +27,7 @@ CREATE TABLE users (
 
 CREATE TABLE user_apps (
   user_id       TEXT NOT NULL REFERENCES users(id),
-  app           TEXT NOT NULL,    -- sumi | space-runner-3d | clash-of-steel-blades | cyberhell
+  app           TEXT NOT NULL,    -- sumi | space-runner-3d | clash-of-steel-blades | cyberhell | cyberkart
   first_seen_at TIMESTAMPTZ NOT NULL,
   last_seen_at  TIMESTAMPTZ NOT NULL,
   PRIMARY KEY (user_id, app)
@@ -45,7 +45,7 @@ CREATE TABLE saves (
 );
 ```
 
-`app` enum: `sumi`, `space-runner-3d`, `clash-of-steel-blades`, `cyberhell`.
+`app` enum: `sumi`, `space-runner-3d`, `clash-of-steel-blades`, `cyberhell`, `cyberkart`.
 `kind` enum: `level`, `fighter`, `pack`.
 
 A `kind` is only accepted for an app that declares it (`lib/apps.js` → `kinds`), so a Cyberhell

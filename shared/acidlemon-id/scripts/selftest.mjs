@@ -12,6 +12,8 @@ const {
 const { sessionCookie, clearCookie, signSession, verifyToken, readSession } =
   await import('../lib/session.js');
 const { userId } = await import('../lib/ids.js');
+const { accountTargets, deleteAccountData } = await import('../lib/account.js');
+const { fromFor, accountDeletedMessage } = await import('../lib/mailgun.js');
 
 let pass = 0;
 const fails = [];
@@ -19,8 +21,8 @@ const ok = (name, cond) => { if (cond) pass++; else fails.push(name); };
 const eq = (name, a, b) => ok(`${name} (got ${JSON.stringify(a)})`, a === b);
 
 // ---- app registry ----------------------------------------------------------
-eq('four titles registered', APP_IDS.length, 4);
-for (const id of ['sumi', 'space-runner-3d', 'clash-of-steel-blades', 'cyberhell']) {
+eq('five titles registered', APP_IDS.length, 5);
+for (const id of ['sumi', 'space-runner-3d', 'clash-of-steel-blades', 'cyberhell', 'cyberkart']) {
   ok(`app ${id} exists`, isApp(id));
   ok(`app ${id} has acidlemon origin`, APPS[id].origin.endsWith('.acidlemon.com'));
 }
@@ -111,6 +113,66 @@ eq('uid case/space insensitive', userId(' A@B.com '), userId('a@b.com'));
 ok('uid differs per email', userId('a@b.com') !== userId('c@d.com'));
 eq('uid is 32 hex chars', /^[0-9a-f]{32}$/.test(userId('a@b.com')), true);
 ok('uid contains no raw email', !userId('a@b.com').includes('a@b.com'));
+
+// ---- cyberkart registration ------------------------------------------------
+eq('cyberkart origin', APPS.cyberkart.origin, 'https://cyberkart.acidlemon.com');
+eq('cyberkart declares no save kinds yet', APPS.cyberkart.kinds.length, 0);
+ok('cyberkart saves rejected until a kind is declared',
+  !!validateSave({ app: 'cyberkart', kind: 'level', payload: {} }));
+
+// ---- mailgun sender + receipt copy -----------------------------------------
+eq('cyberkart sends from its own address', fromFor('cyberkart', {}),
+  'CyberKart <cyberkart@games.acidlemon.com>');
+eq('other titles fall back to MAILGUN_FROM', fromFor('sumi', { MAILGUN_FROM: 'X <x@y.z>' }), 'X <x@y.z>');
+eq('no override falls back to postmaster', fromFor('sumi', { MAILGUN_DOMAIN: 'games.acidlemon.com' }),
+  'Acidlemon Games <postmaster@games.acidlemon.com>');
+const receipt = accountDeletedMessage('cyberkart', {});
+ok('receipt is from CyberKart', receipt.from.includes('cyberkart@games.acidlemon.com'));
+ok('receipt subject names the title', receipt.subject.includes('CyberKart'));
+ok('receipt says irreversible', /cannot be undone/.test(receipt.text));
+ok('receipt says one account covers all titles', /covers all our titles/.test(receipt.text));
+ok('receipt carries no link', !/https?:\/\//.test(receipt.text + receipt.html));
+ok('unknown app receipt is generic', accountDeletedMessage(null, {}).subject.includes('Acidlemon Games'));
+
+// ---- account deletion ------------------------------------------------------
+{
+  const A = userId('delete-me@example.com');
+  const B = userId('keep-me@example.com');
+  const t = accountTargets(A);
+  ok('targets sweep every registered app', APP_IDS.every((a) => t.prefixes.includes(`id/saves/${a}/${A}/`)));
+  ok('targets include user_apps prefix', t.prefixes.includes(`id/user-apps/${A}/`));
+  eq('users row is removed last', t.exact[t.exact.length - 1], `id/users/${A}.json`);
+  ok('targets include login cooldown', t.exact.includes(`id/tokens/by-user/${A}.json`));
+  ok('no target mentions another user', [...t.prefixes, ...t.exact].every((p) => !p.includes(B)));
+
+  const blobs = new Set();
+  for (const u of [A, B]) {
+    blobs.add(`id/users/${u}.json`);
+    blobs.add(`id/tokens/by-user/${u}.json`);
+    for (const a of ['sumi', 'cyberkart']) blobs.add(`id/user-apps/${u}/${a}.json`);
+    blobs.add(`id/saves/sumi/${u}/level/stage-1.json`);
+    blobs.add(`id/saves/cyberhell/${u}/pack/p1.json`);
+  }
+  const store = {
+    async removePrefix(prefix) {
+      const hit = [...blobs].filter((p) => p.startsWith(prefix));
+      hit.forEach((p) => blobs.delete(p));
+      return hit.length;
+    },
+    async removeExact(pathname) { return blobs.delete(pathname) ? 1 : 0; },
+  };
+  eq('removes every row for the user', await deleteAccountData(A, store), 6);
+  ok('nothing of the user remains', [...blobs].every((p) => !p.includes(A)));
+  eq('other user is untouched', [...blobs].filter((p) => p.includes(B)).length, 6);
+  eq('deleting again is a no-op', await deleteAccountData(A, store), 0);
+
+  for (const bad of ['', undefined, null, '../x', 'abc', 'a'.repeat(33)]) {
+    let threw = false;
+    try { await deleteAccountData(bad, store); } catch { threw = true; }
+    ok(`malformed uid ${JSON.stringify(bad)} refused`, threw);
+  }
+  eq('refused uids deleted nothing', blobs.size, 6);
+}
 
 // ---- report ----------------------------------------------------------------
 console.log(`acidlemon-id selftest: ${pass} passed, ${fails.length} failed`);
