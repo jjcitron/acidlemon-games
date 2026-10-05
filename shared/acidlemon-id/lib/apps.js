@@ -33,7 +33,9 @@ export const APPS = {
   // default Mailgun sender for this title's emails; `onAccent` is the text colour on accent buttons.
   'cyberkart': {
     label: 'CyberKart',
-    origin: 'https://cyberkart.acidlemon.com',
+    // Staging can override via CYBERKART_ORIGIN (e.g. https://cyberkart-staging.acidlemon.com)
+    // so magic-link verify redirects back to staging instead of prod. Unset → prod URL.
+    origin: process.env.CYBERKART_ORIGIN || 'https://cyberkart.acidlemon.com',
     accent: '#00b8d4',
     onAccent: '#06121a',
     kinds: [],
