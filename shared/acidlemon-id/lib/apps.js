@@ -28,6 +28,17 @@ export const APPS = {
     accent: '#a5122f',
     kinds: ['pack'],
   },
+  // Pilot title for in-app account deletion. No cloud saves yet, so `kinds` is empty and
+  // validateSave() rejects every write until a later job declares one. `from` overrides the
+  // default Mailgun sender for this title's emails; `onAccent` is the text colour on accent buttons.
+  'cyberkart': {
+    label: 'CyberKart',
+    origin: 'https://cyberkart.acidlemon.com',
+    accent: '#00b8d4',
+    onAccent: '#06121a',
+    kinds: [],
+    from: 'CyberKart <cyberkart@games.acidlemon.com>',
+  },
 };
 
 export const APP_IDS = Object.keys(APPS);
