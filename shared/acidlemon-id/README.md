@@ -28,6 +28,7 @@ lib/users.js    users + user_apps upserts
 lib/account.js  account-deletion plan + sweep (store injected, so it is selftested offline)
 lib/saves.js    save read/write, guest attach
 lib/http.js     json/method helpers (from Sumi) + credentialed CORS
+lib/signinEvent.js  one anonymous signin_success line after a magic link is accepted
 
 api/auth/request.js   POST { email, app, next? }  -> emails a link
 api/auth/verify.js    GET  ?token=...             -> cookie + redirect back into the title
@@ -69,17 +70,30 @@ and there is no shared/public content. If a title ever publishes user content, t
 **anonymized** (strip `user_id`/`username`, keep the content) rather than deleted. Client:
 `id.deleteAccount()` -> `{ ok, receipt } | { error }`.
 
+## Sign-in event
+
+A successful `GET /api/auth/verify` writes one JSON line to stdout after the session cookie is
+minted: `{ game: "acidlemon-id", name: "signin_success", type: "signin", props: { app }, ... }`.
+`app` is a registry id (`sumi`, `cyberkart`, …). The line has no email, user id, token, cookie,
+IP, or user agent. Invalid and expired tokens keep their current redirects and emit nothing.
+The log is try/caught so it cannot change `Location` or `Set-Cookie`. Read it from the Vercel
+runtime logs. It is not a Blob write. Preview hosts, non-production `VERCEL_ENV`, QA query flags,
+automation user agents, and the `acidlemon_internal=1` cookie are marked `internal`.
+
 ## Checks
 
 ```
 node scripts/selftest.mjs
+npm test
 ```
 
-93 assertions over the schema rules, fighter-kit slots, blob paths, cookie attributes, session
-tamper-resistance, id stability, the cyberkart registration, the Mailgun sender/receipt copy and
-the account-deletion sweep (against an in-memory store). Runs with no dependencies installed and no network, so it
-works on a box copy. It does **not** cover Mailgun delivery or Blob I/O — those need the real
-deploy and env, and are unverified here (see `INTEGRATION.md`).
+`npm test` covers the sign-in event. It stubs the store and the session and does not touch Blob
+or the network. `selftest.mjs` is 93 assertions over the schema rules, fighter-kit slots, blob
+paths, cookie attributes, session tamper-resistance, id stability, the cyberkart registration,
+the Mailgun sender/receipt copy and the account-deletion sweep (against an in-memory store). It
+runs with no dependencies installed and no network, so it works on a box copy. It does **not**
+cover Mailgun delivery or Blob I/O — those need the real deploy and env, and are unverified here
+(see `INTEGRATION.md`).
 
 ## Rules this service keeps
 

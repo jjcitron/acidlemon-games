@@ -1,5 +1,6 @@
 // GET /api/auth/verify?token=... -> validate token, upsert users + user_apps, mint the shared
 // .acidlemon.com session cookie, redirect back into whichever title asked for the link.
+// After the cookie is minted, one anonymous signin_success line is written for the scorecard.
 import { send } from '../../lib/http.js';
 import { getJson, removeByPath } from '../../lib/store.js';
 import { sessionCookie } from '../../lib/session.js';
@@ -7,6 +8,7 @@ import { paths } from '../../lib/schema.js';
 import { APPS, isApp } from '../../lib/apps.js';
 import { touchUser } from '../../lib/users.js';
 import { userId } from '../../lib/ids.js';
+import { logSigninSuccess } from '../../lib/signinEvent.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -47,4 +49,12 @@ export default async function handler(req, res) {
       Location: `${origin}${safeNext}${sep}auth=ok`,
     })
     .end();
+
+  // Telemetry is after the response is committed. It must not change Location,
+  // Set-Cookie, or the status, and it must not throw out of this handler.
+  try {
+    logSigninSuccess(req, rec.app);
+  } catch {
+    // Logging must never change the redirect or the cookie.
+  }
 }
