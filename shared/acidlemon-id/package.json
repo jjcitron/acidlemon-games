@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "vercel dev",
-    "check": "node scripts/selftest.mjs"
+    "check": "node scripts/selftest.mjs",
+    "test": "node --experimental-test-module-mocks --test test/signin-event.test.js"
   },
   "dependencies": {
     "@vercel/blob": "^0.27.0"
