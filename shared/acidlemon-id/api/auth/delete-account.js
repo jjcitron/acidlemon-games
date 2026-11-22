@@ -1,5 +1,5 @@
 // POST /api/auth/delete-account { confirm: true, app? } -> permanently delete the signed-in
-// player's Acidlemon account: users row, every user_apps row, and their saves in every title.
+// player's Acidlemon account: users row, every user_apps row, preferences and saves in every title.
 // Clears the shared session cookie and emails a receipt. Apple 5.1.1(v).
 import { readJson, send, methodGuard, cors } from '../../lib/http.js';
 import { readSession, clearCookie } from '../../lib/session.js';

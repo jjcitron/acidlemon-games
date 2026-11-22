@@ -11,7 +11,7 @@
 // save still leaves the player's build on disk. After the magic link lands, flushGuest() folds it in.
 //
 // Every request is credentialed. The session cookie is scoped to .acidlemon.com, so one sign-in
-// works across all four titles — but the browser only attaches it cross-origin when the request
+// works across registered Acidlemon apps — but the browser only attaches it cross-origin when the request
 // sets credentials:'include' AND the service echoes the exact origin back.
 
 const DEFAULT_BASE = 'https://id.acidlemon.com';

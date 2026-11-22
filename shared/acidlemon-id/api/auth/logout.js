@@ -1,4 +1,4 @@
-// POST /api/auth/logout -> clear the shared session cookie (all four hosts at once).
+// POST /api/auth/logout -> clear the shared session cookie across Acidlemon hosts.
 import { send, methodGuard, cors } from '../../lib/http.js';
 import { clearCookie } from '../../lib/session.js';
 

@@ -18,7 +18,7 @@ export function accountTargets(uid) {
       ...APP_IDS.map((app) => paths.savePrefix(app, uid, null)),
       paths.userAppPrefix(uid),
     ],
-    exact: [paths.loginCooldown(uid), paths.user(uid)],
+    exact: [paths.loginCooldown(uid), paths.prefs(uid), paths.user(uid)],
   };
 }
 

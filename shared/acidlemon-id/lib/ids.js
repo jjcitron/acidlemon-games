@@ -4,7 +4,7 @@
 // HMAC of their normalised email. That makes the id stable and unguessable but also means it is
 // only stable while the HMAC key is stable — rotating the key renames every user.
 //
-// Sumi keyed this off SESSION_SECRET. Now that four titles share one identity, SESSION_SECRET is
+// Sumi keyed this off SESSION_SECRET. Now that Acidlemon apps share one identity, SESSION_SECRET is
 // something we may want to rotate (it signs cookies) without orphaning every save. So the key is
 // read from ID_SECRET, falling back to SESSION_SECRET to stay byte-compatible with the ids Sumi
 // has already written. Set ID_SECRET = the current SESSION_SECRET value once, then SESSION_SECRET

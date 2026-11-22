@@ -41,6 +41,13 @@ export const APPS = {
     kinds: [],
     from: 'CyberKart <cyberkart@games.acidlemon.com>',
   },
+  'acidlemon-com': {
+    label: 'Acidlemon',
+    origin: 'https://acidlemon.com',
+    extraOrigins: ['https://www.acidlemon.com'],
+    accent: '#2f6c56',
+    kinds: [],
+  },
 };
 
 export const APP_IDS = Object.keys(APPS);
@@ -60,5 +67,6 @@ export function allowedOrigins() {
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
-  return [...APP_IDS.map((id) => APPS[id].origin), ...extra];
+  const registered = APP_IDS.flatMap((id) => [APPS[id].origin, ...(APPS[id].extraOrigins || [])]);
+  return [...new Set([...registered, ...extra])];
 }

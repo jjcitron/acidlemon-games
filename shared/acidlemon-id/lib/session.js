@@ -1,6 +1,6 @@
 // Stateless session tokens: HMAC-signed JSON in an httpOnly cookie. No storage, no deps.
 // Lifted from Sumi's api/_lib/session.js. Two deliberate changes:
-//   1. Domain=.acidlemon.com, so one sign-in covers all four title hosts.
+//   1. Domain=.acidlemon.com, so one sign-in covers registered Acidlemon hosts.
 //   2. Cookie renamed to `acidlemon_session`. Sumi's host-only `sumi_session` cookie is left
 //      alone — the live Sumi deploy keeps reading it until Sumi is cut over in its own packet.
 import crypto from 'node:crypto';

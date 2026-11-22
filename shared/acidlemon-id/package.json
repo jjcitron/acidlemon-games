@@ -2,7 +2,7 @@
   "name": "acidlemon-id",
   "version": "0.1.0",
   "private": true,
-  "description": "Shared Acidlemon magic-link identity + saves for all four titles.",
+  "description": "Shared Acidlemon magic-link identity + saves for registered apps.",
   "type": "module",
   "scripts": {
     "dev": "vercel dev",

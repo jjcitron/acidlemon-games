@@ -12,6 +12,7 @@ export const FIGHTER_KIT_SLOTS = ['head', 'torso', 'arms', 'legs', 'weapon', 'st
 // ---- paths -----------------------------------------------------------------
 export const paths = {
   user: (uid) => `id/users/${uid}.json`,
+  prefs: (uid) => `id/prefs/${uid}.json`,
   userApp: (uid, app) => `id/user-apps/${uid}/${app}.json`,
   userAppPrefix: (uid) => `id/user-apps/${uid}/`,
   save: (app, uid, kind, id) => `id/saves/${app}/${uid}/${kind}/${id}.json`,
@@ -20,6 +21,52 @@ export const paths = {
   loginToken: (token) => `id/tokens/${token}.json`,
   loginCooldown: (uid) => `id/tokens/by-user/${uid}.json`,
 };
+
+export const MAX_PREFS_BODY_BYTES = 4096;
+
+export function defaultPreferences() {
+  return {
+    audio: { master: 1, music: 1, sfx: 1 },
+    emailOptIn: false,
+    releaseNotify: false,
+    reducedMotion: false,
+    updatedAt: null,
+  };
+}
+
+const isRecord = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
+const hasOnlyKeys = (value, allowed) => Object.keys(value).every((key) => allowed.includes(key));
+
+// Preferences are intentionally a small, closed shape. updatedAt is accepted from a client for
+// round-tripping, but the API always replaces it with its own timestamp before storage.
+export function validatePreferences(value) {
+  if (!isRecord(value)) return 'Preferences must be an object.';
+  if (!hasOnlyKeys(value, ['audio', 'emailOptIn', 'releaseNotify', 'reducedMotion', 'updatedAt'])) {
+    return 'Preferences contain an unsupported field.';
+  }
+  for (const key of ['audio', 'emailOptIn', 'releaseNotify', 'reducedMotion']) {
+    if (!Object.prototype.hasOwnProperty.call(value, key)) return `Preferences need ${key}.`;
+  }
+  if (!isRecord(value.audio) || !hasOnlyKeys(value.audio, ['master', 'music', 'sfx'])) {
+    return 'audio must contain only master, music, and sfx.';
+  }
+  for (const key of ['master', 'music', 'sfx']) {
+    const amount = value.audio[key];
+    if (typeof amount !== 'number' || !Number.isFinite(amount) || amount < 0 || amount > 1) {
+      return `audio.${key} must be a number from 0 to 1.`;
+    }
+  }
+  for (const key of ['emailOptIn', 'releaseNotify', 'reducedMotion']) {
+    if (typeof value[key] !== 'boolean') return `${key} must be a boolean.`;
+  }
+  if (Object.prototype.hasOwnProperty.call(value, 'updatedAt') && value.updatedAt !== null) {
+    const timestamp = typeof value.updatedAt === 'string' ? new Date(value.updatedAt) : null;
+    if (!timestamp || !Number.isFinite(timestamp.getTime()) || timestamp.toISOString() !== value.updatedAt) {
+      return 'updatedAt must be an ISO date string or null.';
+    }
+  }
+  return null;
+}
 
 // ---- validation ------------------------------------------------------------
 export function isKind(kind) {
