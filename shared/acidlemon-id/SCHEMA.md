@@ -93,6 +93,10 @@ collides with Sumi's existing `users/`, `usernames/`, `levels/`, and `tokens/` o
 | login token (transient, 15 min, one-time) | `id/tokens/{token}.json` |
 | resend cooldown (transient, 60 s) | `id/tokens/by-user/{user_id}.json` |
 
+One record per object, so concurrent writers never collide — the same property Sumi's store relies
+on. `save_id` is constrained to `[A-Za-z0-9_-]{1,48}` because clients supply it (a guest row keeps
+its local id through attach), and an unconstrained id could climb out of its prefix.
+
 ## Player preferences
 
 `GET /api/prefs` and `PUT /api/prefs` require the shared signed-in session. The GET response is
@@ -110,10 +114,6 @@ booleans, and unsupported fields are rejected. The server sets `updatedAt` when 
   "updatedAt": "2026-11-22T12:00:00.000Z"
 }
 ```
-
-One record per object, so concurrent writers never collide — the same property Sumi's store relies
-on. `save_id` is constrained to `[A-Za-z0-9_-]{1,48}` because clients supply it (a guest row keeps
-its local id through attach), and an unconstrained id could climb out of its prefix.
 
 ## Clash of Steel Blades — fighter kit
 

@@ -10,7 +10,7 @@ blockers below are prerequisites, not defects.
 ### Blockers
 
 1. **`id.acidlemon.com` does not exist yet.** Needs a new Vercel project rooted at
-   `shared/acidlemon-id`, plus the DNS record. Until then no title can consume the service.
+   `shared/acidlemon-id`, plus the DNS record. Until then no registered client can consume the service.
 2. **`SESSION_SECRET` must be shared, and it is a secret nobody should copy around casually.**
    The cookie is only valid across registered apps if every project that reads it signs with the
    same
