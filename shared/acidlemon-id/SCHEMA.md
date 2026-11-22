@@ -27,7 +27,7 @@ CREATE TABLE users (
 
 CREATE TABLE user_apps (
   user_id       TEXT NOT NULL REFERENCES users(id),
-  app           TEXT NOT NULL,    -- sumi | space-runner-3d | clash-of-steel-blades | cyberhell | cyberkart
+  app           TEXT NOT NULL,    -- registered title id, including acidlemon-com for the website
   first_seen_at TIMESTAMPTZ NOT NULL,
   last_seen_at  TIMESTAMPTZ NOT NULL,
   PRIMARY KEY (user_id, app)
@@ -45,7 +45,8 @@ CREATE TABLE saves (
 );
 ```
 
-`app` enum: `sumi`, `space-runner-3d`, `clash-of-steel-blades`, `cyberhell`, `cyberkart`.
+`app` ids: `sumi`, `space-runner-3d`, `clash-of-steel-blades`, `cyberhell`, `cyberkart`,
+`acidlemon-com`. The website has no save kinds; it uses the shared account and preferences API.
 `kind` enum: `level`, `fighter`, `pack`.
 
 A `kind` is only accepted for an app that declares it (`lib/apps.js` → `kinds`), so a Cyberhell
@@ -88,8 +89,27 @@ collides with Sumi's existing `users/`, `usernames/`, `levels/`, and `tokens/` o
 | `users` | `id/users/{user_id}.json` |
 | `user_apps` | `id/user-apps/{user_id}/{app}.json` |
 | `saves` | `id/saves/{app}/{user_id}/{kind}/{save_id}.json` |
+| player preferences | `id/prefs/{user_id}.json` |
 | login token (transient, 15 min, one-time) | `id/tokens/{token}.json` |
 | resend cooldown (transient, 60 s) | `id/tokens/by-user/{user_id}.json` |
+
+## Player preferences
+
+`GET /api/prefs` and `PUT /api/prefs` require the shared signed-in session. The GET response is
+`{ "prefs": { ... } }`; when no record exists it returns defaults. PUT accepts the preference
+object directly and returns the canonical saved object in the same wrapper. Request bodies are
+capped at 4 KiB. Volume values are finite numbers from 0 through 1, the three switches are
+booleans, and unsupported fields are rejected. The server sets `updatedAt` when it saves.
+
+```json
+{
+  "audio": { "master": 1, "music": 0.8, "sfx": 1 },
+  "emailOptIn": false,
+  "releaseNotify": true,
+  "reducedMotion": false,
+  "updatedAt": "2026-11-22T12:00:00.000Z"
+}
+```
 
 One record per object, so concurrent writers never collide — the same property Sumi's store relies
 on. `save_id` is constrained to `[A-Za-z0-9_-]{1,48}` because clients supply it (a guest row keeps
@@ -123,8 +143,8 @@ identity's. Textures/meshes come later.
 ## Session
 
 One HMAC-signed httpOnly cookie, `acidlemon_session`, on `Domain=.acidlemon.com`, so a single
-magic link covers all four hosts. `Secure`, `SameSite=Lax` (Lax survives the top-level GET
-navigation the magic link performs), 30-day `Max-Age`, and the signed payload's `iat` is rejected
+magic link covers every registered title and the website hosts. `Secure`, `SameSite=Lax` (Lax
+survives the top-level GET navigation the magic link performs), 30-day `Max-Age`, and the signed payload's `iat` is rejected
 past the same window so a copied token can't outlive its cookie.
 
 `readSession()` re-derives `user_id` from the email in the payload rather than reading a `uid`

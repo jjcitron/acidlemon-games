@@ -1,6 +1,7 @@
 # acidlemon-id — shared magic-link identity + saves
 
-One Acidlemon identity across all four titles. Magic link by email (Mailgun, from acidlemon.com),
+One Acidlemon identity across its game titles and website. Magic link by email (Mailgun, from
+acidlemon.com),
 one session cookie on `.acidlemon.com`, guest-create with sign-in required to save.
 
 Extracted from the live Sumi implementation in `samurai-action-game-repo/api/`. **Those Sumi files
@@ -12,10 +13,10 @@ until it is cut over in a later packet.
 
 ## Shape
 
-Deployed **once** as its own Vercel project at `https://id.acidlemon.com`. The four titles call it
-cross-origin with `credentials: 'include'`; the session cookie is scoped to `.acidlemon.com` so it
-travels to all of them. That way there is exactly one auth implementation, not four vendored
-copies that drift.
+Deployed **once** as its own Vercel project at `https://id.acidlemon.com`. Registered titles and
+`acidlemon.com` call it cross-origin with `credentials: 'include'`; the session cookie is scoped to
+`.acidlemon.com`. `www.acidlemon.com` is also an approved CORS origin. That way there is exactly one
+auth implementation, not vendored copies that drift.
 
 ```
 lib/apps.js     app registry — hosts, branding, allowed save kinds, CORS allowlist
@@ -36,6 +37,7 @@ api/auth/logout.js    POST                        -> clears the shared cookie
 api/auth/delete-account.js POST { confirm:true, app? } -> hard-deletes the account + receipt email
 api/saves/index.js    GET ?app=&kind= | PUT       -> list / upsert  (401 = sign in to save)
 api/saves/attach.js   POST { app, items[] }       -> fold guest work into the account
+api/prefs.js          GET | PUT                    -> read / validate and store account preferences
 
 client/acidlemon-id.js   browser client the titles import
 scripts/selftest.mjs     offline checks (no network, no deps)
@@ -62,9 +64,9 @@ save never costs the player their build.
 ## Account deletion (Apple 5.1.1(v))
 
 `POST /api/auth/delete-account { confirm: true, app? }` needs a session (401 otherwise). It
-**hard-deletes** the users row, every `user_apps` row, the saves in every registered title and the
-login cooldown, clears the shared cookie, then emails a receipt from the title's own sender
-(`from` in `lib/apps.js`, e.g. CyberKart). Hard delete is correct today because saves are private
+**hard-deletes** the users row, every `user_apps` row, the saves in every registered title, the
+preferences record and login cooldown, clears the shared cookie, then emails a receipt from the
+title's own sender (`from` in `lib/apps.js`, e.g. CyberKart). Hard delete is correct today because saves are private
 and there is no shared/public content. If a title ever publishes user content, that content is
 **anonymized** (strip `user_id`/`username`, keep the content) rather than deleted. Client:
 `id.deleteAccount()` -> `{ ok, receipt } | { error }`.
@@ -75,9 +77,10 @@ and there is no shared/public content. If a title ever publishes user content, t
 node scripts/selftest.mjs
 ```
 
-93 assertions over the schema rules, fighter-kit slots, blob paths, cookie attributes, session
-tamper-resistance, id stability, the cyberkart registration, the Mailgun sender/receipt copy and
-the account-deletion sweep (against an in-memory store). Runs with no dependencies installed and no network, so it
+Offline assertions cover schema rules, preferences and body limits, fighter-kit slots, blob paths,
+cookie attributes, session tamper-resistance, id stability, app registration, Mailgun sender/receipt
+copy and the account-deletion sweep (against an in-memory store). Runs with no dependencies
+installed and no network, so it
 works on a box copy. It does **not** cover Mailgun delivery or Blob I/O — those need the real
 deploy and env, and are unverified here (see `INTEGRATION.md`).
 

@@ -3,7 +3,7 @@
 ## Status: code complete, deploy BLOCKED on things only Joel can do
 
 Nothing in this job was deployed, pushed, or published. The service is written and its offline
-logic is tested (`node scripts/selftest.mjs`, 63 assertions). Mailgun delivery, Blob I/O, and the
+logic is tested (`node scripts/selftest.mjs`). Mailgun delivery, Blob I/O, and the
 cross-host cookie are **unverified** — none of them can be exercised from the box copy. The
 blockers below are prerequisites, not defects.
 
@@ -12,7 +12,8 @@ blockers below are prerequisites, not defects.
 1. **`id.acidlemon.com` does not exist yet.** Needs a new Vercel project rooted at
    `shared/acidlemon-id`, plus the DNS record. Until then no title can consume the service.
 2. **`SESSION_SECRET` must be shared, and it is a secret nobody should copy around casually.**
-   The cookie is only valid on all four hosts if every project that reads it signs with the same
+   The cookie is only valid across registered apps if every project that reads it signs with the
+   same
    value. Today only the Sumi project has it. This is the one genuinely sensitive step.
 3. **`ID_SECRET` must be set to the *current* `SESSION_SECRET` value before `SESSION_SECRET` is
    ever rotated.** User ids are an HMAC of the email under this key. Rotate without pinning it and
@@ -22,7 +23,7 @@ blockers below are prerequisites, not defects.
    sandbox/authorized-recipients — on sandbox, only allow-listed addresses receive a link, which
    would make guest→account fail for real players. Someone with Mailgun access has to confirm.
 5. **Blob store scope.** The service writes under an `id/` prefix in Sumi's existing public store.
-   If the four titles should not share one store, this needs its own store and token instead.
+   If the titles and website should not share one store, this needs its own store and token instead.
 
 ## Deploy order
 
