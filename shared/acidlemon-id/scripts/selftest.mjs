@@ -23,7 +23,7 @@ const ok = (name, cond) => { if (cond) pass++; else fails.push(name); };
 const eq = (name, a, b) => ok(`${name} (got ${JSON.stringify(a)})`, a === b);
 
 // ---- app registry ----------------------------------------------------------
-eq('five titles and the website registered', APP_IDS.length, 6);
+eq('six titles and the website registered', APP_IDS.length, 7);
 for (const id of ['sumi', 'space-runner-3d', 'clash-of-steel-blades', 'cyberhell', 'cyberkart', 'acidlemon-com']) {
   ok(`app ${id} exists`, isApp(id));
   if (id !== 'acidlemon-com') ok(`app ${id} has acidlemon origin`, APPS[id].origin.endsWith('.acidlemon.com'));
@@ -36,7 +36,7 @@ ok('unknown app rejected', !isApp('not-a-game'));
 ok('every origin is https', allowedOrigins().every((o) => o.startsWith('https://')));
 
 // ---- schema ----------------------------------------------------------------
-eq('save kinds', SAVE_KINDS.join(','), 'level,fighter,pack');
+eq('save kinds', SAVE_KINDS.join(','), 'level,fighter,pack,collection');
 ok('clash declares fighter kind', kindAllowed('clash-of-steel-blades', 'fighter'));
 ok('cyberhell declares pack kind', kindAllowed('cyberhell', 'pack'));
 ok('sumi does not store fighters', !kindAllowed('sumi', 'fighter'));

@@ -1,12 +1,16 @@
 // saves read/write/attach. A save always belongs to (user_id, app, kind) — guest work has no row
 // here at all; it sits in the browser until a magic link is clicked, then attach() folds it in.
-import { getJson, putJson, listPrefix, fetchJson } from './store.js';
+import * as store from './store.js';
 import { paths, validateSave, isSaveId } from './schema.js';
 import { randomId } from './ids.js';
+import { recordScore } from './leaderboard.js';
+
+const { getJson, putJson, listPrefix, fetchJson } = store;
 
 export async function putSave(uid, { app, kind, id, payload }) {
   const err = validateSave({ app, kind, payload });
   if (err) return { error: err };
+  if (kind === 'collection' && id !== 'main') return { error: 'Collection save id must be main.' };
 
   const saveId = id === undefined || id === null || id === '' ? randomId() : String(id);
   if (!isSaveId(saveId)) return { error: 'Invalid save id.' };
@@ -24,6 +28,15 @@ export async function putSave(uid, { app, kind, id, payload }) {
     updated_at: now,
   };
   await putJson(path, record);
+
+  // Both normal saves and guest attachment use this path. A score failure leaves the save intact.
+  if (kind === 'collection') {
+    try {
+      await recordScore(store, app, uid, { gelt: payload.purse });
+    } catch {
+      console.error('Could not update leaderboard from collection save.');
+    }
+  }
   return { save: record };
 }
 
