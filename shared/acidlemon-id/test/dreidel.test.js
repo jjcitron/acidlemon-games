@@ -196,4 +196,202 @@ describe('Dreidel identity contracts', { concurrency: false }, () => {
     const token = [...state.blobs.values()].find((value) => value.next);
     assert.equal(token.next, '/?auth=ok');
   });
+
+  test('requires sign-in for PUT, stores the exact collection, lists and updates saves, and validates attach items', async () => {
+    const body = { app: 'dreidel', kind: 'collection', id: 'main', payload: collection() };
+    let result = await call(saves, { method: 'PUT', url: '/api/saves', body });
+    assert.equal(result.res.statusCode, 401);
+
+    result = await call(saves, { method: 'PUT', url: '/api/saves', body, cookie: COOKIE });
+    assert.equal(result.res.statusCode, 200);
+    assert.equal(result.res.headers['access-control-allow-origin'], ORIGIN);
+    assert.equal(result.res.headers['access-control-allow-credentials'], 'true');
+    assert.deepEqual(Object.keys(result.data), ['save']);
+    assert.deepEqual(result.data.save.payload, body.payload);
+    const created = result.data.save.created_at;
+
+    result = await call(saves, { url: '/api/saves?app=dreidel&kind=collection', cookie: COOKIE });
+    assert.equal(result.res.statusCode, 200);
+    assert.equal(result.data.saves.length, 1);
+    assert.equal(result.data.saves[0].id, 'main');
+
+    const items = [
+      { kind: 'collection', id: 'main', payload: collection(25) },
+      { kind: 'collection', id: 'backup', payload: collection(50) },
+      { kind: 'collection', id: 'main', payload: { ...collection(), israel: 'yes' } },
+    ];
+    result = await call(attach, { method: 'POST', url: '/api/saves/attach', body: { app: 'dreidel', items }, cookie: COOKIE });
+    assert.equal(result.res.statusCode, 200);
+    assert.equal(result.data.attached, 1);
+    assert.deepEqual(result.data.results.map((row) => row.ok), [true, false, false]);
+    result = await call(saves, { url: '/api/saves?app=dreidel&kind=collection', cookie: COOKIE });
+    assert.equal(result.data.saves.length, 1);
+    assert.equal(result.data.saves[0].payload.purse, 25);
+    assert.equal(result.data.saves[0].created_at, created);
+    assert.ok(result.data.saves[0].updated_at >= created);
+    assert.equal(state.blobs.get(paths.leaderboardEntry('dreidel', UID)).gelt, 25);
+  });
+
+  test('enforces closed collection shape, purse bounds, skin id and ownership rules, and app isolation', async () => {
+    const longId = 'a'.repeat(40);
+    const owned = [longId, ...Array.from({ length: 63 }, (_, i) => `skin-${i}`)];
+    const valid = { purse: 1_000_000, equipped: longId, owned, israel: true };
+    let result = await call(saves, {
+      method: 'PUT', url: '/api/saves', cookie: COOKIE,
+      body: { app: 'dreidel', kind: 'collection', id: 'main', payload: valid },
+    });
+    assert.equal(result.res.statusCode, 200);
+
+    const invalid = [
+      { ...collection(), extra: true }, { ...collection(), updatedAt: null },
+      { ...collection(), purse: '12' }, { ...collection(), purse: -1 },
+      { ...collection(), purse: 1_000_001 }, { ...collection(), purse: 1.5 },
+      { ...collection(), equipped: 'a'.repeat(41), owned: ['a'.repeat(41)] },
+      { ...collection(), owned: ['walnut', '../gold', 'Uppercase'] },
+      { ...collection(), owned: ['walnut', 'walnut'] },
+      { ...collection(), owned: Array.from({ length: 65 }, (_, i) => `skin-${i}`) },
+      { ...collection(), equipped: 'not-owned' }, { ...collection(), israel: 1 },
+    ];
+    for (const payload of invalid) {
+      result = await call(saves, {
+        method: 'PUT', url: '/api/saves', cookie: COOKIE,
+        body: { app: 'dreidel', kind: 'collection', id: 'main', payload },
+      });
+      assert.equal(result.res.statusCode, 400, JSON.stringify(payload));
+    }
+    for (const app of APP_IDS.filter((id) => id !== 'dreidel')) {
+      result = await call(saves, {
+        method: 'PUT', url: '/api/saves', cookie: COOKIE,
+        body: { app, kind: 'collection', id: 'main', payload: collection() },
+      });
+      assert.equal(result.res.statusCode, 400, app);
+    }
+  });
+
+  test('publishes ordered public pseudonyms with default and clamped limits, and rejects unsupported apps', async () => {
+    const rows = [
+      { name: EMAIL, gelt: 900, wins: 3, updated_at: '2026-01-02T00:00:00.000Z' },
+      { name: 'Early', gelt: 900, wins: 3, updated_at: '2026-01-01T00:00:00.000Z' },
+      { name: 'More Wins', gelt: 900, wins: 4, updated_at: '2026-01-03T00:00:00.000Z' },
+      ...Array.from({ length: 57 }, (_, i) => ({
+        name: 'Player', gelt: 890 - i, wins: i % 4, updated_at: '2026-01-01T00:00:00.000Z',
+      })),
+    ];
+    rows.forEach((row, i) => {
+      const uid = String(i + 1).padStart(32, '0');
+      write(paths.leaderboardEntry('dreidel', uid), { ...row, user_id: uid, app: 'dreidel' });
+    });
+    const result = await call(leaderboard, { url: '/api/leaderboard?app=dreidel' });
+    assert.equal(result.res.statusCode, 200);
+    assert.equal(result.res.headers['access-control-allow-origin'], ORIGIN);
+    assert.equal(result.res.headers['access-control-allow-credentials'], 'true');
+    assert.equal(result.data.entries.length, 10);
+    assert.deepEqual(result.data.entries.slice(0, 3).map((entry) => [entry.gelt, entry.wins]), [[900, 4], [900, 3], [900, 3]]);
+    assert.deepEqual(Object.keys(result.data.entries[0]), ['name', 'gelt', 'wins']);
+    assert.deepEqual(result.data.entries.slice(0, 2).map((entry) => entry.name), ['More Wins', 'Early']);
+    assert.match(result.data.entries[2].name, /^Spinner /);
+    assert.equal(JSON.stringify(result.data).includes(EMAIL), false);
+    assert.equal((await call(leaderboard, { url: '/api/leaderboard?app=dreidel&limit=0' })).data.entries.length, 1);
+    assert.equal((await call(leaderboard, { url: '/api/leaderboard?app=dreidel&limit=999' })).data.entries.length, 50);
+    const unknown = await call(leaderboard, { url: '/api/leaderboard?app=missing' });
+    assert.equal(unknown.res.statusCode, 400);
+    assert.deepEqual(unknown.data, { error: 'Unknown app.' });
+    const unsupported = await call(leaderboard, { url: '/api/leaderboard?app=cyberkart' });
+    assert.equal(unsupported.res.statusCode, 400);
+    assert.ok(unsupported.data.error);
+  });
+
+  test('keeps best-of collection and POST scores, rejects guest/invalid posts, and saves through leaderboard failure', async () => {
+    write(paths.user(UID), { username: EMAIL });
+    let result = await call(saves, {
+      method: 'PUT', url: '/api/saves', cookie: COOKIE,
+      body: { app: 'dreidel', kind: 'collection', id: 'main', payload: collection(500) },
+    });
+    assert.equal(result.res.statusCode, 200);
+    assert.deepEqual(Object.keys(result.data), ['save']);
+    const scorePath = paths.leaderboardEntry('dreidel', UID);
+    assert.equal(state.blobs.get(scorePath).gelt, 500);
+
+    result = await call(leaderboard, { method: 'POST', url: '/api/leaderboard', body: { app: 'dreidel', gelt: 700, wins: 2 } });
+    assert.equal(result.res.statusCode, 401);
+    assert.deepEqual(result.data, { error: 'Sign in to post scores.' });
+    for (const [gelt, wins] of [[-1, 2], [1_000_001, 2], ['1', 2], [1.5, 2], [1, -1], [1, 100_001], [1, 0.5], [1, '2']]) {
+      result = await call(leaderboard, {
+        method: 'POST', url: '/api/leaderboard', cookie: COOKIE, body: { app: 'dreidel', gelt, wins },
+      });
+      assert.equal(result.res.statusCode, 400);
+    }
+    result = await call(leaderboard, { method: 'POST', url: '/api/leaderboard', cookie: COOKIE, body: { app: 'dreidel', gelt: 700, wins: 2 } });
+    assert.equal(result.res.statusCode, 200);
+    result = await call(leaderboard, { method: 'POST', url: '/api/leaderboard', cookie: COOKIE, body: { app: 'dreidel', gelt: 600, wins: 5 } });
+    assert.deepEqual(result.data.entry, { name: `Spinner ${UID.slice(0, 4).toUpperCase()}`, gelt: 700, wins: 5 });
+    const tiedAt = state.blobs.get(scorePath).updated_at;
+    result = await call(leaderboard, { method: 'POST', url: '/api/leaderboard', cookie: COOKIE, body: { app: 'dreidel', gelt: 650, wins: 4 } });
+    assert.deepEqual(result.data.entry, { name: `Spinner ${UID.slice(0, 4).toUpperCase()}`, gelt: 700, wins: 5 });
+    assert.equal(state.blobs.get(scorePath).updated_at, tiedAt);
+
+    write(paths.user(UID), { username: '\u0000Golden\u202e Spinner of Acidlemon' });
+    result = await call(saves, {
+      method: 'PUT', url: '/api/saves', cookie: COOKIE,
+      body: { app: 'dreidel', kind: 'collection', id: 'main', payload: collection(600) },
+    });
+    assert.equal(result.res.statusCode, 200);
+    const row = state.blobs.get(scorePath);
+    assert.deepEqual([row.name, row.gelt, row.wins], ['Golden Spinner of Acidle', 700, 5]);
+
+    state.failLeaderboardWrites = true;
+    const logged = mock.method(console, 'error', () => {});
+    try {
+      result = await call(saves, {
+        method: 'PUT', url: '/api/saves', cookie: COOKIE,
+        body: { app: 'dreidel', kind: 'collection', id: 'main', payload: collection(800) },
+      });
+    } finally { logged.mock.restore(); }
+    assert.equal(logged.mock.callCount(), 1);
+    assert.equal(result.res.statusCode, 200);
+    assert.equal(result.data.save.payload.purse, 800);
+    assert.equal(state.blobs.get(scorePath).gelt, 700);
+    assert.ok(state.blobs.has(paths.save('dreidel', UID, 'collection', 'main')));
+  });
+
+  test('merges overlapping writes and retries a compare-and-swap conflict', async () => {
+    write(paths.user(UID), { username: EMAIL });
+    const store = await import('../lib/store.js');
+    await Promise.all([
+      recordScore(store, 'dreidel', UID, { gelt: 100, wins: 2 }),
+      recordScore(store, 'dreidel', UID, { gelt: 200, wins: 1 }),
+    ]);
+    let row = state.blobs.get(paths.leaderboardEntry('dreidel', UID));
+    assert.deepEqual([row.gelt, row.wins], [200, 2]);
+
+    remove(paths.leaderboardEntry('dreidel', UID));
+    state.conflictNextLeaderboardPut = true;
+    await recordScore(store, 'dreidel', UID, { gelt: 175, wins: 3 });
+    row = state.blobs.get(paths.leaderboardEntry('dreidel', UID));
+    assert.deepEqual([row.gelt, row.wins], [250, 3]);
+    assert.equal(row.name, `Spinner ${UID.slice(0, 4).toUpperCase()}`);
+  });
+
+  test('account deletion removes this player’s leaderboard rows and leaves other players intact', async () => {
+    const mine = paths.leaderboardEntry('dreidel', UID);
+    const theirs = paths.leaderboardEntry('dreidel', OTHER_UID);
+    const mySave = paths.save('dreidel', UID, 'collection', 'main');
+    const otherSave = paths.save('dreidel', OTHER_UID, 'collection', 'main');
+    const otherApp = paths.leaderboardEntry('sumi', UID);
+    write(mine, { user_id: UID });
+    write(theirs, { user_id: OTHER_UID });
+    write(mySave, { user_id: UID });
+    write(otherSave, { user_id: OTHER_UID });
+    write(otherApp, { user_id: UID });
+    const result = await call(deleteAccount, {
+      method: 'POST', url: '/api/auth/delete-account', cookie: COOKIE,
+      body: { confirm: true, app: 'dreidel' },
+    });
+    assert.equal(result.res.statusCode, 200);
+    assert.equal(state.blobs.has(mine), false);
+    assert.equal(state.blobs.has(mySave), false);
+    assert.equal(state.blobs.has(otherApp), false);
+    assert.equal(state.blobs.has(theirs), true);
+    assert.equal(state.blobs.has(otherSave), true);
+  });
 });
