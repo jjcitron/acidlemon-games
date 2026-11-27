@@ -1,9 +1,7 @@
 // Account deletion. Pure planning plus an injected store, so the selftest can run it against an
 // in-memory fake and this file never imports the Blob SDK.
 //
-// Policy: hard-delete. Saves are private per user and there is no shared/public content table, so
-// there is nothing to anonymize. If a title ever publishes user content under an attribution,
-// that content gets its user_id/username stripped here instead of deleted — see README.
+// Policy: hard-delete private saves and public leaderboard entries that belong to this user.
 import { APP_IDS } from './apps.js';
 import { paths } from './schema.js';
 
@@ -18,7 +16,10 @@ export function accountTargets(uid) {
       ...APP_IDS.map((app) => paths.savePrefix(app, uid, null)),
       paths.userAppPrefix(uid),
     ],
-    exact: [paths.loginCooldown(uid), paths.prefs(uid), paths.user(uid)],
+    exact: [
+      ...APP_IDS.map((app) => paths.leaderboardEntry(app, uid)),
+      paths.loginCooldown(uid), paths.prefs(uid), paths.user(uid),
+    ],
   };
 }
 

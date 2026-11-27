@@ -41,6 +41,17 @@ export const APPS = {
     kinds: [],
     from: 'CyberKart <cyberkart@games.acidlemon.com>',
   },
+  'dreidel': {
+    label: 'Chanukah Spin',
+    // Magic links redirect to spin.acidlemon.com by default. Staging can override via DREIDEL_ORIGIN.
+    origin: process.env.DREIDEL_ORIGIN || 'https://spin.acidlemon.com',
+    extraOrigins: ['https://spin.acidlemon.com', 'https://dreidel.acidlemon.com'],
+    accent: '#17366b',
+    onAccent: '#f9e3a0',
+    from: 'Chanukah Spin <dreidel@games.acidlemon.com>',
+    kinds: ['collection'],
+    leaderboard: true,
+  },
   'acidlemon-com': {
     label: 'Acidlemon',
     origin: 'https://acidlemon.com',

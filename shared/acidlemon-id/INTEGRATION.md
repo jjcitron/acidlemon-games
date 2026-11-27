@@ -55,6 +55,40 @@ For the other two titles, the same shape applies; neither is touched by this job
   for Sumi is a later Sumi packet gated on Joel's exact text. Sumi's `sumi_session` cookie and
   `acidlemon_session` can coexist during cutover; this service does not accept the old cookie.
 
+## Chanukah Spin (Dreidel)
+
+The browser sends requests to `https://id.acidlemon.com` with `credentials: 'include'` and uses
+`Content-Type: application/json` for JSON bodies.
+
+| Request | Response |
+| --- | --- |
+| `GET /api/auth/me` | `200` with the user object or `401` for a guest |
+| `POST /api/auth/request` with `{ email, app: 'dreidel', next: '/?auth=ok' }` | `200 { ok: true }` or `{ error }` |
+| `POST /api/auth/logout` | `200 { ok: true }` and clears the shared cookie |
+| `PUT /api/saves` with `{ app: 'dreidel', kind: 'collection', id: 'main', payload: collection }` | `200 { save }`, `401` for the client's sign-in prompt, or `{ error }` |
+| `GET /api/saves?app=dreidel&kind=collection` | `200 { saves }` or `401` for a guest |
+| `GET /api/leaderboard?app=dreidel` | Public `200 { entries: [{ name, gelt, wins }] }`. Optional `limit` defaults to 10 and is clamped to 1–50. |
+| `POST /api/leaderboard` with `{ app: 'dreidel', gelt, wins }` | `200 { entry }` with `{ name, gelt, wins }`, `401 { error: 'Sign in to post scores.' }` for a guest, or `400 { error }` for invalid input |
+
+The collection payload defaults to
+`{ purse: 0, equipped: 'walnut', owned: ['walnut'], israel: false }`. The client already
+posts its purse through the save route. The leaderboard stores a player's best gelt and best
+wins independently. Each Blob at `id/leaderboard/<app>/<uid>.json` contains
+`{ user_id, app, name, gelt, wins, updated_at }`.
+
+`https://spin.acidlemon.com` is the default magic-link redirect and registered origin.
+`DREIDEL_ORIGIN` overrides those for staging. Credentialed CORS always allows both
+`https://spin.acidlemon.com` and `https://dreidel.acidlemon.com`, including when the override is
+set. Add exact preview origins to `ACIDLEMON_EXTRA_ORIGINS` on the ID project.
+The session cookie still follows the browser's same-site rules, so use an `acidlemon.com`
+staging host for signed-in browser QA. Confirm Mailgun can send as
+`Chanukah Spin <dreidel@games.acidlemon.com>`. The new records use the existing Blob store
+without a database migration.
+
+Score writes use version checks from `@vercel/blob` 2.4.0, which requires Node.js 20 or later.
+They retry if a concurrent write changed the row. The public ranking can briefly lag after a
+Blob overwrite.
+
 ## Cutting Sumi over later (not this job)
 
 Sketch only, so the extraction's intent is on record:

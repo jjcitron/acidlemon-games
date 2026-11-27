@@ -2,22 +2,49 @@
 // Each record is its own object at a deterministic path, so concurrent writers never collide.
 // The store is public; sensitive records are keyed by unguessable HMAC hashes / random tokens so
 // their URLs aren't enumerable. We read them back by exact pathname.
-import { put, list, del } from '@vercel/blob';
+import { BlobNotFoundError, BlobPreconditionFailedError, del, get, head, list, put } from '@vercel/blob';
 
 // The public Blob store's read-write token. Vercel named it PUBLIC_READ_WRITE_TOKEN (the BLOB_
 // prefix was taken by the old private store); prefer it, fall back to the conventional name.
 const token = () => process.env.PUBLIC_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
 
 // Write a JSON record at an exact path (overwrite-in-place, no random suffix).
-export async function putJson(pathname, data) {
+export async function putJson(pathname, data, { allowOverwrite = true, ifMatch } = {}) {
   return put(pathname, JSON.stringify(data), {
     access: 'public',
     contentType: 'application/json',
     addRandomSuffix: false,
-    allowOverwrite: true,
+    allowOverwrite,
+    ifMatch,
     cacheControlMaxAge: 0,
     token: token(),
   });
+}
+
+// Pair the payload with the ETag from the same read so a stale payload can't overwrite newer data.
+export async function getJsonVersioned(pathname) {
+  const result = await get(pathname, { access: 'public', token: token(), useCache: false });
+  if (!result) return null;
+  if (result.statusCode !== 200 || !result.blob.etag) throw new Error('Could not read Blob version.');
+  return { value: await new Response(result.stream).json(), etag: result.blob.etag };
+}
+
+export async function putJsonIfCurrent(pathname, data, etag) {
+  try {
+    await putJson(pathname, data, { allowOverwrite: etag !== null, ifMatch: etag ?? undefined });
+    return true;
+  } catch (err) {
+    if (err instanceof BlobPreconditionFailedError) return false;
+    if (etag !== null) throw err;
+    // A create-only conflict can return a generic Blob error. Check whether another write won.
+    try {
+      await head(pathname, { token: token() });
+      return false;
+    } catch (readError) {
+      if (readError instanceof BlobNotFoundError) throw err;
+      throw readError;
+    }
+  }
 }
 
 // Resolve an exact pathname to its blob URL (del/fetch need the URL, not the pathname).

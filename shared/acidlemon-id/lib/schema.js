@@ -2,7 +2,7 @@
 // logical schema (users / user_apps / saves) and how these paths map onto it.
 import { APPS, isApp } from './apps.js';
 
-export const SAVE_KINDS = ['level', 'fighter', 'pack'];
+export const SAVE_KINDS = ['level', 'fighter', 'pack', 'collection'];
 
 // Clash of Steel Blades fighter kit. Groundwork only: the slots are fixed now so saves written
 // today stay readable when the real mixer UI lands. Textures/meshes are named by id only —
@@ -18,6 +18,8 @@ export const paths = {
   save: (app, uid, kind, id) => `id/saves/${app}/${uid}/${kind}/${id}.json`,
   savePrefix: (app, uid, kind) =>
     kind ? `id/saves/${app}/${uid}/${kind}/` : `id/saves/${app}/${uid}/`,
+  leaderboardEntry: (app, uid) => `id/leaderboard/${app}/${uid}.json`,
+  leaderboardPrefix: (app) => `id/leaderboard/${app}/`,
   loginToken: (token) => `id/tokens/${token}.json`,
   loginCooldown: (uid) => `id/tokens/by-user/${uid}.json`,
 };
@@ -80,6 +82,7 @@ export function kindAllowed(app, kind) {
 }
 
 const MAX_PAYLOAD_BYTES = 512 * 1024;
+export const MAX_GELT = 1_000_000;
 
 export function validateSave({ app, kind, payload }) {
   if (!isApp(app)) return 'Unknown app.';
@@ -88,6 +91,28 @@ export function validateSave({ app, kind, payload }) {
   if (payload === null || typeof payload !== 'object') return 'payload must be an object.';
   if (JSON.stringify(payload).length > MAX_PAYLOAD_BYTES) return 'payload is too large.';
   if (kind === 'fighter') return validateFighterKit(payload);
+  if (kind === 'collection') return validateCollection(payload);
+  return null;
+}
+
+// A collection is a single closed record of skin ids and the player's current purse.
+const SKIN_ID_RE = /^[a-z0-9][a-z0-9-]{0,39}$/;
+const isSkinId = (value) => typeof value === 'string' && SKIN_ID_RE.test(value);
+
+function validateCollection(payload) {
+  if (!isRecord(payload) || !hasOnlyKeys(payload, ['purse', 'equipped', 'owned', 'israel'])) {
+    return 'Collection must contain only purse, equipped, owned, and israel.';
+  }
+  const { purse, equipped, owned, israel } = payload;
+  if (!Number.isInteger(purse) || purse < 0 || purse > MAX_GELT) {
+    return `purse must be an integer from 0 to ${MAX_GELT}.`;
+  }
+  if (!Array.isArray(owned) || owned.length > 64 || !Array.from(owned).every(isSkinId)
+      || new Set(owned).size !== owned.length) {
+    return 'owned must contain up to 64 unique skin ids.';
+  }
+  if (!isSkinId(equipped) || !owned.includes(equipped)) return 'equipped must be an owned skin id.';
+  if (typeof israel !== 'boolean') return 'israel must be a boolean.';
   return null;
 }
 
