@@ -67,10 +67,12 @@ save never costs the player their build.
 
 ## Chanukah Spin
 
-The `dreidel` app uses `https://dreidel.acidlemon.com` by default. Set `DREIDEL_ORIGIN` on ID
-to override its registered CORS origin and magic-link redirect for staging. For Vercel previews,
-append each full origin (for example, `https://dreidel-git-feature-team.vercel.app`) to the
-comma-separated `ACIDLEMON_EXTRA_ORIGINS` on ID. Use exact origins without trailing slashes.
+The `dreidel` app uses `https://spin.acidlemon.com` as its default magic-link redirect and
+registered origin. Set `DREIDEL_ORIGIN` on ID to override those for staging. Credentialed CORS
+always allows both `https://spin.acidlemon.com` and `https://dreidel.acidlemon.com`, including
+when the override is set. For Vercel previews, append each full origin (for example,
+`https://dreidel-git-feature-team.vercel.app`) to the comma-separated `ACIDLEMON_EXTRA_ORIGINS`
+on ID. Use exact origins without trailing slashes.
 
 The client saves one skin collection at `id: 'main'`. Saving or attaching it posts the player's
 best purse automatically. Signed-in players can also post gelt and wins directly. The leaderboard

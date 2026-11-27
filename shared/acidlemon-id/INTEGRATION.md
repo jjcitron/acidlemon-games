@@ -76,8 +76,10 @@ posts its purse through the save route. The leaderboard stores a player's best g
 wins independently. Each Blob at `id/leaderboard/<app>/<uid>.json` contains
 `{ user_id, app, name, gelt, wins, updated_at }`.
 
-`DREIDEL_ORIGIN` overrides the registered production origin for staging. Add exact preview
-origins to `ACIDLEMON_EXTRA_ORIGINS` on the ID project. Credentialed CORS permits those origins.
+`https://spin.acidlemon.com` is the default magic-link redirect and registered origin.
+`DREIDEL_ORIGIN` overrides those for staging. Credentialed CORS always allows both
+`https://spin.acidlemon.com` and `https://dreidel.acidlemon.com`, including when the override is
+set. Add exact preview origins to `ACIDLEMON_EXTRA_ORIGINS` on the ID project.
 The session cookie still follows the browser's same-site rules, so use an `acidlemon.com`
 staging host for signed-in browser QA. Confirm Mailgun can send as
 `Chanukah Spin <dreidel@games.acidlemon.com>`. The new records use the existing Blob store

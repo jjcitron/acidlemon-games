@@ -1,6 +1,9 @@
 // Offline self-test for the pure parts of the shared identity service: schema rules, fighter-kit
 // slots, blob paths, cookie attributes, and session signing. No network, no Blob store, no
 // Mailgun — so it runs anywhere, including a box copy with no deps installed.
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+
 process.env.SESSION_SECRET = 'selftest-session-secret';
 process.env.ID_SECRET = 'selftest-id-secret';
 
@@ -33,8 +36,25 @@ eq('acidlemon-com label', APPS['acidlemon-com'].label, 'Acidlemon');
 eq('acidlemon-com origin', APPS['acidlemon-com'].origin, 'https://acidlemon.com');
 eq('acidlemon-com declares no save kinds', APPS['acidlemon-com'].kinds.length, 0);
 eq('dreidel label', APPS.dreidel.label, 'Chanukah Spin');
-eq('dreidel origin', APPS.dreidel.origin, process.env.DREIDEL_ORIGIN || 'https://dreidel.acidlemon.com');
+eq('dreidel origin', APPS.dreidel.origin, process.env.DREIDEL_ORIGIN || 'https://spin.acidlemon.com');
 ok('dreidel origin is CORS-allowed', allowedOrigins().includes(APPS.dreidel.origin));
+const dreidelProductionOrigins = ['https://spin.acidlemon.com', 'https://dreidel.acidlemon.com'];
+{
+  const cwd = fileURLToPath(new URL('..', import.meta.url));
+  const source = "import { APPS, allowedOrigins } from './lib/apps.js'; process.stdout.write(JSON.stringify({ origin: APPS.dreidel.origin, allowedOrigins: allowedOrigins() }))";
+  for (const [configuredOrigin, expectedOrigin] of [
+    ['', 'https://spin.acidlemon.com'],
+    ['https://dreidel-stage.acidlemon.com', 'https://dreidel-stage.acidlemon.com'],
+  ]) {
+    const result = JSON.parse(execFileSync(process.execPath, ['--input-type=module', '-e', source], {
+      cwd, encoding: 'utf8',
+      env: { ...process.env, DREIDEL_ORIGIN: configuredOrigin, ACIDLEMON_EXTRA_ORIGINS: '' },
+    }));
+    eq(`Dreidel subprocess origin for ${configuredOrigin || 'default'}`, result.origin, expectedOrigin);
+    ok(`Dreidel subprocess production CORS origins for ${configuredOrigin || 'default'}`,
+      dreidelProductionOrigins.every((origin) => result.allowedOrigins.includes(origin)));
+  }
+}
 eq('only dreidel declares a leaderboard', APP_IDS.filter((id) => APPS[id].leaderboard).join(','), 'dreidel');
 eq('dreidel uses its title sender', fromFor('dreidel', {}), 'Chanukah Spin <dreidel@games.acidlemon.com>');
 ok('www.acidlemon.com is CORS-allowed', allowedOrigins().includes('https://www.acidlemon.com'));

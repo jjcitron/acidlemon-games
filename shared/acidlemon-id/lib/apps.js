@@ -43,8 +43,9 @@ export const APPS = {
   },
   'dreidel': {
     label: 'Chanukah Spin',
-    // Staging can override via DREIDEL_ORIGIN so magic-link verify redirects back to staging.
-    origin: process.env.DREIDEL_ORIGIN || 'https://dreidel.acidlemon.com',
+    // Magic links redirect to spin.acidlemon.com by default. Staging can override via DREIDEL_ORIGIN.
+    origin: process.env.DREIDEL_ORIGIN || 'https://spin.acidlemon.com',
+    extraOrigins: ['https://spin.acidlemon.com', 'https://dreidel.acidlemon.com'],
     accent: '#17366b',
     onAccent: '#f9e3a0',
     from: 'Chanukah Spin <dreidel@games.acidlemon.com>',

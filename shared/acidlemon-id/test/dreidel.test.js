@@ -95,7 +95,8 @@ const { default: prefs } = await import('../api/prefs.js');
 const EMAIL = 'player@example.test';
 const UID = '11111111111111111111111111111111';
 const OTHER_UID = '22222222222222222222222222222222';
-const ORIGIN = 'https://dreidel.acidlemon.com';
+const ORIGIN = 'https://spin.acidlemon.com';
+const PRODUCTION_ORIGINS = [ORIGIN, 'https://dreidel.acidlemon.com'];
 const COOKIE = 'signed';
 const COLLECTION = { purse: 0, equipped: 'walnut', owned: ['walnut'], israel: false };
 const endpoints = [
@@ -137,17 +138,22 @@ beforeEach(() => {
 describe('Dreidel identity contracts', { concurrency: false }, () => {
   test('registers the production app and honors a fresh-process staging override', () => {
     assert.ok(APP_IDS.includes('dreidel'));
-    assert.equal(APPS.dreidel.origin, 'https://dreidel.acidlemon.com');
+    assert.equal(APPS.dreidel.origin, ORIGIN);
     assert.equal(APPS.dreidel.label, 'Chanukah Spin');
     assert.deepEqual(APPS.dreidel.kinds, ['collection']);
     assert.equal(APPS.dreidel.leaderboard, true);
     const cwd = fileURLToPath(new URL('..', import.meta.url));
-    const source = "import { APPS } from './lib/apps.js'; process.stdout.write(APPS.dreidel.origin)";
-    const run = (origin) => execFileSync(process.execPath, ['--input-type=module', '-e', source], {
-      cwd, encoding: 'utf8', env: { ...process.env, DREIDEL_ORIGIN: origin },
-    });
-    assert.equal(run(''), 'https://dreidel.acidlemon.com');
-    assert.equal(run('https://dreidel-stage.acidlemon.com'), 'https://dreidel-stage.acidlemon.com');
+    const source = "import { APPS, allowedOrigins } from './lib/apps.js'; process.stdout.write(JSON.stringify({ origin: APPS.dreidel.origin, allowedOrigins: allowedOrigins() }))";
+    const run = (origin) => JSON.parse(execFileSync(process.execPath, ['--input-type=module', '-e', source], {
+      cwd, encoding: 'utf8', env: { ...process.env, DREIDEL_ORIGIN: origin, ACIDLEMON_EXTRA_ORIGINS: '' },
+    }));
+    for (const [configuredOrigin, expectedOrigin] of [
+      ['', ORIGIN], ['https://dreidel-stage.acidlemon.com', 'https://dreidel-stage.acidlemon.com'],
+    ]) {
+      const result = run(configuredOrigin);
+      assert.equal(result.origin, expectedOrigin);
+      for (const productionOrigin of PRODUCTION_ORIGINS) assert.ok(result.allowedOrigins.includes(productionOrigin));
+    }
   });
 
   test('echoes exact credentialed CORS origins and answers JSON preflight on every client endpoint', async () => {
@@ -156,17 +162,18 @@ describe('Dreidel identity contracts', { concurrency: false }, () => {
     process.env.ACIDLEMON_EXTRA_ORIGINS = `${preview}, https://another-preview.example`;
     try {
       for (const [handler, methods] of endpoints) {
-        for (const origin of [ORIGIN, preview]) {
-          const requested = methods.includes('PUT') ? 'PUT' : methods[0];
-          const { res } = await call(handler, {
-            method: 'OPTIONS', origin,
-            headers: { 'access-control-request-method': requested, 'access-control-request-headers': 'content-type' },
-          });
-          assert.equal(res.statusCode, 204);
-          assert.equal(res.headers['access-control-allow-origin'], origin);
-          assert.equal(res.headers['access-control-allow-credentials'], 'true');
-          assert.ok(res.headers['access-control-allow-methods'].split(', ').includes(requested));
-          assert.ok(res.headers['access-control-allow-headers'].toLowerCase().includes('content-type'));
+        for (const origin of [...PRODUCTION_ORIGINS, preview]) {
+          for (const requested of methods) {
+            const { res } = await call(handler, {
+              method: 'OPTIONS', origin,
+              headers: { 'access-control-request-method': requested, 'access-control-request-headers': 'content-type' },
+            });
+            assert.equal(res.statusCode, 204);
+            assert.equal(res.headers['access-control-allow-origin'], origin);
+            assert.equal(res.headers['access-control-allow-credentials'], 'true');
+            assert.ok(res.headers['access-control-allow-methods'].split(', ').includes(requested));
+            assert.ok(res.headers['access-control-allow-headers'].toLowerCase().includes('content-type'));
+          }
         }
       }
       const { res } = await call(leaderboard, { method: 'OPTIONS', origin: 'https://dreidel.acidlemon.com.attacker.test' });
@@ -179,19 +186,22 @@ describe('Dreidel identity contracts', { concurrency: false }, () => {
   });
 
   test('serves the client’s auth requests with credentialed CORS', async () => {
-    const cases = [
-      [me, { url: '/api/auth/me' }, 401],
-      [me, { url: '/api/auth/me', cookie: COOKIE }, 200],
-      [requestLink, {
-        method: 'POST', url: '/api/auth/request', body: { email: EMAIL, app: 'dreidel', next: '/?auth=ok' },
-      }, 200],
-      [logout, { method: 'POST', url: '/api/auth/logout', cookie: COOKIE }, 200],
-    ];
-    for (const [handler, options, status] of cases) {
-      const { res } = await call(handler, options);
-      assert.equal(res.statusCode, status);
-      assert.equal(res.headers['access-control-allow-origin'], ORIGIN);
-      assert.equal(res.headers['access-control-allow-credentials'], 'true');
+    for (const [index, origin] of PRODUCTION_ORIGINS.entries()) {
+      const cases = [
+        [me, { url: '/api/auth/me', origin }, 401],
+        [me, { url: '/api/auth/me', cookie: COOKIE, origin }, 200],
+        [requestLink, {
+          method: 'POST', url: '/api/auth/request', origin,
+          body: { email: index ? 'other@example.test' : EMAIL, app: 'dreidel', next: '/?auth=ok' },
+        }, 200],
+        [logout, { method: 'POST', url: '/api/auth/logout', cookie: COOKIE, origin }, 200],
+      ];
+      for (const [handler, options, status] of cases) {
+        const { res } = await call(handler, options);
+        assert.equal(res.statusCode, status);
+        assert.equal(res.headers['access-control-allow-origin'], origin);
+        assert.equal(res.headers['access-control-allow-credentials'], 'true');
+      }
     }
     const token = [...state.blobs.values()].find((value) => value.next);
     assert.equal(token.next, '/?auth=ok');
@@ -299,6 +309,24 @@ describe('Dreidel identity contracts', { concurrency: false }, () => {
     const unsupported = await call(leaderboard, { url: '/api/leaderboard?app=cyberkart' });
     assert.equal(unsupported.res.statusCode, 400);
     assert.ok(unsupported.data.error);
+  });
+
+  test('serves credentialed leaderboard GET and POST responses from both production origins', async () => {
+    write(paths.user(UID), { username: EMAIL });
+    for (const origin of PRODUCTION_ORIGINS) {
+      const getResult = await call(leaderboard, { url: '/api/leaderboard?app=dreidel', origin });
+      assert.equal(getResult.res.statusCode, 200);
+      assert.equal(getResult.res.headers['access-control-allow-origin'], origin);
+      assert.equal(getResult.res.headers['access-control-allow-credentials'], 'true');
+
+      const postResult = await call(leaderboard, {
+        method: 'POST', url: '/api/leaderboard', cookie: COOKIE, origin,
+        body: { app: 'dreidel', gelt: 100, wins: 1 },
+      });
+      assert.equal(postResult.res.statusCode, 200);
+      assert.equal(postResult.res.headers['access-control-allow-origin'], origin);
+      assert.equal(postResult.res.headers['access-control-allow-credentials'], 'true');
+    }
   });
 
   test('keeps best-of collection and POST scores, rejects guest/invalid posts, and saves through leaderboard failure', async () => {
