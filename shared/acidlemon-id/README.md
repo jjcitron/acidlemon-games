@@ -28,6 +28,7 @@ lib/schema.js   record shapes, blob paths, validation, fighter-kit slots
 lib/users.js    users + user_apps upserts
 lib/account.js  account-deletion plan + sweep (store injected, so it is selftested offline)
 lib/saves.js    save read/write, guest attach
+lib/leaderboard.js  public rankings and per-player best scores
 lib/http.js     json/method helpers (from Sumi) + credentialed CORS
 lib/signinEvent.js  one anonymous signin_success line after a magic link is accepted
 
@@ -39,6 +40,8 @@ api/auth/delete-account.js POST { confirm:true, app? } -> hard-deletes the accou
 api/saves/index.js    GET ?app=&kind= | PUT       -> list / upsert  (401 = sign in to save)
 api/saves/attach.js   POST { app, items[] }       -> fold guest work into the account
 api/prefs.js          GET | PUT                    -> read / validate and store account preferences
+api/leaderboard.js    GET ?app=&limit=              -> public { entries: [{ name, gelt, wins }] }
+                      POST { app, gelt, wins }     -> signed-in best scores as { entry }
 
 client/acidlemon-id.js   browser client the titles import
 scripts/selftest.mjs     offline checks (no network, no deps)
@@ -62,14 +65,28 @@ if (r.needsSignIn) {
 `save()` stashes to `localStorage` *before* it calls the server, so an unauthenticated or failed
 save never costs the player their build.
 
+## Chanukah Spin
+
+The `dreidel` app uses `https://dreidel.acidlemon.com` by default. Set `DREIDEL_ORIGIN` on ID
+to override its registered CORS origin and magic-link redirect for staging. For Vercel previews,
+append each full origin (for example, `https://dreidel-git-feature-team.vercel.app`) to the
+comma-separated `ACIDLEMON_EXTRA_ORIGINS` on ID. Use exact origins without trailing slashes.
+
+The client saves one skin collection at `id: 'main'`. Saving or attaching it posts the player's
+best purse automatically. Signed-in players can also post gelt and wins directly. The leaderboard
+is public and currently available for Dreidel. It stores one Blob row per player and app with
+`{ user_id, app, name, gelt, wins, updated_at }` and exposes `{ name, gelt, wins }` per entry.
+See the [Dreidel client contract](./INTEGRATION.md#chanukah-spin-dreidel).
+
 ## Account deletion (Apple 5.1.1(v))
 
 `POST /api/auth/delete-account { confirm: true, app? }` needs a session (401 otherwise). It
 **hard-deletes** the users row, every `user_apps` row, the saves in every registered title, the
-preferences record and login cooldown, clears the shared cookie, then emails a receipt from the
-title's own sender (`from` in `lib/apps.js`, e.g. CyberKart). Hard delete is correct today because saves are private
-and there is no shared/public content. If a title ever publishes user content, that content is
-**anonymized** (strip `user_id`/`username`, keep the content) rather than deleted. Client:
+preferences record, login cooldown, and leaderboard rows in every registered app. Leaderboard
+rows appear publicly under the player's display name or a generated pseudonym and are hard-deleted
+with the account. The endpoint clears the shared cookie and emails a receipt from the title's
+own sender (`from` in `lib/apps.js`, e.g. CyberKart). Any future published player creations
+keep their content with the account attribution removed. The client receives
 `id.deleteAccount()` -> `{ ok, receipt } | { error }`.
 
 ## Sign-in event
@@ -89,8 +106,8 @@ node scripts/selftest.mjs
 npm test
 ```
 
-`npm test` covers the sign-in event. It stubs the store and the session and does not touch Blob
-or the network. Offline assertions cover schema rules, preferences and body limits, fighter-kit slots, blob paths,
+`npm test` covers the sign-in event and Dreidel routes using a stubbed store without network
+access. Offline assertions cover schema rules, preferences and body limits, fighter-kit slots, blob paths,
 cookie attributes, session tamper-resistance, id stability, app registration, Mailgun sender/receipt
 copy and the account-deletion sweep (against an in-memory store). Runs with no dependencies
 installed and no network, so it

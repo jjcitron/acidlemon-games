@@ -16,6 +16,7 @@ const { sessionCookie, clearCookie, signSession, verifyToken, readSession } =
 const { userId } = await import('../lib/ids.js');
 const { accountTargets, deleteAccountData } = await import('../lib/account.js');
 const { fromFor, accountDeletedMessage } = await import('../lib/mailgun.js');
+const { rankEntries, validateScore } = await import('../lib/leaderboard.js');
 
 let pass = 0;
 const fails = [];
@@ -31,6 +32,11 @@ for (const id of ['sumi', 'space-runner-3d', 'clash-of-steel-blades', 'cyberhell
 eq('acidlemon-com label', APPS['acidlemon-com'].label, 'Acidlemon');
 eq('acidlemon-com origin', APPS['acidlemon-com'].origin, 'https://acidlemon.com');
 eq('acidlemon-com declares no save kinds', APPS['acidlemon-com'].kinds.length, 0);
+eq('dreidel label', APPS.dreidel.label, 'Chanukah Spin');
+eq('dreidel origin', APPS.dreidel.origin, process.env.DREIDEL_ORIGIN || 'https://dreidel.acidlemon.com');
+ok('dreidel origin is CORS-allowed', allowedOrigins().includes(APPS.dreidel.origin));
+eq('only dreidel declares a leaderboard', APP_IDS.filter((id) => APPS[id].leaderboard).join(','), 'dreidel');
+eq('dreidel uses its title sender', fromFor('dreidel', {}), 'Chanukah Spin <dreidel@games.acidlemon.com>');
 ok('www.acidlemon.com is CORS-allowed', allowedOrigins().includes('https://www.acidlemon.com'));
 ok('unknown app rejected', !isApp('not-a-game'));
 ok('every origin is https', allowedOrigins().every((o) => o.startsWith('https://')));
@@ -49,6 +55,31 @@ ok('null payload rejected', !!validateSave({ app: 'sumi', kind: 'level', payload
 eq('valid level save accepted', validateSave({ app: 'sumi', kind: 'level', payload: { a: 1 } }), null);
 ok('oversized payload rejected',
   !!validateSave({ app: 'sumi', kind: 'level', payload: { blob: 'x'.repeat(600 * 1024) } }));
+
+// ---- Dreidel ---------------------------------------------------------------
+{
+  const payload = { purse: 0, equipped: 'walnut', owned: ['walnut'], israel: false };
+  eq('default Dreidel collection accepted', validateSave({ app: 'dreidel', kind: 'collection', payload }), null);
+  ok('other apps cannot save collections', APP_IDS.filter((id) => id !== 'dreidel')
+    .every((id) => !kindAllowed(id, 'collection')));
+  ok('collection shape is closed', !!validateSave({
+    app: 'dreidel', kind: 'collection', payload: { ...payload, updatedAt: null },
+  }));
+  eq('leaderboard blob path', paths.leaderboardEntry('dreidel', 'abc'), 'id/leaderboard/dreidel/abc.json');
+  eq('maximum score accepted', validateScore({ gelt: 1_000_000, wins: 100_000 }), null);
+  ok('out-of-range score rejected', !!validateScore({ gelt: 0, wins: 100_001 }));
+
+  const rows = [
+    { name: 'Low Gelt', gelt: 1, wins: 8, updated_at: '2026-11-21' },
+    { name: 'Later', gelt: 5, wins: 4, updated_at: '2026-11-24' },
+    { name: 'Earlier', gelt: 5, wins: 4, updated_at: '2026-11-23' },
+    { name: 'Low Wins', gelt: 5, wins: 3, updated_at: '2026-11-22' },
+  ].map((row) => ({ ...row, user_id: userId(row.name) }));
+  eq('leaderboard sorts by gelt, wins, then earliest update',
+    rankEntries(rows).map((entry) => entry.name).join(','), 'Earlier,Later,Low Wins,Low Gelt');
+  eq('zero leaderboard limit clamps to one', rankEntries(rows, '0').length, 1);
+  eq('leaderboard strips internal fields', Object.keys(rankEntries(rows)[0]).join(','), 'name,gelt,wins');
+}
 
 // ---- Clash fighter kit (schema groundwork) ---------------------------------
 eq('six fighter slots', FIGHTER_KIT_SLOTS.join(','), 'head,torso,arms,legs,weapon,style');
@@ -285,6 +316,8 @@ ok('unknown app receipt is generic', accountDeletedMessage(null, {}).subject.inc
   eq('users row is removed last', t.exact[t.exact.length - 1], `id/users/${A}.json`);
   ok('targets include login cooldown', t.exact.includes(`id/tokens/by-user/${A}.json`));
   ok('targets include website preferences', t.exact.includes(`id/prefs/${A}.json`));
+  ok('targets sweep leaderboard entries in every app',
+    APP_IDS.every((app) => t.exact.includes(paths.leaderboardEntry(app, A))));
   ok('no target mentions another user', [...t.prefixes, ...t.exact].every((p) => !p.includes(B)));
 
   const blobs = new Set();

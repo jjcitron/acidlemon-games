@@ -37,7 +37,7 @@ CREATE TABLE saves (
   id         TEXT NOT NULL,       -- unique within (user_id, app, kind)
   user_id    TEXT NOT NULL REFERENCES users(id),
   app        TEXT NOT NULL,
-  kind       TEXT NOT NULL,       -- level | fighter | pack
+  kind       TEXT NOT NULL,       -- level | fighter | pack | collection
   payload    JSONB NOT NULL,
   created_at TIMESTAMPTZ NOT NULL,
   updated_at TIMESTAMPTZ NOT NULL,
@@ -46,12 +46,12 @@ CREATE TABLE saves (
 ```
 
 `app` ids: `sumi`, `space-runner-3d`, `clash-of-steel-blades`, `cyberhell`, `cyberkart`,
-`acidlemon-com`. The website has no save kinds; it uses the shared account and preferences API.
-`kind` enum: `level`, `fighter`, `pack`.
+`dreidel`, `acidlemon-com`. The website has no save kinds and uses the shared account and
+preferences API. Save kinds are `level`, `fighter`, `pack`, and `collection`.
 
 A `kind` is only accepted for an app that declares it (`lib/apps.js` → `kinds`), so a Cyberhell
 client cannot write a `fighter` row into Clash's namespace. Today: Sumi and Space Runner 3D take
-`level`, Clash takes `fighter`, Cyberhell takes `pack`.
+`level`, Clash takes `fighter`, Cyberhell takes `pack`, and Dreidel takes `collection`.
 
 ### Note on `users.email` — deviation from DESIGN.md, deliberate
 
@@ -80,8 +80,8 @@ already written. **Set `ID_SECRET` once to the current `SESSION_SECRET` value be
 
 ## Physical mapping (Vercel Blob, today)
 
-Reuses Sumi's existing public Blob store. No new third-party dependency: `@vercel/blob` is the same
-package and version Sumi already declares. All keys sit under an `id/` prefix so this service never
+Reuses Sumi's existing public Blob store. The service uses `@vercel/blob`, with conditional writes
+for leaderboard updates. All keys sit under an `id/` prefix so this service never
 collides with Sumi's existing `users/`, `usernames/`, `levels/`, and `tokens/` objects.
 
 | Logical row | Blob pathname |
@@ -89,13 +89,31 @@ collides with Sumi's existing `users/`, `usernames/`, `levels/`, and `tokens/` o
 | `users` | `id/users/{user_id}.json` |
 | `user_apps` | `id/user-apps/{user_id}/{app}.json` |
 | `saves` | `id/saves/{app}/{user_id}/{kind}/{save_id}.json` |
+| leaderboard entries | `id/leaderboard/{app}/{user_id}.json` |
 | player preferences | `id/prefs/{user_id}.json` |
 | login token (transient, 15 min, one-time) | `id/tokens/{token}.json` |
 | resend cooldown (transient, 60 s) | `id/tokens/by-user/{user_id}.json` |
 
-One record per object, so concurrent writers never collide — the same property Sumi's store relies
-on. `save_id` is constrained to `[A-Za-z0-9_-]{1,48}` because clients supply it (a guest row keeps
+Each record has its own object path. `save_id` is constrained to `[A-Za-z0-9_-]{1,48}`
+because clients supply it (a guest row keeps
 its local id through attach), and an unconstrained id could climb out of its prefix.
+
+## Chanukah Spin collections and leaderboard
+
+Dreidel collections use save id `main`. The payload is a closed object with four required fields
+and defaults to `{ "purse": 0, "equipped": "walnut", "owned": ["walnut"], "israel": false }`.
+`purse` is an integer from 0 to 1,000,000. `owned` contains up to 64 unique skin ids matching
+`^[a-z0-9][a-z0-9-]{0,39}$`, `equipped` must be one of those ids, and `israel` is a boolean.
+
+Each leaderboard record has `{ user_id, app, name, gelt, wins, updated_at }`. `gelt` (0 to
+1,000,000) and `wins` (0 to 100,000) are independent integer maxima. A collection save or
+attachment contributes its purse and leaves the best wins intact. `updated_at` is the
+server timestamp of the most recent improvement, with the first submission setting the initial
+timestamp. Rankings use descending gelt, descending wins, then ascending `updated_at`.
+
+`GET /api/leaderboard?app=dreidel` exposes only `{ name, gelt, wins }` per entry. The name is a
+sanitized username or a stable `Spinner XXXX` pseudonym derived from the opaque user id.
+Account deletion removes exact leaderboard paths for the user in every registered app.
 
 ## Player preferences
 
